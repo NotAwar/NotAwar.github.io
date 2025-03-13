@@ -9,10 +9,24 @@ author: Awar
 # Build settings
 markdown: kramdown
 theme: minima
+future: false # Don't publish posts with a future date
+
 plugins:
 - jekyll-feed
 - jekyll-seo-tag
 - jekyll-sitemap
+
+# Exclude files from processing
+exclude:
+- .sass-cache/
+- .jekyll-cache/
+- gemfiles/
+- Gemfile
+- Gemfile.lock
+- node_modules/
+- vendor/
+- .github/
+- README.md
 
 # Date format
 date_format: "%d/%m/%Y"
