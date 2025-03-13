@@ -10,6 +10,8 @@ on:
 jobs:
   sync-linkedin:
     runs-on: ubuntu-latest
+    container:
+      options: --user root
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
