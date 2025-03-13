@@ -8,13 +8,14 @@ author: Awar
 
 # Build settings
 markdown: kramdown
-theme: minima
-future: false # Don't publish posts with a future date
+remote_theme: jekyll/minima
+theme: minima # Keep for local development
 
 plugins:
 - jekyll-feed
 - jekyll-seo-tag
 - jekyll-sitemap
+- jekyll-remote-theme
 
 # Exclude files from processing
 exclude:
@@ -24,7 +25,10 @@ exclude:
 - Gemfile
 - Gemfile.lock
 - node_modules/
-- vendor/
+- vendor/bundle/
+- vendor/cache/
+- vendor/gems/
+- vendor/ruby/
 - .github/
 - README.md
 

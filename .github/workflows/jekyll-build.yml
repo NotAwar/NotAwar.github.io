@@ -2,9 +2,9 @@ name: Build and Deploy Jekyll Site
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -22,15 +22,20 @@ jobs:
           bundler-cache: true
 
       - name: Install dependencies
-        run: bundle install
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
 
       - name: Build site
-        run: bundle exec jekyll build
+        run: JEKYLL_ENV=production bundle exec jekyll build
 
       - name: Deploy to GitHub Pages
-        if: github.event_name == 'push'
+        if: success() && github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
-          publish_branch: gh-pages
+          enable_jekyll: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy Jekyll site'
