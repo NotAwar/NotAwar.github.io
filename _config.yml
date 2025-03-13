@@ -1,0 +1,43 @@
+title: Extended LinkedIn Content | Awar
+description: In-depth technical content extending my LinkedIn posts
+url: "https://NotAwar.github.io"
+baseurl: ""
+github_username: NotAwar
+linkedin_username: notawar
+author: Awar
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+- jekyll-feed
+- jekyll-seo-tag
+- jekyll-sitemap
+
+# Date format
+date_format: "%d/%m/%Y"
+
+# Collections - exclusively LinkedIn extended content
+collections:
+  linkedin_extended:
+    output: true
+    permalink: /linkedin-extended/:slug/
+
+# Defaults
+defaults:
+- scope:
+    path: ""
+    type: "pages"
+  values:
+    layout: "page"
+- scope:
+    path: ""
+    type: "linkedin_extended"
+  values:
+    layout: "linkedin_extended"
+    author: "Awar"
+
+# LinkedIn integration settings
+linkedin:
+  username: notawar
+  profile_url: "https://www.linkedin.com/in/notawar/"

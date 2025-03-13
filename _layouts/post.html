@@ -1,0 +1,155 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ page.date | date: "%d/%m/%Y" }}
+      </time>
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}
+      
+      {% if page.categories.size > 0 %}
+      <span class="post-categories">
+        • Categories: 
+        {% for category in page.categories %}
+        <a class="category-link" href="/categories/{{ category | slugify }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </span>
+      {% endif %}
+      
+      {% if page.reading_time %}
+      <span class="post-reading-time">
+        • {{ page.reading_time }} min read
+      </span>
+      {% endif %}
+    </p>
+    
+    {% if page.linkedin_experience or page.linkedin_skill %}
+    <div class="linkedin-connection">
+      <div class="linkedin-connection-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="#0077B5" d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
+      </div>
+      <div class="linkedin-connection-text">
+        {% if page.linkedin_experience %}
+        Related to my experience at <strong>{{ page.linkedin_experience }}</strong>
+        {% elsif page.linkedin_skill %}
+        Related to my skill: <strong>{{ page.linkedin_skill }}</strong>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="reading-progress-container">
+    <div class="reading-progress-bar" id="reading-progress"></div>
+  </div>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <!-- Show related LinkedIn experiences if available -->
+  {% if page.linkedin_experience %}
+  <div class="linkedin-experience-section">
+    <h3>More About My Experience at {{ page.linkedin_experience }}</h3>
+    {% assign found_experience = false %}
+    {% for job in site.data.cv.work %}
+      {% if job.company == page.linkedin_experience %}
+      {% assign found_experience = true %}
+      <div class="experience-card">
+        <p class="experience-position">{{ job.position }}</p>
+        <p class="experience-date">{{ job.date }}</p>
+        <p>{{ job.summary }}</p>
+      </div>
+      {% endif %}
+    {% endfor %}
+    
+    {% unless found_experience %}
+    <p>Visit my <a href="https://www.linkedin.com/in/notawar/">LinkedIn profile</a> to learn more.</p>
+    {% endunless %}
+  </div>
+  {% endif %}
+
+  <div class="post-share">
+    <h3>Share this post</h3>
+    <ul class="share-buttons">
+      <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}&title={{ page.title }}" target="_blank" title="Share on LinkedIn">LinkedIn</a></li>
+    </ul>
+  </div>
+
+  {% if site.disqus.shortname %}
+    {% include disqus_comments.html %}
+  {% endif %}
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  
+  <div class="post-navigation">
+    {% if page.previous.url %}
+    <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
+    {% endif %}
+    {% if page.next.url %}
+    <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
+    {% endif %}
+  </div>
+  
+  <div class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      {% assign maxRelated = 3 %}
+      {% assign minCommonTags =  1 %}
+      {% assign maxRelatedCounter = 0 %}
+
+      {% for post in site.posts %}
+        {% assign sameTagCount = 0 %}
+        {% if post.url != page.url %}
+          {% for category in post.categories %}
+            {% if page.categories contains category %}
+              {% assign sameTagCount = sameTagCount | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% if sameTagCount >= minCommonTags %}
+          {% if maxRelatedCounter < maxRelated %}
+            <li>
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              <small>{{ post.date | date: "%d/%m/%Y" }}</small>
+            </li>
+            {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</article>
+
+<script>
+  // Reading progress indicator
+  window.addEventListener('scroll', function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("reading-progress").style.width = scrolled + "%";
+  });
+  
+  // Calculate reading time on load
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!document.querySelector('.post-reading-time')) {
+      var content = document.querySelector('.post-content').textContent;
+      var wordCount = content.split(/\s+/).length;
+      var readingTime = Math.ceil(wordCount / 250); // Assuming 250 words per minute reading speed
+      
+      var readingTimeElement = document.createElement('span');
+      readingTimeElement.className = 'post-reading-time';
+      readingTimeElement.textContent = ' • ' + readingTime + ' min read';
+      
+      var postMeta = document.querySelector('.post-meta');
+      postMeta.appendChild(readingTimeElement);
+    }
+  });
+</script>

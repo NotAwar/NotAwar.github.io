@@ -1,0 +1,6 @@
+- name: Home
+  link: /
+- name: Extended Posts
+  link: /linkedin-extended/
+- name: About
+  link: /about/
