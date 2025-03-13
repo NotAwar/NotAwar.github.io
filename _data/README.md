@@ -1,3 +1,10 @@
+# Site Data Files
+
+This directory contains data files used by the site:
+
+- `navigation.yml`: Navigation menu items
+- `categories.yml`: Post categories and tags
+
 # LinkedIn Sync Data
 
 This directory contains data files that are automatically updated from your LinkedIn profile.

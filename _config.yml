@@ -8,14 +8,12 @@ author: Awar
 
 # Build settings
 markdown: kramdown
-remote_theme: jekyll/minima
-theme: minima # Keep for local development
+theme: minima
 
 plugins:
 - jekyll-feed
 - jekyll-seo-tag
 - jekyll-sitemap
-- jekyll-remote-theme
 
 # Exclude files from processing
 exclude:
@@ -25,17 +23,10 @@ exclude:
 - Gemfile
 - Gemfile.lock
 - node_modules/
-- vendor/bundle/
-- vendor/cache/
-- vendor/gems/
-- vendor/ruby/
+- vendor/
 - .github/
-- README.md
 
-# Date format
-date_format: "%d/%m/%Y"
-
-# Collections - exclusively LinkedIn extended content
+# Collections
 collections:
   linkedin_extended:
     output: true
@@ -55,7 +46,7 @@ defaults:
     layout: "linkedin_extended"
     author: "Awar"
 
-# LinkedIn integration settings
+# LinkedIn settings
 linkedin:
   username: notawar
   profile_url: "https://www.linkedin.com/in/notawar/"

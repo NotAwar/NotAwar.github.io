@@ -10,32 +10,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v2
         with:
-          ruby-version: '3.1'
+          ruby-version: '3.0'
           bundler-cache: true
 
       - name: Install dependencies
-        run: |
-          bundle config set path 'vendor/bundle'
-          bundle install
+        run: bundle install
 
       - name: Build site
-        run: JEKYLL_ENV=production bundle exec jekyll build
+        run: bundle exec jekyll build
 
       - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         if: success() && github.event_name != 'pull_request'
-        uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          enable_jekyll: false
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'Deploy Jekyll site'
+          folder: _site
+          branch: gh-pages
