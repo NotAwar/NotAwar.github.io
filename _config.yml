@@ -9,6 +9,7 @@ author: Awar
 # Build settings
 markdown: kramdown
 theme: minima
+future: false
 
 plugins:
 - jekyll-feed
