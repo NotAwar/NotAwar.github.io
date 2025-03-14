@@ -23,39 +23,38 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
       
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-      
-      - name: Build Site
-        uses: actions/jekyll-build-pages@v1.0.13
-      
-      - name: Create Clean Build Output
+      # Build with standard Jekyll instead of GitHub's Jekyll build action
+      - name: Build with Jekyll
         run: |
-          # Create a clean directory
-          mkdir -p clean_site
+          bundle install
+          bundle exec jekyll build
           
-          # Use plain copy (no symlinks) to copy files
-          echo "Creating a clean copy of the site..."
-          cp -r _site/* clean_site/ || echo "Copy failed - checking issue"
+      - name: Prepare Clean Deployment Package
+        run: |
+          # Create a .nojekyll file to bypass GitHub Pages processing
+          touch _site/.nojekyll
           
-          # Check for any problematic files in the clean directory
+          # Create a clean deployment directory
+          mkdir -p deploy
+          
+          # Use tar to normalize file permissions/attributes during copying
+          tar -cf - -C _site . | tar -xf - -C deploy
+          
+          # Check for any problematic files
           echo "Checking for symlinks..."
-          find clean_site -type l -ls || echo "No symlinks found"
+          find deploy -type l | wc -l
           
-          # Check for hard links - files with more than 1 link
           echo "Checking for hard links..."
-          find clean_site -type f -links +1 -ls || echo "No hard links found"
+          find deploy -type f -links +1 | wc -l
           
-          # Show directory size
           echo "Directory size:"
-          du -sh clean_site
+          du -sh deploy
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: "clean_site"  # Upload clean_site instead of _site
+          path: "deploy"
 
   deploy:
     needs: build
