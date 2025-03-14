@@ -30,7 +30,7 @@ jobs:
       - name: Build Site
         uses: actions/jekyll-build-pages@v1.0.13
       
-      - name: Clean and Sanitize Build Output
+      - name: Create Clean Build Output
         run: |
           # Create a clean directory
           mkdir -p clean_site
@@ -50,16 +50,12 @@ jobs:
           # Show directory size
           echo "Directory size:"
           du -sh clean_site
-          
-          # Remove _site and rename clean_site to _site
-          rm -rf _site
-          mv clean_site _site
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: "_site"
+          path: "clean_site"  # Upload clean_site instead of _site
 
   deploy:
     needs: build
