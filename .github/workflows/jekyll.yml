@@ -41,8 +41,8 @@ jobs:
           # Remove any potential problematic files
           find _site -type l -delete
           
-          # Ensure permissions are set correctly
-          chmod -R 755 _site
+          # Permission changes not needed and causing errors
+          # chmod -R 755 _site
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
