@@ -33,6 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+          name: github-pages
           path: "_site"
 
   deploy:
@@ -46,19 +47,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4.0.5
         with:
-          site: "_site"
-          target_branch: main
-          token: ${{ secrets.GITHUB_TOKEN }}
-          keep_files: false
-          publish_dir: "_site"
-          cname: "NotAwar.github.io"
-          commit_message: "Deploy site to GitHub Pages"
-          force_orphan: true
-          clean: true
-          allow_empty_commit: false
-          user: "NotAwar"
-          
-          # Adding a new parameter for semantic versioning
-          version: "1.0.0"
-          # Ensure that the deployment is tagged with the version
-          tag: "v1.0.0"
+          artifact_name: github-pages
