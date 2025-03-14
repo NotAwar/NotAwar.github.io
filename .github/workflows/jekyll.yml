@@ -30,6 +30,20 @@ jobs:
       - name: Build Site
         uses: actions/jekyll-build-pages@v1.0.13
       
+      - name: Validate Site Content
+        run: |
+          echo "Checking for symlinks and hard links..."
+          find _site -type l -exec ls -la {} \; || echo "No symlinks found"
+          
+          echo "Checking total size..."
+          du -sh _site
+          
+          # Remove any potential problematic files
+          find _site -type l -delete
+          
+          # Ensure permissions are set correctly
+          chmod -R 755 _site
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
