@@ -10,12 +10,42 @@
   <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
   <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
   <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
+  {% if page.image %}
+  <meta property="og:image" content="{{ site.url }}{{ page.image }}">
+  {% endif %}
+  
+  <!-- Color scheme -->
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#121212">
   
   <!-- CSS -->
   <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+  
   <!-- RSS Feed -->
   {%- feed_meta -%}
+  
+  <!-- LinkedIn Badge Script -->
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+  
+  <!-- Fix LinkedIn Badge spacing issues -->
+  <style>
+    /* Override LinkedIn badge styles for better integration */
+    .LI-profile-badge {
+      margin: 0 auto !important;
+      width: auto !important;
+      max-width: 100% !important;
+    }
+    
+    /* Add clearfix to prevent overlaps */
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+  </style>
 </head>

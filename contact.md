@@ -17,7 +17,7 @@ I'm always open to discussing new projects, opportunities, or just chatting abou
       <li><strong>GitHub:</strong> <a href="https://github.com/NotAwar">github.com/NotAwar</a></li>
       <li><strong>Location:</strong> Your City, Country</li>
     </ul>
-    
+
     <h3>Response Time</h3>
     <p>I typically respond to messages within 24-48 hours.</p>
   </div>
@@ -25,7 +25,7 @@ I'm always open to discussing new projects, opportunities, or just chatting abou
   <div class="contact-form">
     <h2>Send a Message</h2>
     <p>Use the form below to send me a message directly.</p>
-    
+
     <form action="https://formspree.io/f/your-formspree-id" method="POST">
       <div class="form-group">
         <label for="name">Name</label>

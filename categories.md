@@ -9,6 +9,7 @@ permalink: /categories/
 Browse posts by category:
 
 ## Skills & Topics
+
 <div class="categories-container">
   {% assign skill_categories = site.posts | map: "categories" | flatten | uniq %}
   {% for category in skill_categories %}
@@ -24,7 +25,7 @@ Browse posts by category:
           {% endif %}
         {% endfor %}
       </ul>
-      
+
       {% if site.data.categories.skills contains category %}
         <div class="linkedin-skill-badge">
           <img src="/assets/images/linkedin-logo.png" alt="LinkedIn Skill" class="linkedin-mini-icon">
@@ -36,6 +37,7 @@ Browse posts by category:
 </div>
 
 ## Company Experience
+
 <div class="categories-container">
   {% if site.data.categories.companies %}
     {% for company in site.data.categories.companies %}

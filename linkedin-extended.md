@@ -21,7 +21,7 @@ LinkedIn's character limits often prevent sharing in-depth technical content. He
   {% for post in linkedin_posts %}
   <div class="extended-post-card">
     <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    
+
     <div class="post-meta">
       <span class="post-date">{{ post.date | date: site.date_format }}</span>
       {% if post.reading_time %} • {{ post.reading_time }} min read{% endif %}
@@ -45,6 +45,7 @@ LinkedIn's character limits often prevent sharing in-depth technical content. He
   <p>No LinkedIn extended posts yet. Check back soon or visit my <a href="{{ site.linkedin.profile_url }}" target="_blank">LinkedIn profile</a> for my latest updates.</p>
 </div>
 {% endif %}
+
 
 <div class="linkedin-profile-link">
   <a href="{{ site.linkedin.profile_url }}" target="_blank" class="linkedin-btn">

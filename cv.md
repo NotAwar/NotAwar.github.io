@@ -105,7 +105,7 @@ permalink: /cv/
       <h3>Programming Languages</h3>
       <p>Python, JavaScript/TypeScript, Java, Go, SQL</p>
     </div>
-    
+
     <div class="skill-category">
       <h3>Frameworks & Libraries</h3>
       <p>React, Node.js, Django, Spring Boot, TensorFlow</p>
@@ -141,6 +141,6 @@ permalink: /cv/
 
 ## Contact Information
 
-- Email: your.email@example.com
+- Email: <your.email@example.com>
 - LinkedIn: [linkedin.com/in/notawar](https://www.linkedin.com/in/notawar/)
 - GitHub: [github.com/NotAwar](https://github.com/NotAwar)

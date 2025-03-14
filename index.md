@@ -7,7 +7,9 @@ title: Home
 
 This site hosts expanded versions of my LinkedIn posts, providing in-depth technical explanations, complete code examples, and additional resources that don't fit LinkedIn's character limits.
 
-{% include linkedin-sync-status.html %}
+<div class="linkedin-badge-container clearfix">
+  <div class="badge-base LI-profile-badge" data-locale="no_NO" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="notawar" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://no.linkedin.com/in/notawar?trk=profile-badge">Awar Abdulkarim</a></div>
+</div>
 
 ## Latest Extended Posts
 
@@ -36,6 +38,8 @@ This site hosts expanded versions of my LinkedIn posts, providing in-depth techn
   {% endfor %}
 </div>
 
+<div class="clearfix"></div>
+
 {% if site.linkedin_extended.size > 3 %}
 <div class="view-all-link-container">
   <a href="/linkedin-extended/" class="view-all-link">View all extended posts →</a>
@@ -47,6 +51,8 @@ This site hosts expanded versions of my LinkedIn posts, providing in-depth techn
   <p>No LinkedIn extended posts yet. Check back soon or visit my <a href="{{ site.linkedin.profile_url }}" target="_blank">LinkedIn profile</a> for my latest updates.</p>
 </div>
 {% endif %}
+
+<div class="clearfix"></div>
 
 <div class="linkedin-profile-link">
   <a href="{{ site.linkedin.profile_url }}" target="_blank" class="linkedin-btn">
