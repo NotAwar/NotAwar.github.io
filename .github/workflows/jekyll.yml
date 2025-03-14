@@ -30,19 +30,30 @@ jobs:
       - name: Build Site
         uses: actions/jekyll-build-pages@v1.0.13
       
-      - name: Validate Site Content
+      - name: Clean and Sanitize Build Output
         run: |
-          echo "Checking for symlinks and hard links..."
-          find _site -type l -exec ls -la {} \; || echo "No symlinks found"
+          # Create a clean directory
+          mkdir -p clean_site
           
-          echo "Checking total size..."
-          du -sh _site
+          # Use plain copy (no symlinks) to copy files
+          echo "Creating a clean copy of the site..."
+          cp -r _site/* clean_site/ || echo "Copy failed - checking issue"
           
-          # Remove any potential problematic files
-          find _site -type l -delete
+          # Check for any problematic files in the clean directory
+          echo "Checking for symlinks..."
+          find clean_site -type l -ls || echo "No symlinks found"
           
-          # Permission changes not needed and causing errors
-          # chmod -R 755 _site
+          # Check for hard links - files with more than 1 link
+          echo "Checking for hard links..."
+          find clean_site -type f -links +1 -ls || echo "No hard links found"
+          
+          # Show directory size
+          echo "Directory size:"
+          du -sh clean_site
+          
+          # Remove _site and rename clean_site to _site
+          rm -rf _site
+          mv clean_site _site
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
