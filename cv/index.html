@@ -1,0 +1,119 @@
+---
+layout: default
+title: CV
+permalink: /cv/
+---
+
+<div class="cv-page">
+  <div class="container">
+    <div class="cv-gold">
+      <h1>Awar Abdulkarim</h1>
+      <p class="position">Senior Cloud Engineer | Cloud Native Competency Lead</p>
+      
+      <!-- Profile -->
+      <section class="cv-section">
+        <h2>Profile</h2>
+        <p>Experienced cloud engineer specializing in cloud-native technologies, infrastructure as code, and DevOps practices. Leading cloud transformation initiatives and building scalable infrastructure solutions.</p>
+      </section>
+      
+      <!-- Experience -->
+      <section class="cv-section">
+        <h2>Experience</h2>
+        
+        {% if site.data.linkedin_cv and site.data.linkedin_cv.positions %}
+          {% for position in site.data.linkedin_cv.positions %}
+            <div class="experience">
+              <h3>{{ position.title }}</h3>
+              <p class="company">{{ position.company }}</p>
+              <p class="date">{{ position.startDate }} - {{ position.endDate }}</p>
+              <p>{{ position.description }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="experience">
+            <h3>Cloud Native Competency Lead</h3>
+            <p class="company">Tech Company Inc.</p>
+            <p class="date">2021 - Present</p>
+            <p>Leading the cloud-native transformation initiative, establishing best practices, and building a center of excellence for containerization and Kubernetes.</p>
+          </div>
+          
+          <div class="experience">
+            <h3>Senior Cloud Engineer</h3>
+            <p class="company">Digital Solutions Ltd</p>
+            <p class="date">2018 - 2021</p>
+            <p>Designed and implemented cloud infrastructure on AWS and Azure, focusing on scalability, security, and cost optimization.</p>
+          </div>
+        {% endif %}
+      </section>
+      
+      <!-- Skills -->
+      <section class="cv-section">
+        <h2>Skills</h2>
+        <div class="skills-list">
+          {% if site.data.linkedin_cv and site.data.linkedin_cv.skills %}
+            {% for skill in site.data.linkedin_cv.skills %}
+              <span>{{ skill }}</span>
+            {% endfor %}
+          {% else %}
+            <span>Cloud Architecture</span>
+            <span>AWS</span>
+            <span>Azure</span>
+            <span>Kubernetes</span>
+            <span>Docker</span>
+            <span>CI/CD</span>
+            <span>Terraform</span>
+            <span>Python</span>
+            <span>DevOps</span>
+          {% endif %}
+        </div>
+      </section>
+      
+      <!-- Education -->
+      <section class="cv-section">
+        <h2>Education</h2>
+        {% if site.data.linkedin_cv and site.data.linkedin_cv.education %}
+          {% for edu in site.data.linkedin_cv.education %}
+            <div class="education">
+              <h3>{{ edu.degree }}</h3>
+              <p class="institution">{{ edu.school }}</p>
+              <p class="date">{{ edu.startDate }} - {{ edu.endDate }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="education">
+            <h3>Master's Degree, Computer Science</h3>
+            <p class="institution">University of Technology</p>
+            <p class="date">2016 - 2018</p>
+          </div>
+          
+          <div class="education">
+            <h3>Bachelor's Degree, Computer Engineering</h3>
+            <p class="institution">Technical University</p>
+            <p class="date">2012 - 2016</p>
+          </div>
+        {% endif %}
+      </section>
+      
+      <div class="cv-footer">
+        <a href="#" class="gold-btn" onclick="window.print(); return false;">Download PDF</a>
+        <a href="https://www.linkedin.com/in/notawar" class="linkedin-btn" target="_blank">View on LinkedIn</a>
+      </div>
+    </div>
+    
+    <!-- Recent LinkedIn Posts -->
+    {% if site.data.linkedin_posts %}
+    <div class="linkedin-highlight">
+      <h2>Recent LinkedIn Activity</h2>
+      <div class="linkedin-posts-preview">
+        {% for post in site.data.linkedin_posts limit:1 %}
+        <div class="linkedin-post-preview">
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt }}</p>
+          <a href="{{ post.url }}" target="_blank" class="linkedin-link">Read on LinkedIn →</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

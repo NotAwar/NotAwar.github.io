@@ -11,13 +11,13 @@ title: Home
       Building scalable cloud solutions and leading innovative projects in cloud-native technologies.
     </p>
     <div class="hero-buttons">
-      <a href="https://github.com/NotAwar" class="btn github-btn">GitHub Profile</a>
+      <a href="https://github.com/NotAwar" class="btn github-btn" target="_blank">GitHub Profile</a>
       <a href="/cv" class="btn primary-btn">View CV</a>
     </div>
   </div>
 </div>
 
-<!-- GitHub Projects Section (restored) -->
+<!-- GitHub Projects Section -->
 <section class="projects-section">
   <div class="container">
     <h2 class="section-title">GitHub Projects</h2>
@@ -27,9 +27,11 @@ title: Home
         <h3 class="project-title">
           <a href="{{ repository.html_url }}" target="_blank">{{ repository.name }}</a>
         </h3>
-        <p class="project-description">{{ repository.description }}</p>
+        <p class="project-description">{{ repository.description | default: "A GitHub repository by Awar Abdulkarim" }}</p>
         <div class="project-meta">
+          {% if repository.language %}
           <span class="language">{{ repository.language }}</span>
+          {% endif %}
           <span class="stars">⭐ {{ repository.stargazers_count }}</span>
           <span class="forks">🍴 {{ repository.forks_count }}</span>
         </div>
@@ -37,56 +39,8 @@ title: Home
       {% endfor %}
     </div>
     <div class="view-all-projects">
-      <a href="https://github.com/NotAwar?tab=repositories" class="btn secondary-btn">View All Projects</a>
+      <a href="https://github.com/NotAwar?tab=repositories" class="btn secondary-btn" target="_blank">View All Projects</a>
     </div>
-  </div>
-</section>
-
-<!-- LinkedIn Profile Widget -->
-<section class="linkedin-profile-section">
-  <div class="container">
-    <h2 class="section-title">My LinkedIn Profile</h2>
-    
-    {% if site.data.linkedin_profile %}
-      <div class="profile-widget">
-        <div class="profile-header">
-          {% if site.data.linkedin_profile.profilePicture %}
-            <img src="{{ site.data.linkedin_profile.profilePicture }}" alt="{{ site.data.linkedin_profile.firstName }} {{ site.data.linkedin_profile.lastName }}" class="profile-image">
-          {% endif %}
-          <div class="profile-info">
-            <h3>{{ site.data.linkedin_profile.firstName }} {{ site.data.linkedin_profile.lastName }}</h3>
-            <p class="headline">{{ site.data.linkedin_profile.headline }}</p>
-          </div>
-        </div>
-        
-        <div class="profile-stats">
-          {% if site.data.linkedin_cv %}
-            <div class="stat">
-              <span class="stat-number">{{ site.data.linkedin_cv.positions | size }}</span>
-              <span class="stat-label">Positions</span>
-            </div>
-            <div class="stat">
-              <span class="stat-number">{{ site.data.linkedin_cv.skills | size }}</span>
-              <span class="stat-label">Skills</span>
-            </div>
-            <div class="stat">
-              <span class="stat-number">{{ site.data.linkedin_posts | size }}</span>
-              <span class="stat-label">Posts</span>
-            </div>
-          {% endif %}
-        </div>
-        
-        <div class="profile-actions">
-          <a href="{{ site.data.linkedin_profile.profileUrl }}" target="_blank" class="btn linkedin-btn">View Profile</a>
-          <a href="/linkedin-cv/" class="btn secondary-btn">See Full CV</a>
-        </div>
-      </div>
-    {% else %}
-      <div class="profile-placeholder">
-        <p>LinkedIn profile data is loading...</p>
-        <a href="https://www.linkedin.com/in/notawar" target="_blank" class="btn linkedin-btn">Visit My LinkedIn</a>
-      </div>
-    {% endif %}
   </div>
 </section>
 
@@ -116,77 +70,29 @@ title: Home
       {% endif %}
     </div>
     <div class="profile-link">
-      <a href="https://www.linkedin.com/in/notawar" target="_blank" class="btn linkedin-btn">
+      <a href="https://www.linkedin.com/in/notawar" class="btn linkedin-btn" target="_blank">
         Follow on LinkedIn
       </a>
     </div>
   </div>
 </section>
 
-<!-- Recent Posts Feed Section -->
-<section class="recent-posts">
-  <div class="container">
-    <h2 class="section-title">Recent Posts</h2>
-    <ul class="post-feed">
-      {% for post in site.posts limit:5 %}
-      <li>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        <span class="post-date">{{ post.date | date: "%d %b %Y" }}</span>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-</section>
-
-<!-- Optional: Inactive Skills Overview Section (salvage for later)
-<section class="skills-section">
-  <div class="container">
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="skills-grid">
-      <!--
-      <div class="skill-card">
-        <div class="skill-icon">☁️</div>
-        <h4>Cloud Platforms</h4>
-        <p>Azure, AWS, GCP</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🛠️</div>
-        <h4>DevOps</h4>
-        <p>CI/CD, Infrastructure as Code</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🐳</div>
-        <h4>Containerization</h4>
-        <p>Docker, Kubernetes</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">💻</div>
-        <h4>Programming</h4>
-        <p>Python, C++, VHDL</p>
-      </div>
-      -->
-    </div>
-  </div>
-</section>
--->
-
-<!-- Contact Section with additional GitHub link -->
+<!-- Contact Section -->
 <section class="contact-section">
   <div class="container">
     <h2 class="section-title">Get In Touch</h2>
     <div class="contact-grid">
-      <a href="https://github.com/NotAwar" class="contact-card github">
+      <a href="https://github.com/NotAwar" class="contact-card github" target="_blank">
         <span class="contact-icon">GitHub</span>
         <span class="contact-handle">@NotAwar</span>
       </a>
-      <a href="https://www.linkedin.com/in/notawar" class="contact-card linkedin">
+      <a href="https://www.linkedin.com/in/notawar" class="contact-card linkedin" target="_blank">
         <span class="contact-icon">LinkedIn</span>
         <span class="contact-handle">Connect with me</span>
       </a>
-      <!-- Added extra GitHub link for emphasis -->
-      <a href="https://github.com/NotAwar?tab=repositories" class="contact-card">
-        <span class="contact-icon">View Projects</span>
-        <span class="contact-handle">See my GitHub</span>
+      <a href="/contact" class="contact-card email">
+        <span class="contact-icon">Contact</span>
+        <span class="contact-handle">Get in touch</span>
       </a>
     </div>
   </div>
