@@ -11,7 +11,7 @@ This site hosts expanded versions of my LinkedIn posts, providing in-depth techn
   <div class="badge-base LI-profile-badge" data-locale="no_NO" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="notawar" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://no.linkedin.com/in/notawar?trk=profile-badge">Awar Abdulkarim</a></div>
 </div>
 
-## Latest Extended Posts
+## Latest Posts
 
 <div class="linkedin-extended-grid">
   {% assign linkedin_posts = site.linkedin_extended | sort: "date" | reverse | limit: 3 %}
