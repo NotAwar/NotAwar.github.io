@@ -1,5 +1,5 @@
-title: Extended LinkedIn Content | Awar
-description: In-depth technical content extending my LinkedIn posts
+title: "Awar Abdulkarim | Cloud Engineer"
+description: "Senior Cloud Engineer and Cloud Native Competency Lead"
 url: "https://NotAwar.github.io"
 baseurl: ""
 github_username: NotAwar
@@ -17,6 +17,7 @@ plugins:
 - jekyll-seo-tag
 - jekyll-sitemap
 - jekyll-remote-theme
+- jekyll-github-metadata # Added to pull GitHub info
 
 # Exclude files from processing
 exclude:
@@ -33,9 +34,12 @@ exclude:
 
 # Collections
 collections:
-  linkedin_extended:
+  projects:
     output: true
-    permalink: /linkedin-extended/:slug/
+    permalink: /projects/:slug/
+  posts:
+    output: true
+    permalink: /blog/:slug/
 
 # Defaults
 defaults:
@@ -46,12 +50,18 @@ defaults:
     layout: "page"
 - scope:
     path: ""
-    type: "linkedin_extended"
+    type: "projects"
   values:
-    layout: "linkedin_extended"
+    layout: "project"
+    author: "Awar"
+- scope:
+    path: ""
+    type: "posts"
+  values:
+    layout: "post"
     author: "Awar"
 
-# LinkedIn settings
-linkedin:
-  username: notawar
-  profile_url: "https://www.linkedin.com/in/notawar/"
+# GitHub settings
+github:
+  username: NotAwar
+  repository: NotAwar.github.io

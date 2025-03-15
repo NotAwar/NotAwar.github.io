@@ -3,31 +3,126 @@ layout: default
 title: Home
 ---
 
-<div class="home">
-  <h1>{{ site.title }}</h1>
-  <p>{{ site.description }}</p>
-  
-  <h2>About Me</h2>
-  <p>I am a Senior Cloud Engineer at Sopra Steria, currently serving as the Competency Lead for Cloud Native. With a bachelor's degree in Electronics and IT Engineering from OsloMet, I have built a strong foundation in cloud services, architecture, and DevOps practices.</p>
-  
-  <div class="section-navigation">
-    <a href="/about" class="nav-link">About</a>
-    <a href="/experience" class="nav-link">Experience</a>
-    <a href="/projects" class="nav-link">Projects</a>
-    <a href="/certifications" class="nav-link">Certifications</a>
-    <a href="/contact" class="nav-link">Contact</a>
+<div class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">Awar Abdulkarim</h1>
+    <h2 class="hero-subtitle">Senior Cloud Engineer | Competency Lead for Cloud Native</h2>
+    <p class="hero-description">
+      Building scalable cloud solutions and leading innovative projects in cloud-native technologies.
+    </p>
+    <div class="hero-buttons">
+      <a href="/cv" class="btn primary-btn">View CV</a>
+      <a href="https://github.com/NotAwar" class="btn github-btn">GitHub Profile</a>
+    </div>
   </div>
-
-  <h2>Recent LinkedIn Extended Content</h2>
-  <ul class="post-list">
-    {% for post in site.linkedin_extended limit:5 %}
-    <li>
-      <h3>
-        <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-      </h3>
-      <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-      <p>{{ post.excerpt }}</p>
-    </li>
-    {% endfor %}
-  </ul>
 </div>
+
+<section class="about-section">
+  <div class="container">
+    <h2 class="section-title">About Me</h2>
+    <p>
+      I am a Senior Cloud Engineer at Sopra Steria, currently serving as the Competency Lead for Cloud Native. 
+      With a bachelor's degree in Electronics and IT Engineering from OsloMet, I have built a strong foundation 
+      in cloud services, architecture, and DevOps practices.
+    </p>
+    
+    <div class="skills-container">
+      <h3>Technical Skills</h3>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon">☁️</div>
+          <h4>Cloud Platforms</h4>
+          <p>Azure, AWS, GCP</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🛠️</div>
+          <h4>DevOps</h4>
+          <p>CI/CD, Infrastructure as Code</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🐳</div>
+          <h4>Containerization</h4>
+          <p>Docker, Kubernetes</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">💻</div>
+          <h4>Programming</h4>
+          <p>Python, C++, VHDL</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects-section">
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="projects-grid">
+      {% for repository in site.github.public_repositories limit:6 %}
+      <div class="project-card">
+        <h3 class="project-title">
+          <a href="{{ repository.html_url }}" target="_blank">{{ repository.name }}</a>
+        </h3>
+        <p class="project-description">{{ repository.description }}</p>
+        <div class="project-meta">
+          <span class="language">{{ repository.language }}</span>
+          <span class="stars">⭐ {{ repository.stargazers_count }}</span>
+          <span class="forks">🍴 {{ repository.forks_count }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="view-all-projects">
+      <a href="/projects" class="btn secondary-btn">View All Projects</a>
+    </div>
+  </div>
+</section>
+
+<section class="experience-section">
+  <div class="container">
+    <h2 class="section-title">Work Experience</h2>
+    <div class="experience-timeline">
+      <div class="experience-item">
+        <div class="company-logo">
+          <img src="/assets/images/sopra-steria-logo.png" alt="Sopra Steria Logo">
+        </div>
+        <div class="experience-content">
+          <h3>Senior Engineer | Competency Lead</h3>
+          <p class="company">Sopra Steria</p>
+          <p class="duration">July 2024 - Present</p>
+          <p>Leading cloud-native initiatives and overseeing projects on Microsoft Azure. Focus on developing cloud infrastructure, enhancing DevOps practices, and mentoring junior engineers.</p>
+        </div>
+      </div>
+      <div class="experience-item">
+        <div class="company-logo">
+          <img src="/assets/images/sopra-steria-logo.png" alt="Sopra Steria Logo">
+        </div>
+        <div class="experience-content">
+          <h3>Cloud Engineer</h3>
+          <p class="company">Sopra Steria</p>
+          <p class="duration">August 2022 - Present</p>
+          <p>Specialized in programming and infrastructure, contributing to the development of scalable cloud solutions and improving deployment processes.</p>
+        </div>
+      </div>
+    </div>
+    <div class="view-all-experience">
+      <a href="/cv" class="btn secondary-btn">View Full CV</a>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="container">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-grid">
+      <a href="https://github.com/NotAwar" class="contact-card github">
+        <span class="contact-icon">GitHub</span>
+        <span class="contact-handle">@NotAwar</span>
+      </a>
+      <a href="https://www.linkedin.com/in/notawar" class="contact-card linkedin">
+        <span class="contact-icon">LinkedIn</span>
+        <span class="contact-handle">Connect with me</span>
+      </a>
+    </div>
+  </div>
+</section>

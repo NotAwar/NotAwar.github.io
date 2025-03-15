@@ -35,10 +35,14 @@
   <!-- Fix LinkedIn Badge spacing issues -->
   <style>
     /* Override LinkedIn badge styles for better integration */
-    .LI-profile-badge {
+    .LI-badge-container {
+      width: 100% !important;
+      text-align: center !important;
+      background-color: transparent !important;
+    }
+    .LI-badge-container .LI-profile-badge {
       margin: 0 auto !important;
-      width: auto !important;
-      max-width: 100% !important;
+      display: inline-block !important;
     }
     
     /* Add clearfix to prevent overlaps */
