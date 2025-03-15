@@ -9,15 +9,14 @@ author: Awar
 # Build settings
 markdown: kramdown
 theme: minima
-# Add remote_theme for GitHub Pages compatibility
 remote_theme: jekyll/minima
-future: false
 
+# Enable GitHub Pages plugins
 plugins:
 - jekyll-feed
 - jekyll-seo-tag
 - jekyll-sitemap
-- jekyll-remote-theme # Add this plugin for remote themes
+- jekyll-remote-theme
 
 # Exclude files from processing
 exclude:

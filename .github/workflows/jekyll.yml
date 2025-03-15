@@ -26,11 +26,12 @@ jobs:
       - name: Create .nojekyll file
         run: touch .nojekyll
       
-      - name: Build with Jekyll
+      - name: Install dependencies and build
         run: |
-          bundle install
+          gem install bundler
+          bundle install --jobs 4 --retry 3
           bundle exec jekyll build
-          
+      
       - name: Debug Site Output
         run: |
           echo "Site files generated:"
