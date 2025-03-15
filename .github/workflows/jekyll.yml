@@ -11,60 +11,30 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+        
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.225.0
         with:
           ruby-version: '3.1'
           bundler-cache: true
       
-      # Build with standard Jekyll instead of GitHub's Jekyll build action
+      - name: Create .nojekyll file
+        run: touch .nojekyll
+      
       - name: Build with Jekyll
         run: |
           bundle install
           bundle exec jekyll build
-          
-      - name: Prepare Clean Deployment Package
-        run: |
-          # Create a .nojekyll file to bypass GitHub Pages processing
-          touch _site/.nojekyll
-          
-          # Create a clean deployment directory
-          mkdir -p deploy
-          
-          # Use tar to normalize file permissions/attributes during copying
-          tar -cf - -C _site . | tar -xf - -C deploy
-          
-          # Check for any problematic files
-          echo "Checking for symlinks..."
-          find deploy -type l | wc -l
-          
-          echo "Checking for hard links..."
-          find deploy -type f -links +1 | wc -l
-          
-          echo "Directory size:"
-          du -sh deploy
       
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: "deploy"
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          artifact_name: github-pages
+          folder: _site # The folder the action should deploy
+          branch: gh-pages # The branch the action should deploy to
+          clean: true # Automatically remove deleted files
+          single-commit: true # Create a single commit for the deployment
