@@ -17,7 +17,7 @@ title: Home
   </div>
 </div>
 
-<!-- GitHub Projects Section -->
+<!-- GitHub Projects Section (restored) -->
 <section class="projects-section">
   <div class="container">
     <h2 class="section-title">GitHub Projects</h2>
@@ -42,28 +42,18 @@ title: Home
   </div>
 </section>
 
-<!-- LinkedIn Posts Section -->
-<section class="linkedin-section">
+<!-- Recent Posts Feed Section -->
+<section class="recent-posts">
   <div class="container">
-    <h2 class="section-title">Latest LinkedIn Posts</h2>
-    <div class="linkedin-grid">
-      {% for post in site.data.linkedin_posts limit:3 %}
-      <div class="linkedin-card">
-        <div class="linkedin-header">
-          <img src="/assets/images/linkedin-icon.png" alt="LinkedIn" class="linkedin-icon">
-          <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
-        </div>
-        <h3 class="post-title">{{ post.title }}</h3>
-        <p class="post-excerpt">{{ post.excerpt }}</p>
-        <a href="{{ post.url }}" class="linkedin-link" target="_blank">Read on LinkedIn →</a>
-      </div>
+    <h2 class="section-title">Recent Posts</h2>
+    <ul class="post-feed">
+      {% for post in site.posts limit:5 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="post-date">{{ post.date | date: "%d %b %Y" }}</span>
+      </li>
       {% endfor %}
-    </div>
-    <div class="profile-link">
-      <a href="https://www.linkedin.com/in/notawar" target="_blank" class="btn linkedin-btn">
-        Follow on LinkedIn
-      </a>
-    </div>
+    </ul>
   </div>
 </section>
 
@@ -96,7 +86,7 @@ title: Home
   </div>
 </section>
 
-<!-- Contact Section with prominent links -->
+<!-- Contact Section with additional GitHub link -->
 <section class="contact-section">
   <div class="container">
     <h2 class="section-title">Get In Touch</h2>
@@ -108,6 +98,11 @@ title: Home
       <a href="https://www.linkedin.com/in/notawar" class="contact-card linkedin">
         <span class="contact-icon">LinkedIn</span>
         <span class="contact-handle">Connect with me</span>
+      </a>
+      <!-- Added extra GitHub link for emphasis -->
+      <a href="https://github.com/NotAwar?tab=repositories" class="contact-card">
+        <span class="contact-icon">View Projects</span>
+        <span class="contact-handle">See my GitHub</span>
       </a>
     </div>
   </div>

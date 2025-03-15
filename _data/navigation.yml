@@ -1,7 +1,5 @@
 - name: Home
   link: /
-- name: GitHub
-  link: https://github.com/NotAwar
 - name: CV
   link: /cv/
 - name: Contact
