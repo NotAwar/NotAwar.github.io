@@ -1,130 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awar Abdulkarim - Senior Cloud Engineer</title>
-    <link rel="stylesheet" href="assets/css/styles.scss">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin: 0 10px;
-        }
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px 0;
-        }
-        #about, #experience, #projects, #certifications, #contact {
-            background: #fff;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 {
-            color: #333;
-            text-align: center;
-        }
-        .project-item {
-            margin-bottom: 20px;
-        }
-        .project-item h3 {
-            margin-bottom: 10px;
-        }
-        .experience-item, .certification-item {
-            margin-bottom: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #333;
-            color: #fff;
-            margin-top: 20px;
-        }
-        footer a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 5px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Awar Abdulkarim</h1>
-        <p>Senior Cloud Engineer | Competency Lead for Cloud Native | Sopra Steria</p>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#certifications">Certifications</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+---
+layout: default
+title: Home
+---
 
-    <div class="container">
-        <section id="about">
-            <h2>About Me</h2>
-            <p>I am a Senior Cloud Engineer at Sopra Steria, currently serving as the Competency Lead for Cloud Native. With a bachelor's degree in Electronics and IT Engineering from OsloMet, I have built a strong foundation in cloud services, architecture, and DevOps practices. My expertise spans across various programming languages, including VHDL, Python, C++, and more, with a focus on creating scalable and efficient cloud-native solutions.</p>
-            <p>I'm passionate about driving innovation in cloud technologies and leading teams to deliver cutting-edge solutions that meet business needs. My experience in both high-level and low-level programming, along with a deep understanding of cloud platforms like Microsoft Azure, allows me to tackle complex challenges in modern software development.</p>
-        </section>
+<div class="home">
+  <h1>{{ site.title }}</h1>
+  <p>{{ site.description }}</p>
+  
+  <h2>About Me</h2>
+  <p>I am a Senior Cloud Engineer at Sopra Steria, currently serving as the Competency Lead for Cloud Native. With a bachelor's degree in Electronics and IT Engineering from OsloMet, I have built a strong foundation in cloud services, architecture, and DevOps practices.</p>
+  
+  <div class="section-navigation">
+    <a href="/about" class="nav-link">About</a>
+    <a href="/experience" class="nav-link">Experience</a>
+    <a href="/projects" class="nav-link">Projects</a>
+    <a href="/certifications" class="nav-link">Certifications</a>
+    <a href="/contact" class="nav-link">Contact</a>
+  </div>
 
-        <section id="experience">
-            <h2>Experience</h2>
-            <div class="experience-item">
-                <h3>Senior Engineer | Sopra Steria</h3>
-                <p><strong>July 2024 - Present | Oslo, Norway</strong></p>
-                <p>Leading cloud-native initiatives and overseeing projects on Microsoft Azure. In this role, I focus on developing cloud infrastructure, enhancing DevOps practices, and mentoring junior engineers.</p>
-            </div>
-            <div class="experience-item">
-                <h3>Cloud Engineer | Sopra Steria</h3>
-                <p><strong>August 2022 - Present | Oslo, Norway</strong></p>
-                <p>Specialized in programming and infrastructure, contributing to the development of scalable cloud solutions and improving deployment processes.</p>
-            </div>
-            <div class="experience-item">
-                <h3>IT Employee | OsloMet – Storbyuniversitetet</h3>
-                <p><strong>August 2021 - August 2022 | Kjeller, Norway</strong></p>
-                <p>Provided technical support and contributed to various IT projects within the university, focusing on automation and system management.</p>
-            </div>
-            <div class="experience-item">
-                <h3>Technician | Bydel Bjerke</h3>
-                <p><strong>September 2019 - June 2020 | Oslo, Norway</strong></p>
-                <p>Worked as a sound and light technician for public events, managing technical systems and ensuring smooth operations during events.</p>
-            </div>
-            <div class="experience-item">
-                <h3>Consultant | SOS-barnebyer Norge</h3>
-                <p><strong>April 2019 - September 2019 | Oslo, Norway</strong></p>
-                <p>Participated in the "Sammen" project, helping unaccompanied minors integrate into Norwegian society by providing support and guidance.</p>
-            </div>
-        </section>
-
-        <sec
+  <h2>Recent LinkedIn Extended Content</h2>
+  <ul class="post-list">
+    {% for post in site.linkedin_extended limit:5 %}
+    <li>
+      <h3>
+        <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+      </h3>
+      <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+      <p>{{ post.excerpt }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

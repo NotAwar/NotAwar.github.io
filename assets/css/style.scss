@@ -2,6 +2,7 @@
 ---
 
 @import "minima";
+@import "{{ site.theme }}";
 
 // Dark color palette
 :root {
@@ -158,6 +159,54 @@ p {
   
   h1 {
     margin-bottom: var(--content-spacing);
+  }
+}
+
+.home {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.nav-link {
+  padding: 10px 20px;
+  background-color: #0366d6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  
+  &:hover {
+    background-color: #024ea7;
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.post-list {
+  margin-left: 0;
+  list-style: none;
+  
+  li {
+    margin-bottom: 30px;
+  }
+  
+  .post-link {
+    font-size: 22px;
+  }
+  
+  .post-meta {
+    font-size: 14px;
+    color: #666;
+    display: block;
+    margin-bottom: 5px;
   }
 }
 

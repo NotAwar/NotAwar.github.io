@@ -25,6 +25,17 @@ jobs:
       
       - name: Create .nojekyll file
         run: touch .nojekyll
+        
+      - name: Verify Theme Files
+        run: |
+          echo "Available themes:"
+          bundle show --paths | grep theme
+          
+          echo "Checking theme directories:"
+          GEM_PATH=$(bundle info --path minima)
+          echo "Theme path: $GEM_PATH"
+          ls -la $GEM_PATH/_layouts || echo "No layouts directory found"
+          ls -la $GEM_PATH/_includes || echo "No includes directory found"
       
       - name: Install dependencies and build
         run: |
