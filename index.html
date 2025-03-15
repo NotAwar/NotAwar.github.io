@@ -42,6 +42,87 @@ title: Home
   </div>
 </section>
 
+<!-- LinkedIn Profile Widget -->
+<section class="linkedin-profile-section">
+  <div class="container">
+    <h2 class="section-title">My LinkedIn Profile</h2>
+    
+    {% if site.data.linkedin_profile %}
+      <div class="profile-widget">
+        <div class="profile-header">
+          {% if site.data.linkedin_profile.profilePicture %}
+            <img src="{{ site.data.linkedin_profile.profilePicture }}" alt="{{ site.data.linkedin_profile.firstName }} {{ site.data.linkedin_profile.lastName }}" class="profile-image">
+          {% endif %}
+          <div class="profile-info">
+            <h3>{{ site.data.linkedin_profile.firstName }} {{ site.data.linkedin_profile.lastName }}</h3>
+            <p class="headline">{{ site.data.linkedin_profile.headline }}</p>
+          </div>
+        </div>
+        
+        <div class="profile-stats">
+          {% if site.data.linkedin_cv %}
+            <div class="stat">
+              <span class="stat-number">{{ site.data.linkedin_cv.positions | size }}</span>
+              <span class="stat-label">Positions</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{{ site.data.linkedin_cv.skills | size }}</span>
+              <span class="stat-label">Skills</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{{ site.data.linkedin_posts | size }}</span>
+              <span class="stat-label">Posts</span>
+            </div>
+          {% endif %}
+        </div>
+        
+        <div class="profile-actions">
+          <a href="{{ site.data.linkedin_profile.profileUrl }}" target="_blank" class="btn linkedin-btn">View Profile</a>
+          <a href="/linkedin-cv/" class="btn secondary-btn">See Full CV</a>
+        </div>
+      </div>
+    {% else %}
+      <div class="profile-placeholder">
+        <p>LinkedIn profile data is loading...</p>
+        <a href="https://www.linkedin.com/in/notawar" target="_blank" class="btn linkedin-btn">Visit My LinkedIn</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- LinkedIn Posts Section -->
+<section class="linkedin-section">
+  <div class="container">
+    <h2 class="section-title">Latest LinkedIn Posts</h2>
+    <div class="linkedin-grid">
+      {% if site.data.linkedin_posts %}
+        {% for post in site.data.linkedin_posts limit:3 %}
+        <div class="linkedin-card">
+          <div class="linkedin-header">
+            <div class="linkedin-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#0077B5" d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
+            </div>
+            <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
+          </div>
+          <h3 class="post-title">{{ post.title }}</h3>
+          <p class="post-excerpt">{{ post.excerpt }}</p>
+          <a href="{{ post.url }}" class="linkedin-link" target="_blank">Read on LinkedIn →</a>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="linkedin-empty">
+          <p>Connect with me on LinkedIn for professional insights and discussions.</p>
+        </div>
+      {% endif %}
+    </div>
+    <div class="profile-link">
+      <a href="https://www.linkedin.com/in/notawar" target="_blank" class="btn linkedin-btn">
+        Follow on LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- Recent Posts Feed Section -->
 <section class="recent-posts">
   <div class="container">

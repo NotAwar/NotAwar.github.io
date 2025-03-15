@@ -1,0 +1,115 @@
+---
+layout: default
+title: LinkedIn CV
+permalink: /linkedin-cv/
+---
+
+<div class="linkedin-cv-page">
+  <div class="container">
+    <header class="cv-header">
+      {% if site.data.linkedin_profile %}
+        <div class="profile-info">
+          {% if site.data.linkedin_profile.profilePicture %}
+          <div class="profile-image">
+            <img src="{{ site.data.linkedin_profile.profilePicture }}" alt="{{ site.data.linkedin_profile.firstName }} {{ site.data.linkedin_profile.lastName }}">
+          </div>
+          {% endif %}
+          
+          <div class="profile-details">
+            <h1>{{ site.data.linkedin_profile.firstName }} {{ site.data.linkedin_profile.lastName }}</h1>
+            <p class="headline">{{ site.data.linkedin_profile.headline }}</p>
+            <a href="{{ site.data.linkedin_profile.profileUrl }}" target="_blank" class="linkedin-profile-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="#0077B5" d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
+              View LinkedIn Profile
+            </a>
+          </div>
+        </div>
+      {% else %}
+        <h1>My Professional Experience</h1>
+        <p>Data synced from LinkedIn</p>
+      {% endif %}
+    </header>
+
+    <!-- Experience Section -->
+    <section class="cv-section">
+      <h2>Experience</h2>
+      
+      {% if site.data.linkedin_cv and site.data.linkedin_cv.positions %}
+        {% for position in site.data.linkedin_cv.positions %}
+          <div class="experience-item">
+            <h3>{{ position.title }}</h3>
+            <p class="company">{{ position.company }}</p>
+            <p class="date">{{ position.startDate }} - {{ position.endDate }}</p>
+            <div class="description">{{ position.description }}</div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-notice">
+          <p>Experience data is being synchronized from LinkedIn.</p>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- Education Section -->
+    <section class="cv-section">
+      <h2>Education</h2>
+      
+      {% if site.data.linkedin_cv and site.data.linkedin_cv.education %}
+        {% for education in site.data.linkedin_cv.education %}
+          <div class="education-item">
+            <h3>{{ education.school }}</h3>
+            <p class="degree">{{ education.degree }}</p>
+            <p class="date">{{ education.startDate }} - {{ education.endDate }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-notice">
+          <p>Education data is being synchronized from LinkedIn.</p>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- Skills Section -->
+    <section class="cv-section">
+      <h2>Skills</h2>
+      
+      {% if site.data.linkedin_cv and site.data.linkedin_cv.skills %}
+        <div class="skills-container">
+          {% for skill in site.data.linkedin_cv.skills %}
+            <span class="skill-tag">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-notice">
+          <p>Skills data is being synchronized from LinkedIn.</p>
+        </div>
+      {% endif %}
+    </section>
+    
+    <!-- LinkedIn Posts Section -->
+    <section class="cv-section">
+      <h2>Recent LinkedIn Posts</h2>
+      
+      {% if site.data.linkedin_posts %}
+        <div class="linkedin-posts">
+          {% for post in site.data.linkedin_posts limit:3 %}
+            <div class="linkedin-post-item">
+              <h3>{{ post.title }}</h3>
+              <p class="post-date">Posted on {{ post.date | date: "%B %d, %Y" }}</p>
+              <p class="excerpt">{{ post.excerpt }}</p>
+              <a href="{{ post.url }}" target="_blank" class="read-more">Read full post on LinkedIn →</a>
+            </div>
+          {% endfor %}
+        </div>
+        
+        <div class="view-all">
+          <a href="https://www.linkedin.com/in/notawar/recent-activity/shares/" target="_blank" class="btn linkedin-btn">View All Posts</a>
+        </div>
+      {% else %}
+        <div class="empty-notice">
+          <p>Recent posts are being synchronized from LinkedIn.</p>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+</div>
