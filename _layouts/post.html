@@ -142,14 +142,14 @@ layout: default
     if (!document.querySelector('.post-reading-time')) {
       var content = document.querySelector('.post-content').textContent;
       var wordCount = content.split(/\s+/).length;
-      var readingTime = Math.ceil(wordCount / 250); // Assuming 250 words per minute reading speed
+      var readingTime = Math.ceil(wordCount / 250); // Assuming 250 wpm reading speed
       
       var readingTimeElement = document.createElement('span');
       readingTimeElement.className = 'post-reading-time';
       readingTimeElement.textContent = ' • ' + readingTime + ' min read';
       
       var postMeta = document.querySelector('.post-meta');
-      postMeta.appendChild(readingTimeElement);
+      postMeta && postMeta.appendChild(readingTimeElement);
     }
   });
 </script>
