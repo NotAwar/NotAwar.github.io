@@ -11,52 +11,16 @@ title: Home
       Building scalable cloud solutions and leading innovative projects in cloud-native technologies.
     </p>
     <div class="hero-buttons">
-      <a href="/cv" class="btn primary-btn">View CV</a>
       <a href="https://github.com/NotAwar" class="btn github-btn">GitHub Profile</a>
+      <a href="/cv" class="btn primary-btn">View CV</a>
     </div>
   </div>
 </div>
 
-<section class="about-section">
-  <div class="container">
-    <h2 class="section-title">About Me</h2>
-    <p>
-      I am a Senior Cloud Engineer at Sopra Steria, currently serving as the Competency Lead for Cloud Native. 
-      With a bachelor's degree in Electronics and IT Engineering from OsloMet, I have built a strong foundation 
-      in cloud services, architecture, and DevOps practices.
-    </p>
-    
-    <div class="skills-container">
-      <h3>Technical Skills</h3>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon">☁️</div>
-          <h4>Cloud Platforms</h4>
-          <p>Azure, AWS, GCP</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">🛠️</div>
-          <h4>DevOps</h4>
-          <p>CI/CD, Infrastructure as Code</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">🐳</div>
-          <h4>Containerization</h4>
-          <p>Docker, Kubernetes</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">💻</div>
-          <h4>Programming</h4>
-          <p>Python, C++, VHDL</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- GitHub Projects Section -->
 <section class="projects-section">
   <div class="container">
-    <h2 class="section-title">Featured Projects</h2>
+    <h2 class="section-title">GitHub Projects</h2>
     <div class="projects-grid">
       {% for repository in site.github.public_repositories limit:6 %}
       <div class="project-card">
@@ -73,44 +37,66 @@ title: Home
       {% endfor %}
     </div>
     <div class="view-all-projects">
-      <a href="/projects" class="btn secondary-btn">View All Projects</a>
+      <a href="https://github.com/NotAwar?tab=repositories" class="btn secondary-btn">View All Projects</a>
     </div>
   </div>
 </section>
 
-<section class="experience-section">
+<!-- LinkedIn Posts Section -->
+<section class="linkedin-section">
   <div class="container">
-    <h2 class="section-title">Work Experience</h2>
-    <div class="experience-timeline">
-      <div class="experience-item">
-        <div class="company-logo">
-          <img src="/assets/images/sopra-steria-logo.png" alt="Sopra Steria Logo">
+    <h2 class="section-title">Latest LinkedIn Posts</h2>
+    <div class="linkedin-grid">
+      {% for post in site.data.linkedin_posts limit:3 %}
+      <div class="linkedin-card">
+        <div class="linkedin-header">
+          <img src="/assets/images/linkedin-icon.png" alt="LinkedIn" class="linkedin-icon">
+          <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
         </div>
-        <div class="experience-content">
-          <h3>Senior Engineer | Competency Lead</h3>
-          <p class="company">Sopra Steria</p>
-          <p class="duration">July 2024 - Present</p>
-          <p>Leading cloud-native initiatives and overseeing projects on Microsoft Azure. Focus on developing cloud infrastructure, enhancing DevOps practices, and mentoring junior engineers.</p>
-        </div>
+        <h3 class="post-title">{{ post.title }}</h3>
+        <p class="post-excerpt">{{ post.excerpt }}</p>
+        <a href="{{ post.url }}" class="linkedin-link" target="_blank">Read on LinkedIn →</a>
       </div>
-      <div class="experience-item">
-        <div class="company-logo">
-          <img src="/assets/images/sopra-steria-logo.png" alt="Sopra Steria Logo">
-        </div>
-        <div class="experience-content">
-          <h3>Cloud Engineer</h3>
-          <p class="company">Sopra Steria</p>
-          <p class="duration">August 2022 - Present</p>
-          <p>Specialized in programming and infrastructure, contributing to the development of scalable cloud solutions and improving deployment processes.</p>
-        </div>
-      </div>
+      {% endfor %}
     </div>
-    <div class="view-all-experience">
-      <a href="/cv" class="btn secondary-btn">View Full CV</a>
+    <div class="profile-link">
+      <a href="https://www.linkedin.com/in/notawar" target="_blank" class="btn linkedin-btn">
+        Follow on LinkedIn
+      </a>
     </div>
   </div>
 </section>
 
+<!-- Skills Overview Section -->
+<section class="skills-section">
+  <div class="container">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">☁️</div>
+        <h4>Cloud Platforms</h4>
+        <p>Azure, AWS, GCP</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🛠️</div>
+        <h4>DevOps</h4>
+        <p>CI/CD, Infrastructure as Code</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🐳</div>
+        <h4>Containerization</h4>
+        <p>Docker, Kubernetes</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <h4>Programming</h4>
+        <p>Python, C++, VHDL</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section with prominent links -->
 <section class="contact-section">
   <div class="container">
     <h2 class="section-title">Get In Touch</h2>

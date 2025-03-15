@@ -1617,3 +1617,95 @@ p {
     box-shadow: 0 5px 15px var(--shadow-color);
   }
 }
+
+// LinkedIn Feed Section
+.linkedin-section {
+  padding: 80px 0;
+  background-color: var(--black-secondary);
+}
+
+.linkedin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.linkedin-card {
+  background-color: var(--black-tertiary);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 5px 15px var(--shadow-color);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow-color);
+    border-color: var(--gold-muted);
+  }
+  
+  .linkedin-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    
+    .linkedin-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    
+    .post-date {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  }
+  
+  .post-title {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--gold-primary);
+  }
+  
+  .post-excerpt {
+    flex-grow: 1;
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+  }
+  
+  .linkedin-link {
+    color: var(--gold-primary);
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: var(--gold-secondary);
+      text-decoration: none;
+      transform: translateX(3px);
+    }
+  }
+}
+
+.profile-link {
+  text-align: center;
+  
+  .linkedin-btn {
+    background-color: #0A66C2;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    
+    &:hover {
+      background-color: #0073b1;
+      text-decoration: none;
+    }
+  }
+}
