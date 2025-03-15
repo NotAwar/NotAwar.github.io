@@ -4,6 +4,6 @@ _site/
 .jekyll-metadata
 .bundle/
 vendor/
-Gemfile.lock
 .DS_Store
+Gemfile.lock
 *~

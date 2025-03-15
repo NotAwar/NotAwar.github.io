@@ -1,6 +1,8 @@
 - name: Home
   link: /
-- name: Extended Posts
-  link: /linkedin-extended/
-- name: About
-  link: /about/
+- name: GitHub
+  link: https://github.com/NotAwar
+- name: CV
+  link: /cv/
+- name: Contact
+  link: /contact/

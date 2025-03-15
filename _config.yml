@@ -17,7 +17,7 @@ plugins:
 - jekyll-seo-tag
 - jekyll-sitemap
 - jekyll-remote-theme
-- jekyll-github-metadata # Added to pull GitHub info
+- jekyll-github-metadata
 
 # Exclude files from processing
 exclude:
@@ -30,16 +30,14 @@ exclude:
 - vendor/
 - .github/
 - README.md
+- SETUP.md
 - scripts/
 
-# Collections
+# Collections - remove unused collections
 collections:
   projects:
     output: true
     permalink: /projects/:slug/
-  posts:
-    output: true
-    permalink: /blog/:slug/
 
 # Defaults
 defaults:
@@ -54,14 +52,12 @@ defaults:
   values:
     layout: "project"
     author: "Awar"
-- scope:
-    path: ""
-    type: "posts"
-  values:
-    layout: "post"
-    author: "Awar"
 
 # GitHub settings
 github:
   username: NotAwar
   repository: NotAwar.github.io
+
+# Social links
+linkedin:
+  profile_url: "https://www.linkedin.com/in/notawar"

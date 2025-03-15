@@ -2,150 +2,56 @@
 ---
 
 @import "minima";
-@import "{{ site.theme }}";
 
-// Dark color palette
+// Black and Gold Theme Color Palette
 :root {
-  --bg-primary: #121212;
-  --bg-secondary: #1E1E1E;
-  --bg-card: #282828;
-  --bg-elevated: #333333;
-  --linkedin-blue: #0A66C2;
-  --linkedin-blue-light: #0073b1;
-  --text-primary: #FFFFFF;
-  --text-secondary: #B0B0B0;
-  --text-muted: #8F8F8F;
-  --border-light: #444444;
-  --accent-green: #057642;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --transition: all 0.2s ease;
-  --content-spacing: 2rem;
   --black-primary: #121212;
   --black-secondary: #1A1A1A;
   --black-tertiary: #252525;
   --gold-primary: #D4AF37;
   --gold-secondary: #FFD700;  
   --gold-muted: #AA8C2C;
+  --linkedin-blue: #0A66C2;
+  --linkedin-blue-light: #0073b1;
   --text-primary: #FFFFFF;
   --text-secondary: #CCCCCC;
   --text-muted: #999999;
   --border-color: #333333;
   --shadow-color: rgba(0,0,0,0.5);
   --content-width: 1200px;
+  --transition: all 0.3s ease;
+  --content-spacing: 2rem;
 }
 
 // Base styles
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.6;
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
-  font-size: 16px;
   background-color: var(--black-primary);
   color: var(--text-primary);
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  font-size: 16px;
 }
 
 .container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 20px;
   max-width: var(--content-width);
   margin: 0 auto;
   padding: 0 20px;
 }
 
 // Override minima's light theme
-.site-header, .site-footer {
-  background-color: var(--bg-secondary);
-  border-color: var(--border-light);
-}
-
-.page-content {
-  background-color: var(--bg-primary);
-  padding: var(--content-spacing) 0;
-}
-
-// Typography
-h1, h2, h3, h4 {
-  color: var(--text-primary);
-  font-weight: 600;
-  line-height: 1.3;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-  color: var(--gold-primary);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-h1 {
-  font-size: 2.5em;
-  font-weight: 700;
-  margin-top: 0.5em;
-  color: var(--linkedin-blue);
-  font-size: 2.8rem;
-  line-height: 1.2;
-  font-weight: 700;
-}
-
-h2 {
-  font-size: 1.8em;
-  font-size: 2.2rem;
-  line-height: 1.3;
-}
-
-h3 {
-  font-size: 1.4em;
-  font-size: 1.8rem;
-  line-height: 1.4;
-}
-
-a {
-  color: var(--linkedin-blue);
-  text-decoration: none;
-  transition: var(--transition);
-  color: var(--gold-primary);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    color: var(--linkedin-blue-light);
-    text-decoration: underline;
-    color: var(--gold-secondary);
-    text-decoration: none;
-  }
-}
-
-p {
-  margin-bottom: 1.2em;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  color: var(--text-secondary);
-}
-
-// Dark mode header
 .site-header {
-  background-color: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-light);
-  padding: 15px 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   background-color: var(--black-secondary);
   border-bottom: 1px solid var(--gold-muted);
   padding: 15px 0;
   
   .site-title {
-    font-weight: 700;
-    font-size: 1.4em;
-    color: var(--linkedin-blue);
     color: var(--gold-primary);
     font-weight: 700;
     font-size: 1.5rem;
     
     &:hover {
-      text-decoration: none;
       color: var(--gold-secondary);
       text-decoration: none;
     }
@@ -153,28 +59,17 @@ p {
   
   .site-nav {
     .page-link {
-      margin-left: 20px;
-      color: var(--text-primary);
-      font-weight: 500;
       color: var(--text-primary);
       margin-left: 20px;
       
       &:hover {
-        color: var(--linkedin-blue);
         color: var(--gold-primary);
       }
     }
   }
 }
 
-// Footer
 .site-footer {
-  background-color: var(--bg-secondary);
-  border-top: 1px solid var(--border-light);
-  padding: 30px 0;
-  margin-top: 60px;
-  font-size: 0.9em;
-  color: var(--text-secondary);
   background-color: var(--black-tertiary);
   padding: 50px 0;
   border-top: 1px solid var(--border-color);
@@ -198,16 +93,13 @@ p {
         color: var(--text-secondary);
         
         &:hover {
-          color: var(--linkedin-blue);
+          color: var(--gold-primary);
         }
       }
     }
   }
   
   .copyright {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: var(--text-muted);
     text-align: center;
     color: var(--text-muted);
     margin-top: 40px;
@@ -222,803 +114,52 @@ p {
   .footer-col {
     margin-bottom: 30px;
   }
-  
-  .social-media-list {
-    list-style: none;
-    margin-left: 0;
-    
-    li {
-      margin-bottom: 10px;
-    }
-    
-    .username {
-      color: var(--text-secondary);
-      
-      &:hover {
-        color: var(--gold-primary);
-      }
-    }
-  }
 }
 
-// Home page
-.home {
-  padding: 20px 0;
-  
-  h1 {
-    margin-bottom: var(--content-spacing);
-  }
+.page-content {
+  background-color: var(--black-primary);
+  padding: var(--content-spacing) 0;
 }
 
-.home {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+// Typography
+h1, h2, h3, h4 {
+  color: var(--gold-primary);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-.section-navigation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin: 30px 0;
+h1 {
+  font-size: 2.8rem;
+  line-height: 1.2;
+  font-weight: 700;
 }
 
-.nav-link {
-  padding: 10px 20px;
-  background-color: #0366d6;
-  color: white;
+h2 {
+  font-size: 2.2rem;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.8rem;
+  line-height: 1.4;
+}
+
+a {
+  color: var(--gold-primary);
   text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-  
-  &:hover {
-    background-color: #024ea7;
-    text-decoration: none;
-    color: white;
-  }
-}
-
-.post-list {
-  margin-left: 0;
-  list-style: none;
-  
-  li {
-    margin-bottom: 30px;
-  }
-  
-  .post-link {
-    font-size: 22px;
-  }
-  
-  .post-meta {
-    font-size: 14px;
-    color: #666;
-    display: block;
-    margin-bottom: 5px;
-  }
-}
-
-// LinkedIn extended posts
-.linkedin-extended-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 25px;
-  margin: 40px 0;
-}
-
-.extended-post-card {
-  background-color: var(--bg-card);
-  border-radius: 8px;
-  border: 1px solid var(--border-light);
-  padding: 25px;
-  box-shadow: var(--box-shadow);
   transition: var(--transition);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    border-color: var(--linkedin-blue);
-  }
-  
-  h2 {
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 12px;
-    
-    a {
-      color: var(--text-primary);
-      
-      &:hover {
-        color: var(--linkedin-blue);
-        text-decoration: none;
-      }
-    }
-  }
-  
-  .post-meta {
-    color: var(--text-secondary);
-    font-size: 0.9em;
-    margin-bottom: 10px;
-  }
-  
-  .post-excerpt {
-    flex-grow: 1;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    word-break: break-word; /* Improved wrapping */
-  }
-  
-  .read-more-link {
-    display: inline-block;
-    margin-top: 15px;
-    font-weight: 500;
-    color: var(--linkedin-blue);
-    
-    &:after {
-      content: "→";
-      display: inline-block;
-      margin-left: 4px;
-      transition: var(--transition);
-    }
-    
-    &:hover:after {
-      transform: translateX(3px);
-    }
-  }
-}
-
-.linkedin-indicator {
-  display: inline-flex;
-  align-items: center;
-  background-color: rgba(10, 102, 194, 0.2);
-  border-radius: 4px;
-  padding: 6px 10px;
-  font-size: 0.85em;
-  margin-bottom: 12px;
-  font-weight: 500;
-  color: var(--linkedin-blue);
-  
-  .linkedin-mini-icon {
-    width: 14px;
-    height: 14px;
-    margin-right: 6px;
-  }
-}
-
-.linkedin-sync {
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 15px;
-  margin: 20px 0 30px;
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border-light);
-  
-  a {
-    color: var(--linkedin-blue);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    
-    &:before {
-      content: "";
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      background-image: url('/assets/images/linkedin-logo.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      margin-right: 8px;
-    }
-  }
-}
-
-// LinkedIn Badge styling - FIXED SPACING
-.linkedin-badge-container {
-  margin: 40px auto;
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  min-height: 125px; /* Reserve space for the badge */
-  padding-bottom: 30px;
-  
-  /* Fix for badge alignment */
-  .LI-profile-badge {
-    margin: 0 auto !important; 
-    display: inline-block !important;
-  }
-}
-
-// LinkedIn Badge styling for CV page
-.linkedin-badge-container {
-  margin: 40px auto;
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  min-height: 125px; /* Reserve space for the badge */
-  padding-bottom: 30px;
-  background-color: var(--black-tertiary) !important;
-  border-radius: 10px;
-  
-  /* Fix for badge alignment */
-  .LI-profile-badge {
-    margin: 0 auto !important; 
-    display: inline-block !important;
-    background-color: transparent !important;
-  }
-}
-
-// Post page
-.post {
-  background-color: var(--bg-card);
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: var(--box-shadow);
-  margin-top: 30px;
-  
-  .post-header {
-    margin-bottom: 25px;
-    
-    .post-title {
-      margin-top: 0;
-      color: var(--text-primary);
-      font-size: 2.2em;
-      line-height: 1.2;
-      word-break: break-word; /* Improved wrapping for long titles */
-    }
-    
-    .post-meta {
-      color: var(--text-secondary);
-    }
-  }
-  
-  .post-linkedin-link {
-    background-color: rgba(10, 102, 194, 0.15);
-    border-radius: 8px;
-    padding: 15px;
-    margin: 20px 0;
-    word-break: break-word; /* Ensure URLs wrap properly */
-    
-    p {
-      margin: 5px 0;
-      color: var (--text-secondary);
-    }
-    
-    a {
-      font-weight: 500;
-    }
-  }
-}
-
-.post-content {
-  h2 {
-    margin-top: 40px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border-light);
-  }
-  
-  h3 {
-    margin-top: 30px;
-  }
-  
-  code {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.2em 0.4em;
-    border-radius: 3px;
-    font-family: 'SFMono-Regular', Consolas, Monaco, monospace;
-    font-size: 0.9em;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-  }
-  
-  pre {
-    background-color: #1e1e1e;
-    border-radius: 6px;
-    padding: 16px;
-    overflow: auto;
-    max-width: 100%;
-    
-    code {
-      padding: 0;
-      background-color: transparent;
-      color: #e0e0e0;
-      white-space: pre;
-    }
-  }
-  
-  img {
-    max-width: 100%;
-    border-radius: 6px;
-    margin: 20px 0;
-    height: auto;
-  }
-  
-  blockquote {
-    border-left: 4px solid var(--linkedin-blue);
-    padding-left: 20px;
-    opacity: 0.8;
-    font-style: italic;
-    background-color: rgba(10, 102, 194, 0.1);
-  }
-  
-  ul, ol {
-    padding-left: 25px;
-    margin-bottom: 20px;
-    
-    li {
-      margin-bottom: 5px;
-    }
-  }
-  
-  p {
-    overflow-wrap: break-word;
-  }
-}
-
-.post-footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-light);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* Allow buttons to wrap */
-  gap: 15px; /* Space between wrapped elements */
-  
-  .btn {
-    background-color: var(--linkedin-blue);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: var(--transition);
-    
-    &:hover {
-      background-color: var(--linkedin-blue-light);
-      text-decoration: none;
-    }
-  }
-  
-  .back-link {
-    color: var(--text-secondary);
-    display: inline-flex;
-    align-items: center;
-    font-weight: 500;
-    
-    &:before {
-      content: "←";
-      margin-right: 5px;
-    }
-    
-    &:hover {
-      color: var(--linkedin-blue);
-      text-decoration: none;
-    }
-  }
-}
-
-// About page
-.about-section {
-  background-color: var(--bg-card);
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: var(--box-shadow);
-  margin-top: 30px;
-  overflow: hidden; /* Ensures content doesn't overflow */
-  padding: 80px 0;
-  background-color: var(--black-secondary);
-  
-  .section-title {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-    
-    &:after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background-color: var(--gold-primary);
-      margin: 20px auto 0;
-    }
-  }
-  
-  .skills-container {
-    margin-top: 60px;
-    
-    h3 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-  }
-  
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-  }
-  
-  .skill-card {
-    background-color: var(--black-tertiary);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid var(--border-color);
-    
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px var(--shadow-color);
-      border-color: var(--gold-muted);
-    }
-    
-    .skill-icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-    
-    h4 {
-      color: var(--gold-primary);
-      margin-bottom: 10px;
-    }
-    
-    p {
-      margin: 0;
-      color: var(--text-secondary);
-    }
-  }
-  
-  h1, h2 {
-    word-break: break-word;
-  }
-}
-
-.tech-icons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 30px 0;
-  
-  .tech-icon {
-    background-color: rgba(10, 102, 194, 0.2);
-    color: var(--linkedin-blue);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.9em;
-    font-weight: 500;
-  }
-}
-
-.connect-buttons {
-  display: flex;
-  flex-wrap: wrap; /* Allow buttons to wrap on small screens */
-  gap: 15px;
-  margin: 30px 0 15px;
-  
-  .connect-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 500;
+    color: var(--gold-secondary);
     text-decoration: none;
-    transition: var(--transition);
-    
-    &:hover {
-      transform: translateY(-2px);
-      text-decoration: none;
-    }
-  }
-  
-  .linkedin-btn {
-    background-color: var(--linkedin-blue);
-    color: white;
-    
-    &:hover {
-      background-color: var(--linkedin-blue-light);
-    }
-  }
-  
-  .github-btn {
-    background-color: #333333;
-    color: white;
-    border: 1px solid #444;
-    
-    &:hover {
-      background-color: #444444;
-    }
   }
 }
 
-// LinkedIn profile link - FIXED SPACING AND OVERLAP
-.linkedin-profile-link {
-  margin: 50px 0 30px;
-  padding: 20px 0;
-  text-align: center;
-  clear: both;
-  
-  .linkedin-btn {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--linkedin-blue);
-    color: white;
-    padding: 12px 25px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: var(--transition);
-    
-    &:hover {
-      background-color: var(--linkedin-blue-light);
-      transform: translateY(-2px);
-      text-decoration: none;
-    }
-    
-    .linkedin-icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-      filter: brightness(0) invert(1);
-    }
-  }
-}
-
-// Notice box
-.notice-box {
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 40px 0;
-  border-left: 4px solid var(--linkedin-blue);
-}
-
-// View all link
-.view-all-link-container {
-  text-align: center;
-  margin: 40px 0;
-  clear: both;
-  
-  .view-all-link {
-    display: inline-block;
-    padding: 10px 25px;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--linkedin-blue);
-    color: var(--linkedin-blue);
-    border-radius: 6px;
-    font-weight: 500;
-    transition: var(--transition);
-    
-    &:hover {
-      background-color: var(--linkedin-blue);
-      color: white;
-      text-decoration: none;
-    }
-    
-    &:after {
-      content: "→";
-      display: inline-block;
-      margin-left: 5px;
-      transition: var(--transition);
-    }
-    
-    &:hover:after {
-      transform: translateX(3px);
-    }
-  }
-}
-
-// Code highlighting
-.highlight {
-  background-color: #1e1e1e;
-  margin-bottom: 20px;
-  
-  pre {
-    background-color: #1e1e1e;
-    margin-bottom: 0;
-  }
-  
-  /* Syntax highlighting colors for dark mode */
-  .c { color: #6A9955; } /* Comment */
-  .k { color: #569CD6; } /* Keyword */
-  .o { color: #D4D4D4; } /* Operator */
-  .cm { color: #6A9955; } /* Comment.Multiline */
-  .cp { color: #6A9955; } /* Comment.Preproc */
-  .c1 { color: #6A9955; } /* Comment.Single */
-  .cs { color: #6A9955; } /* Comment.Special */
-  .gd { color: #F14C4C; } /* Generic.Deleted */
-  .ge { font-style: italic; } /* Generic.Emph */
-  .gr { color: #F14C4C; } /* Generic.Error */
-  .gh { color: #000080; font-weight: bold; } /* Generic.Heading */
-  .gi { color: #56B6C2; } /* Generic.Inserted */
-  .go { color: #888888; } /* Generic.Output */
-  .gp { color: #c65d09; font-weight: bold; } /* Generic.Prompt */
-  .gs { font-weight: bold; } /* Generic.Strong */
-  .gu { color: #800080; font-weight: bold; } /* Generic.Subheading */
-  .gt { color: #F14C4C; } /* Generic.Traceback */
-  .kc { color: #569CD6; } /* Keyword.Constant */
-  .kd { color: #569CD6; } /* Keyword.Declaration */
-  .kn { color: #569CD6; } /* Keyword.Namespace */
-  .kp { color: #569CD6; } /* Keyword.Pseudo */
-  .kr { color: #569CD6; } /* Keyword.Reserved */
-  .kt { color: #569CD6; } /* Keyword.Type */
-  .m { color: #B5CEA8; } /* Literal.Number */
-  .s { color: #CE9178; } /* Literal.String */
-  .na { color: #9CDCFE; } /* Name.Attribute */
-  .nb { color: #569CD6; } /* Name.Builtin */
-  .nc { color: #4EC9B0; } /* Name.Class */
-  .no { color: #4FC1FF; } /* Name.Constant */
-  .nd { color: #4EC9B0; } /* Name.Decorator */
-  .ni { color: #999999; font-weight: bold; } /* Name.Entity */
-  .ne { color: #F14C4C; font-weight: bold; } /* Name.Exception */
-  .nf { color: #DCDCAA; } /* Name.Function */
-  .nl { color: #9CDCFE; } /* Name.Label */
-  .nn { color: #4EC9B0; } /* Name.Namespace */
-  .nt { color: #569CD6; } /* Name.Tag */
-  .nv { color: #9CDCFE; } /* Name.Variable */
-}
-
-// Responsive styles
-@media (max-width: 768px) {
-  .linkedin-extended-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .post {
-    padding: 20px 15px;
-  }
-  
-  .connect-buttons {
-    flex-direction: column;
-    width: 100%; /* Full width on mobile */
-    
-    .connect-btn {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-  
-  .post-footer {
-    flex-direction: column;
-    gap: 15px;
-    
-    .btn, .back-link {
-      width: 100%;
-      text-align: center;
-      justify-content: center;
-    }
-  }
-  
-  h1 {
-    font-size: 2em;
-  }
-  
-  h2 {
-    font-size: 1.5em;
-  }
-  
-  /* Ensure LinkedIn badge is responsive */
-  .linkedin-badge-container {
-    width: 100%;
-    overflow-x: auto;
-    margin: 30px 0;
-    padding-bottom: 20px;
-    
-    iframe {
-      max-width: 100%;
-    }
-  }
-  
-  .hero-section {
-    padding: 60px 0 40px;
-    
-    .hero-title {
-      font-size: 2.5rem;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.2rem;
-    }
-  }
-  
-  .about-section,
-  .projects-section,
-  .experience-section,
-  .contact-section {
-    padding: 50px 0;
-  }
-  
-  .skills-grid,
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .experience-item {
-    flex-direction: column;
-    gap: 15px;
-    
-    &:before {
-      left: 30px;
-      top: 30px;
-      bottom: -15px;
-    }
-    
-    .company-logo {
-      margin-left: 0;
-    }
-  }
-}
-
-// 404 page
-.error-page {
-  text-align: center;
-  padding: 60px 0;
-  
-  h1 {
-    font-size: 8em;
-    margin: 0;
-    color: var(--linkedin-blue);
-    line-height: 1;
-  }
-  
-  h2 {
-    margin-top: 0;
-    margin-bottom: 30px;
-  }
-  
-  .error-actions {
-    margin: 30px 0;
-  }
-  
-  .error-actions .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 0 10px 10px;
-    border-radius: 6px;
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: var(--transition);
-    
-    &:hover {
-      transform: translateY(-2px);
-    }
-  }
-  
-  .error-actions .primary-btn {
-    background-color: var(--linkedin-blue);
-    color: white;
-    
-    &:hover {
-      background-color: var(--linkedin-blue-light);
-    }
-  }
-  
-  .search-box {
-    max-width: 500px;
-    margin: 40px auto 0;
-    
-    input {
-      background-color: var(--bg-secondary);
-      color: var(--text-primary);
-      border: 1px solid var(--border-light);
-      padding: 10px;
-      width: 70%;
-      border-radius: 4px 0 0 4px;
-    }
-    
-    button {
-      background-color: var(--linkedin-blue);
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-  }
+p {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
 }
 
 // Hero Section
@@ -1060,7 +201,7 @@ p {
       padding: 12px 28px;
       border-radius: 5px;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       
       &:hover {
         transform: translateY(-3px);
@@ -1120,7 +261,7 @@ p {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px var(--shadow-color);
-    transition: all 0.3s ease;
+    transition: var(--transition);
     border: 1px solid var(--border-color);
     height: 100%;
     display: flex;
@@ -1169,7 +310,7 @@ p {
       padding: 10px 25px;
       border-radius: 5px;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       
       &:hover {
         background-color: var(--gold-primary);
@@ -1179,8 +320,8 @@ p {
   }
 }
 
-// Experience Section
-.experience-section {
+// LinkedIn Feed Section
+.linkedin-section {
   padding: 80px 0;
   background-color: var(--black-secondary);
   
@@ -1199,93 +340,167 @@ p {
     }
   }
   
-  .experience-timeline {
-    max-width: 800px;
-    margin: 0 auto 50px;
-  }
-  
-  .experience-item {
-    display: flex;
+  .linkedin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
     margin-bottom: 40px;
-    position: relative;
+  }
+  
+  .linkedin-card {
+    background-color: var(--black-tertiary);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     
-    &:before {
-      content: "";
-      position: absolute;
-      left: 30px;
-      top: 70px;
-      bottom: -40px;
-      width: 2px;
-      background-color: var(--gold-muted);
-      z-index: 0;
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--shadow-color);
+      border-color: var(--gold-muted);
     }
     
-    &:last-child:before {
-      display: none;
-    }
-    
-    .company-logo {
-      width: 60px;
-      height: 60px;
-      background-color: var(--black-tertiary);
-      border-radius: 50%;
+    .linkedin-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      border: 2px solid var(--gold-muted);
-      z-index: 1;
+      margin-bottom: 15px;
       
-      img {
-        width: 40px;
-        height: auto;
+      .linkedin-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+      
+      .post-date {
+        color: var(--text-muted);
+        font-size: 0.9rem;
       }
     }
     
-    .experience-content {
-      flex: 1;
-      background-color: var(--black-tertiary);
-      border-radius: 10px;
-      padding: 25px;
-      box-shadow: 0 5px 15px var(--shadow-color);
-      border: 1px solid var(--border-color);
+    .post-title {
+      font-size: 1.4rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--gold-primary);
+    }
+    
+    .post-excerpt {
+      flex-grow: 1;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+    }
+    
+    .linkedin-link {
+      color: var(--gold-primary);
+      font-weight: 500;
+      display: inline-block;
+      transition: var(--transition);
       
-      h3 {
-        margin-top: 0;
-        color: var(--gold-primary);
-        margin-bottom: 5px;
-      }
-      
-      .company {
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 5px;
-      }
-      
-      .duration {
-        color: var(--gold-muted);
-        margin-bottom: 15px;
-        font-style: italic;
+      &:hover {
+        color: var(--gold-secondary);
+        text-decoration: none;
+        transform: translateX(3px);
       }
     }
   }
   
-  .view-all-experience {
+  .profile-link {
     text-align: center;
     
-    .secondary-btn {
-      background-color: transparent;
-      color: var(--gold-primary);
-      border: 2px solid var(--gold-primary);
-      padding: 10px 25px;
+    .linkedin-btn {
+      background-color: var(--linkedin-blue);
+      color: white;
+      border: none;
+      padding: 12px 25px;
       border-radius: 5px;
       font-weight: 600;
-      transition: all 0.3s ease;
       
       &:hover {
-        background-color: var(--gold-primary);
-        color: var(--black-primary);
+        background-color: var(--linkedin-blue-light);
+        text-decoration: none;
       }
+    }
+  }
+}
+
+// LinkedIn Badge styling
+.linkedin-badge-container {
+  margin: 40px auto;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  min-height: 125px;
+  padding-bottom: 30px;
+  background-color: var(--black-tertiary) !important;
+  border-radius: 10px;
+  border: 1px solid var(--gold-muted);
+  box-shadow: 0 5px 15px var(--shadow-color);
+  
+  .LI-profile-badge {
+    margin: 0 auto !important; 
+    display: inline-block !important;
+    background-color: transparent !important;
+  }
+}
+
+// Skills section
+.skills-section {
+  padding: 80px 0;
+  background-color: var(--black-primary);
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    
+    &:after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--gold-primary);
+      margin: 20px auto 0;
+    }
+  }
+  
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+  }
+  
+  .skill-card {
+    background-color: var(--black-tertiary);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px var(--shadow-color);
+      border-color: var(--gold-muted);
+    }
+    
+    .skill-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    
+    h4 {
+      color: var(--gold-primary);
+      margin-bottom: 10px;
+    }
+    
+    p {
+      margin: 0;
+      color: var(--text-secondary);
     }
   }
 }
@@ -1323,7 +538,7 @@ p {
     padding: 30px;
     min-width: 250px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     border: 1px solid var(--border-color);
     box-shadow: 0 5px 15px var(--shadow-color);
     
@@ -1341,10 +556,10 @@ p {
     }
     
     &.linkedin {
-      border-top: 4px solid #0077B5;
+      border-top: 4px solid var(--linkedin-blue);
       
       &:hover {
-        border-color: #0088cc;
+        border-color: var(--linkedin-blue-light);
       }
     }
     
@@ -1361,83 +576,58 @@ p {
   }
 }
 
-// CV Page
-.cv-section {
-  padding: 80px 0;
+/* Gold & Black CV Theme */
+.cv-gold {
   background-color: var(--black-primary);
+  color: #E0E0E0;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 20px var(--shadow-color);
   
-  .cv-container {
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: var(--black-tertiary);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 25px var(--shadow-color);
-    border: 1px solid var(--gold-muted);
+  h1, h2, h3 {
+    color: var(--gold-primary);
+    margin-top: 0;
   }
   
-  .cv-header {
-    text-align: center;
-    margin-bottom: 40px;
-    
-    h1 {
-      margin-bottom: 10px;
-      font-size: 2.5rem;
-    }
-    
-    .cv-title {
-      color: var(--gold-muted);
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-    }
-    
-    .cv-contact {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      color: var(--text-secondary);
-    }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
   }
   
-  .cv-segment {
-    margin-bottom: 50px;
-    
-    h2 {
-      color: var(--gold-primary);
-      border-bottom: 2px solid var(--gold-muted);
-      padding-bottom: 10px;
-      margin-bottom: 25px;
-    }
+  h2 {
+    border-bottom: 2px solid var(--gold-primary);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
   }
   
-  .cv-item {
-    margin-bottom: 30px;
+  .position {
+    font-size: 1.3rem;
+    color: var(--gold-muted);
+    margin-bottom: 2rem;
+  }
+  
+  .cv-section {
+    margin: 2rem 0;
+  }
+  
+  .experience, .education {
+    margin-bottom: 1.5rem;
     
     h3 {
-      margin-bottom: 5px;
-      color: var (--text-primary);
+      margin-bottom: 0.25rem;
     }
     
-    .cv-organization {
-      color: var(--gold-primary);
+    .company, .institution {
+      color: var(--gold-secondary);
       font-weight: 500;
-      margin-bottom: 5px;
+      margin: 0.25rem 0;
     }
     
-    .cv-date {
-      color: var(--text-muted);
+    .date {
+      color: #A0A0A0;
       font-style: italic;
-      margin-bottom: 10px;
-    }
-    
-    ul {
-      padding-left: 20px;
-      
-      li {
-        color: var(--text-secondary);
-        margin-bottom: 5px;
-      }
+      margin: 0.25rem 0 1rem;
     }
   }
   
@@ -1445,32 +635,35 @@ p {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin: 1rem 0;
     
-    .skill-tag {
-      background-color: var(--black-primary);
+    span {
+      background-color: var(--black-secondary);
+      border: 1px solid var(--gold-primary);
       color: var(--gold-primary);
-      border: 1px solid var(--gold-muted);
+      padding: 0.5rem 1rem;
       border-radius: 20px;
-      padding: 5px 15px;
       font-size: 0.9rem;
     }
   }
   
-  .cv-download {
+  .cv-footer {
+    margin-top: 3rem;
     text-align: center;
-    margin-top: 50px;
     
-    .download-btn {
+    .gold-btn {
       background-color: var(--gold-primary);
       color: var(--black-primary);
-      padding: 12px 25px;
+      padding: 12px 24px;
       border-radius: 5px;
+      text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s ease;
+      display: inline-block;
+      transition: var(--transition);
       
       &:hover {
         background-color: var(--gold-secondary);
-        transform: translateY(-3px);
+        transform: translateY(-2px);
       }
     }
   }
@@ -1482,7 +675,7 @@ p {
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .secondary-btn {
@@ -1519,193 +712,53 @@ p {
   }
 }
 
-/* Gold & Black CV Theme */
-.cv-gold {
-  background-color: #121212;
-  color: #E0E0E0;
-  padding: 2rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  
-  h1, h2, h3 {
-    color: #D4AF37; /* Gold */
-    margin-top: 0;
+// Responsive styles
+@media (max-width: 768px) {
+  .linkedin-grid,
+  .projects-grid,
+  .skills-grid {
+    grid-template-columns: 1fr;
   }
   
   h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2em;
   }
   
   h2 {
-    border-bottom: 2px solid #D4AF37;
-    padding-bottom: 0.5rem;
-    margin: 2rem 0 1rem;
+    font-size: 1.5em;
   }
   
-  .position {
-    font-size: 1.3rem;
-    color: #B8860B; /* Darker gold */
-    margin-bottom: 2rem;
-  }
-  
-  .cv-section {
-    margin: 2rem 0;
-  }
-  
-  .experience, .education {
-    margin-bottom: 1.5rem;
+  .hero-section {
+    padding: 60px 0 40px;
     
-    h3 {
-      margin-bottom: 0.25rem;
+    .hero-title {
+      font-size: 2.5rem;
     }
     
-    .company, .institution {
-      color: #FFD700; /* Brighter gold */
-      font-weight: 500;
-      margin: 0.25rem 0;
-    }
-    
-    .date {
-      color: #A0A0A0;
-      font-style: italic;
-      margin: 0.25rem 0 1rem;
+    .hero-subtitle {
+      font-size: 1.2rem;
     }
   }
   
-  .skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 1rem 0;
-    
-    span {
-      background-color: #1A1A1A;
-      border: 1px solid #D4AF37;
-      color: #D4AF37;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
+  .section-title {
+    margin-bottom: 30px;
   }
   
-  .cv-footer {
-    margin-top: 3rem;
-    text-align: center;
-    
-    .gold-btn {
-      background-color: #D4AF37;
-      color: #000000;
-      padding: 12px 24px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-block;
-      transition: all 0.2s ease;
-      
-      &:hover {
-        background-color: #FFD700;
-        transform: translateY(-2px);
-      }
-    }
+  .projects-section,
+  .linkedin-section,
+  .skills-section,
+  .contact-section {
+    padding: 50px 0;
   }
   
-  // LinkedIn badge container in gold theme
   .linkedin-badge-container {
-    border: 1px solid var(--gold-muted);
-    box-shadow: 0 5px 15px var(--shadow-color);
-  }
-}
-
-// LinkedIn Feed Section
-.linkedin-section {
-  padding: 80px 0;
-  background-color: var(--black-secondary);
-}
-
-.linkedin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 30px;
-  margin-bottom: 40px;
-}
-
-.linkedin-card {
-  background-color: var(--black-tertiary);
-  border-radius: 10px;
-  padding: 25px;
-  box-shadow: 0 5px 15px var(--shadow-color);
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px var(--shadow-color);
-    border-color: var(--gold-muted);
-  }
-  
-  .linkedin-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+    width: 100%;
+    overflow-x: auto;
+    margin: 30px 0;
+    padding-bottom: 20px;
     
-    .linkedin-icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-    }
-    
-    .post-date {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-  }
-  
-  .post-title {
-    font-size: 1.4rem;
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: var(--gold-primary);
-  }
-  
-  .post-excerpt {
-    flex-grow: 1;
-    margin-bottom: 20px;
-    color: var(--text-secondary);
-  }
-  
-  .linkedin-link {
-    color: var(--gold-primary);
-    font-weight: 500;
-    display: inline-block;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      color: var(--gold-secondary);
-      text-decoration: none;
-      transform: translateX(3px);
-    }
-  }
-}
-
-.profile-link {
-  text-align: center;
-  
-  .linkedin-btn {
-    background-color: #0A66C2;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    font-weight: 600;
-    
-    &:hover {
-      background-color: #0073b1;
-      text-decoration: none;
+    iframe {
+      max-width: 100%;
     }
   }
 }
