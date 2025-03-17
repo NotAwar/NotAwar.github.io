@@ -16,7 +16,7 @@ import yaml
 import requests
 import json
 from datetime import datetime
-import sys
+import sys  
 
 # LinkedIn API Configuration
 CLIENT_ID = os.getenv('LINKEDIN_CLIENT_ID')
