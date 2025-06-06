@@ -268,6 +268,9 @@ p {
     letter-spacing: -0.5px;
     color: var(--gold-primary);
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s 0.1s forwards;
   }
   
   .hero-subtitle {
@@ -275,6 +278,9 @@ p {
     margin: 0 0 30px;
     color: var(--text-primary);
     font-weight: 500;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s 0.3s forwards;
   }
   
   .hero-description {
@@ -282,6 +288,9 @@ p {
     margin: 0 auto 40px;
     font-size: 1.2rem;
     color: var(--text-secondary);
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s 0.5s forwards;
   }
   
   .hero-buttons {
@@ -289,6 +298,9 @@ p {
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s 0.7s forwards;
     
     .btn {
       padding: 12px 28px;
@@ -297,7 +309,8 @@ p {
       transition: var(--transition);
       
       &:hover {
-        transform: translateY(-3px);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 4px 20px var(--shadow-color);
       }
     }
     
@@ -319,6 +332,17 @@ p {
         background-color: #333;
       }
     }
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -361,9 +385,10 @@ p {
     flex-direction: column;
     
     &:hover {
-      transform: translateY(-5px);
+      transform: translateY(-5px) scale(1.03);
       box-shadow: 0 10px 25px var(--shadow-color);
       border-color: var(--gold-muted);
+      transition: var(--transition);
     }
     
     .project-title {
@@ -453,9 +478,10 @@ p {
     flex-direction: column;
     
     &:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.03);
       box-shadow: 0 8px 20px var(--shadow-color);
       border-color: var(--gold-muted);
+      transition: var(--transition);
     }
     
     .linkedin-header {
@@ -637,8 +663,9 @@ p {
     box-shadow: 0 5px 15px var(--shadow-color);
     
     &:hover {
-      transform: translateY(-5px);
+      transform: translateY(-5px) scale(1.03);
       box-shadow: 0 10px 25px var(--shadow-color);
+      transition: var(--transition);
     }
     
     &.github, &.linkedin, &.email {

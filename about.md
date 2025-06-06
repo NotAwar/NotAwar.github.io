@@ -4,41 +4,20 @@ title: About
 permalink: /about/
 ---
 
-<div class="about-section">
-  # About This Site
+# About
 
-  LinkedIn's character limits make it challenging to explore complex technical topics in depth. This site hosts expanded versions of my LinkedIn posts, providing:
+Hi, I'm Awar Abdulkarim — Senior Cloud Engineer and Cloud Native Competency Lead. I specialize in building scalable, modern cloud solutions and leading teams to deliver innovative results.
 
-- Detailed technical explanations
-- Complete code examples
-- Step-by-step tutorials
-- Additional resources and references
+**What I do:**
+- Cloud architecture & DevOps
+- Kubernetes, Azure, AWS
+- Automation & CI/CD
+- Technical leadership & mentoring
 
-## About Me
+**About this site:**
+This is my digital home for sharing insights, projects, and professional highlights. If you want to connect, collaborate, or just say hi, you’ll find all the links below.
 
-  I'm a Senior Engineer at {{ site.data.about.current_position.company | default: "Sopra Steria" }} with expertise in cloud architecture and DevOps. I'm passionate about sharing knowledge and insights that help others solve complex technical problems.
-
-  <div class="linkedin-badge-container">
-    <div class="badge-base LI-profile-badge" data-locale="no_NO" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="notawar" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://no.linkedin.com/in/notawar?trk=profile-badge">Awar Abdulkarim</a></div>
-  </div>
-
-  <div class="tech-icons">
-    {% if site.data.about.skills %}
-      {% for skill in site.data.about.skills %}
-        <span class="tech-icon">{{ skill }}</span>
-      {% endfor %}
-    {% else %}
-      <span class="tech-icon">Cloud Architecture</span>
-      <span class="tech-icon">DevOps</span>
-      <span class="tech-icon">Kubernetes</span>
-      <span class="tech-icon">Automation</span>
-    {% endif %}
-  </div>
-
-## Connect With Me
-
-  <div class="connect-buttons">
-    <a href="{{ site.linkedin.profile_url }}" class="connect-btn linkedin-btn">LinkedIn</a>
-    <a href="https://github.com/{{ site.github_username }}" class="connect-btn github-btn">GitHub</a>
-  </div>
+<div class="about-links">
+  <a href="https://www.linkedin.com/in/notawar" class="btn linkedin-btn" target="_blank">LinkedIn</a>
+  <a href="https://github.com/NotAwar" class="btn github-btn" target="_blank">GitHub</a>
 </div>
