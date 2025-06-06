@@ -5,22 +5,63 @@ title: Home
 
 <div class="hero-section">
   <div class="container">
-    <h1 class="hero-title">Awar Abdulkarim</h1>
-    <h2 class="hero-subtitle">Senior Cloud Engineer | Competency Lead for Cloud Native</h2>
+    <h1 class="hero-title">{{ site.data.profile.name }}</h1>
+    <h2 class="hero-subtitle" id="typewriter" data-text="{{ site.data.profile.headline }}"></h2>
     <p class="hero-description">
-      Building scalable cloud solutions and leading innovative projects in cloud-native technologies.
+      {{ site.data.profile.bio }}
     </p>
     <div class="hero-buttons">
-      <a href="https://github.com/NotAwar" class="btn github-btn" target="_blank">GitHub Profile</a>
-      <a href="/cv" class="btn primary-btn">View CV</a>
+      <a href="{{ site.data.profile.contact.github }}" class="btn github-btn" target="_blank">View GitHub</a>
+      <a href="{{ site.data.profile.contact.linkedin }}" class="btn linkedin-btn" target="_blank">LinkedIn Profile</a>
     </div>
   </div>
 </div>
 
+<!-- Professional Experience Section -->
+<section class="experience-section">
+  <div class="container">
+    <h2 class="section-title">Professional Journey</h2>
+    <p class="section-description">Building cloud-native solutions and DevOps excellence</p>
+    
+    <div class="experience-timeline">
+      {% for experience in site.data.profile.experience %}
+      <div class="experience-item">
+        <div class="experience-header">
+          <h3 class="experience-title">{{ experience.position }}</h3>
+          <div class="experience-company">{{ experience.company }}</div>
+          <div class="experience-period">{{ experience.period }}</div>
+        </div>
+        <div class="experience-description">
+          <p>{{ experience.description }}</p>
+          {% if experience.achievements %}
+          <ul class="achievements">
+            {% for achievement in experience.achievements %}
+            <li>{{ achievement }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% if experience.technologies %}
+        <div class="experience-tech">
+          {% for tech in experience.technologies %}
+          <span class="tech-tag">{{ tech }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    
+    <div class="view-profile">
+      <a href="{{ site.data.profile.contact.linkedin }}" class="btn secondary-btn" target="_blank">View Full Profile on LinkedIn</a>
+    </div>
+  </div>
+</section>
+
 <!-- GitHub Projects Section -->
 <section class="projects-section">
   <div class="container">
-    <h2 class="section-title">GitHub Projects</h2>
+    <h2 class="section-title">What I'm Building</h2>
     <div class="projects-grid">
       {% for repository in site.github.public_repositories limit:6 %}
       <div class="project-card">
@@ -44,55 +85,41 @@ title: Home
   </div>
 </section>
 
-<!-- LinkedIn Posts Section -->
-<section class="linkedin-section">
-  <div class="container">
-    <h2 class="section-title">Latest LinkedIn Posts</h2>
-    <div class="linkedin-grid">
-      {% if site.data.linkedin_posts %}
-        {% for post in site.data.linkedin_posts limit:3 %}
-        <div class="linkedin-card">
-          <div class="linkedin-header">
-            <div class="linkedin-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#0077B5" d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
-            </div>
-            <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
-          </div>
-          <h3 class="post-title">{{ post.title }}</h3>
-          <p class="post-excerpt">{{ post.excerpt }}</p>
-          <a href="{{ post.url }}" class="linkedin-link" target="_blank">Read on LinkedIn →</a>
-        </div>
-        {% endfor %}
-      {% else %}
-        <div class="linkedin-empty">
-          <p>Connect with me on LinkedIn for professional insights and discussions.</p>
-        </div>
-      {% endif %}
-    </div>
-    <div class="profile-link">
-      <a href="https://www.linkedin.com/in/notawar" class="btn linkedin-btn" target="_blank">
-        Follow on LinkedIn
-      </a>
-    </div>
-  </div>
-</section>
+
 
 <!-- Contact Section -->
 <section class="contact-section">
   <div class="container">
-    <h2 class="section-title">Get In Touch</h2>
+    <h2 class="section-title">Connect</h2>
+    <p class="section-description">Interested in cloud technologies, collaboration opportunities, or technical discussions? Let's connect.</p>
     <div class="contact-grid">
-      <a href="https://github.com/NotAwar" class="contact-card github" target="_blank">
-        <span class="contact-icon">GitHub</span>
-        <span class="contact-handle">@NotAwar</span>
+      <a href="{{ site.data.profile.contact.github }}" class="contact-card github" target="_blank">
+        <span class="contact-icon">🔧</span>
+        <div class="contact-content">
+          <span class="contact-handle">GitHub</span>
+          <span class="contact-description">Projects and implementations</span>
+        </div>
       </a>
-      <a href="https://www.linkedin.com/in/notawar" class="contact-card linkedin" target="_blank">
-        <span class="contact-icon">LinkedIn</span>
-        <span class="contact-handle">Connect with me</span>
+      <a href="{{ site.data.profile.contact.linkedin }}" class="contact-card linkedin" target="_blank">
+        <span class="contact-icon">💼</span>
+        <div class="contact-content">
+          <span class="contact-handle">LinkedIn</span>
+          <span class="contact-description">Professional updates</span>
+        </div>
       </a>
-      <a href="/contact" class="contact-card email">
-        <span class="contact-icon">Contact</span>
-        <span class="contact-handle">Get in touch</span>
+      <a href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=notawar" class="contact-card linkedin-follow" target="_blank">
+        <span class="contact-icon">➕</span>
+        <div class="contact-content">
+          <span class="contact-handle">Follow</span>
+          <span class="contact-description">Latest insights</span>
+        </div>
+      </a>
+      <a href="/socials" class="contact-card contact">
+        <span class="contact-icon">💬</span>
+        <div class="contact-content">
+          <span class="contact-handle">Socials</span>
+          <span class="contact-description">Connect with me</span>
+        </div>
       </a>
     </div>
   </div>

@@ -1,6 +1,4 @@
 - name: Home
   link: /
-- name: CV
-  link: /cv/
-- name: Contact
-  link: /contact/
+- name: Socials
+  link: /socials/

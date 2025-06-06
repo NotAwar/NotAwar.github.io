@@ -1,0 +1,95 @@
+# Your Professional Profile Data
+# Update this file with your real LinkedIn information and it will be used throughout the site
+
+# Basic Information
+name: "Awar Abdulkarim"
+title: "Senior Cloud Engineer & Cloud Native Competency Lead"
+headline: "Senior Cloud Engineer & Cloud Native Competency Lead"
+
+# Professional Summary
+summary: |
+  Senior Cloud Engineer with expertise in designing and implementing scalable cloud-native solutions. 
+  Currently serving as Competency Lead for Cloud Native at Sopra Steria, focusing on innovative 
+  solutions in the cloud space and mentoring teams on modern DevOps practices.
+
+# Current Focus/Bio for home page
+bio: |
+  Cloud engineer specializing in Kubernetes, Azure infrastructure, and automation solutions. 
+  Building scalable cloud-native solutions and sharing insights from enterprise implementations.
+
+# Work Experience
+experience:
+- position: "Senior Cloud Engineer & Cloud Native Competency Lead"
+  company: "Sopra Steria"
+  period: "July 2024 - Present"
+  description: "Leading cloud-native initiatives and overseeing projects on Microsoft Azure. Focus on developing cloud infrastructure, enhancing DevOps practices, and mentoring junior engineers."
+  achievements:
+  - "Lead cloud native competency initiatives across the organization"
+  - "Architect and implement scalable Kubernetes solutions"
+  - "Mentor engineering teams on modern DevOps practices"
+  - "Drive adoption of cloud-native technologies and methodologies"
+  technologies: [ "Kubernetes", "Azure", "Docker", "Terraform", "DevOps", "CI/CD" ]
+
+- position: "Cloud Engineer"
+  company: "Sopra Steria"
+  period: "August 2022 - July 2024"
+  description: "Specialized in programming and infrastructure, contributing to the development of scalable cloud solutions and improving deployment processes."
+  achievements:
+  - "Developed and maintained cloud infrastructure on Microsoft Azure"
+  - "Improved deployment processes and automation frameworks"
+  - "Contributed to scalable cloud solution architectures"
+  - "Enhanced monitoring and observability practices"
+  technologies: [ "Azure", "Python", "Infrastructure as Code", "Monitoring", "Automation" ]
+
+- position: "IT Employee"
+  company: "OsloMet – Storbyuniversitetet"
+  period: "August 2021 - August 2022"
+  description: "Provided technical support and contributed to various IT projects within the university, focusing on automation and system management."
+  achievements:
+  - "Provided comprehensive technical support across university systems"
+  - "Contributed to automation initiatives and system improvements"
+  - "Managed and maintained university IT infrastructure"
+  - "Supported academic and administrative technology needs"
+  technologies: [ "Linux", "System Administration", "PowerShell", "IT Support" ]
+
+# Education
+education:
+- degree: "Bachelor's Degree in Electronics and IT Engineering"
+  school: "OsloMet – Oslo Metropolitan University"
+  location: "Oslo, Norway"
+  year: "2021"
+  description: "Focus on cloud technologies and software development"
+
+# Core Skills (most important ones)
+skills:
+  primary:
+  - "Kubernetes & Container Orchestration"
+  - "Azure Cloud Platform"
+  - "DevOps & Site Reliability"
+  - "CI/CD Pipeline Architecture"
+  - "Infrastructure as Code"
+  - "Cloud Native Technologies"
+  - "Monitoring & Observability"
+
+  technical:
+  - "Python"
+  - "Docker"
+  - "Terraform"
+  - "Git"
+  - "Linux"
+  - "PowerShell"
+  - "C++"
+  - "VHDL"
+
+# Contact Information
+contact:
+  github: "https://github.com/NotAwar"
+  linkedin: "https://www.linkedin.com/in/notawar"
+  email: "" # Add if you want to display email
+
+# Current Projects/Interests
+current_focus:
+- "Leading cloud native competency initiatives"
+- "Developing robust Kubernetes solutions"
+- "Building automation frameworks for enterprise scale"
+- "Mentoring teams on modern DevOps practices"

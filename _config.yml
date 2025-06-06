@@ -1,10 +1,10 @@
-title: "Awar Abdulkarim | Cloud Engineer"
-description: "Senior Cloud Engineer and Cloud Native Competency Lead"
+title: "Awar Abdulkarim"
+description: "Cloud engineer sharing cool tech discoveries and building stuff with Kubernetes & Azure."
 url: "https://NotAwar.github.io"
 baseurl: ""
 github_username: NotAwar
 linkedin_username: notawar
-author: Awar
+author: Awar Abdulkarim
 
 # Build settings
 markdown: kramdown

@@ -1,0 +1,313 @@
+---
+layout: default
+title: CV
+permalink: /cv/
+---
+
+<div class="cv-page">
+  <div class="container">
+    <div class="cv-header">
+      <h1>{{ site.data.profile.name }}</h1>
+      <p class="position">{{ site.data.profile.title }}</p>
+      <p class="summary">{{ site.data.profile.summary }}</p>
+    </div>
+
+    <!-- Experience Section -->
+    <section class="cv-section">
+      <h2>Professional Experience</h2>
+      {% for job in site.data.profile.experience %}
+      <div class="experience-item">
+        <div class="experience-header">
+          <h3>{{ job.title }}</h3>
+          <span class="date">{{ job.startDate }} - {{ job.endDate }}</span>
+        </div>
+        <p class="company">{{ job.company }}{% if job.location %}, {{ job.location }}{% endif %}</p>
+        <p class="description">{{ job.description }}</p>
+      </div>
+      {% endfor %}
+    </section>
+
+    <!-- Education Section -->
+    <section class="cv-section">
+      <h2>Education</h2>
+      {% for edu in site.data.profile.education %}
+      <div class="education-item">
+        <div class="education-header">
+          <h3>{{ edu.degree }}</h3>
+          <span class="date">{{ edu.year }}</span>
+        </div>
+        <p class="institution">{{ edu.school }}{% if edu.location %}, {{ edu.location }}{% endif %}</p>
+        {% if edu.description %}<p class="description">{{ edu.description }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </section>
+
+    <!-- Skills Section -->
+    <section class="cv-section">
+      <h2>Technical Skills</h2>
+      <div class="skills-categories">
+        <div class="skill-category">
+          <h4>Core Competencies</h4>
+          <div class="skills-list">
+            {% for skill in site.data.profile.skills.primary %}
+            <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="skill-category">
+          <h4>Technical Skills</h4>
+          <div class="skills-list">
+            {% for skill in site.data.profile.skills.technical %}
+            <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Focus Section -->
+    <section class="cv-section">
+      <h2>Current Focus</h2>
+      <ul class="focus-list">
+        {% for focus in site.data.profile.current_focus %}
+        <li>{{ focus }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <div class="cv-footer">
+      <a href="{{ site.data.profile.contact.linkedin }}" class="btn linkedin-btn" target="_blank">View LinkedIn Profile</a>
+      <a href="{{ site.data.profile.contact.github }}" class="btn github-btn" target="_blank">View GitHub Projects</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.cv-page {
+  padding: 40px 0;
+  background-color: var(--black-primary);
+  min-height: 100vh;
+}
+
+.cv-header {
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 40px 0;
+  background: linear-gradient(135deg, var(--black-secondary), var(--black-tertiary));
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+
+.cv-header h1 {
+  color: var(--gold-primary);
+  margin: 0 0 10px;
+  font-size: 2.5rem;
+}
+
+.cv-header .position {
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  margin: 0 0 20px;
+  font-weight: 500;
+}
+
+.cv-header .summary {
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.cv-section {
+  margin-bottom: 50px;
+  padding: 30px;
+  background-color: var(--black-secondary);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.cv-section h2 {
+  color: var(--gold-primary);
+  margin: 0 0 30px;
+  font-size: 1.8rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--gold-primary);
+}
+
+.experience-item, .education-item {
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.experience-item:last-child, .education-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.experience-header, .education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.experience-header h3, .education-header h3 {
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 1.3rem;
+  flex: 1;
+}
+
+.date {
+  color: var(--gold-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.company, .institution {
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin: 5px 0;
+  font-size: 1.1rem;
+}
+
+.description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 10px 0 0;
+}
+
+.skills-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.skill-category h4 {
+  color: var(--text-primary);
+  margin: 0 0 15px;
+  font-size: 1.1rem;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tag {
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+  color: var(--black-primary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.skill-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.focus-list {
+  list-style: none;
+  padding: 0;
+}
+
+.focus-list li {
+  color: var(--text-secondary);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 25px;
+}
+
+.focus-list li:before {
+  content: "▸";
+  color: var(--gold-primary);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.focus-list li:last-child {
+  border-bottom: none;
+}
+
+.cv-footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 30px;
+  background: linear-gradient(135deg, var(--black-secondary), var(--black-tertiary));
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cv-footer .btn {
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.linkedin-btn {
+  background-color: var(--linkedin-blue);
+  color: white;
+  border: 2px solid var(--linkedin-blue);
+}
+
+.linkedin-btn:hover {
+  background: linear-gradient(135deg, var(--linkedin-blue-light), var(--linkedin-blue));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 119, 181, 0.3);
+}
+
+.github-btn {
+  background-color: var(--black-tertiary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.github-btn:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+@media (max-width: 768px) {
+  .experience-header, .education-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cv-header h1 {
+    font-size: 2rem;
+  }
+  
+  .skills-categories {
+    grid-template-columns: 1fr;
+  }
+  
+  .cv-footer {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cv-footer .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+</style>

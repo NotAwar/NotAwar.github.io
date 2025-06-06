@@ -1,25 +1,25 @@
 ---
 ---
 
-@import "minima";
-
-// Black and Gold Theme Color Palette
+// Premium Black and Gold Color Palette
 :root {
-  --black-primary: #121212;
-  --black-secondary: #1A1A1A;
-  --black-tertiary: #252525;
-  --gold-primary: #D4AF37;
-  --gold-secondary: #FFD700;  
-  --gold-muted: #AA8C2C;
+  --black-primary: #0D0D0D;        // Deeper black
+  --black-secondary: #1A1A1A;       // Rich charcoal
+  --black-tertiary: #2A2A2A;        // Sophisticated gray
+  --gold-primary: #FFD700;          // Pure gold
+  --gold-secondary: #F4D03F;        // Bright gold accent
+  --gold-muted: #B8860B;            // Dark gold
+  --gold-rich: #DAA520;             // Rich goldenrod
   --linkedin-blue: #0A66C2;
   --linkedin-blue-light: #0073b1;
   --text-primary: #FFFFFF;
-  --text-secondary: #CCCCCC;
-  --text-muted: #999999;
-  --border-color: #333333;
-  --shadow-color: rgba(0,0,0,0.5);
+  --text-secondary: #E0E0E0;        // Softer white
+  --text-muted: #A0A0A0;            // More subtle gray
+  --border-color: #404040;          // Richer border
+  --shadow-color: rgba(0,0,0,0.7);  // Deeper shadows
+  --accent-gradient: linear-gradient(135deg, var(--gold-primary), var(--gold-rich));
   --content-width: 1200px;
-  --transition: all 0.3s ease;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Smoother easing
   --content-spacing: 2rem;
 }
 
@@ -90,11 +90,33 @@ body {
       color: var(--text-primary);
       font-weight: 500;
       font-size: 1rem;
-      transition: color 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
       
       &:hover {
         color: var(--gold-primary);
         text-decoration: none;
+        background-color: rgba(255, 215, 0, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      &.active {
+        color: var(--gold-primary);
+        background-color: rgba(255, 215, 0, 0.15);
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 2px;
+          background-color: var(--gold-primary);
+          border-radius: 1px;
+        }
       }
     }
     
@@ -155,55 +177,55 @@ body {
   }
 }
 
-// Footer styling
+// Clean footer styling
 .site-footer {
-  background-color: var(--black-tertiary);
-  padding: 50px 0;
+  background-color: var(--black-secondary);
   border-top: 1px solid var(--border-color);
-  
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: var(--gold-primary);
+  padding: 40px 0;
+  margin-top: 60px;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
   }
-  
-  .social-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
-    li {
-      display: inline-block;
-      margin-right: 15px;
-      
-      a {
-        color: var(--text-secondary);
-        
-        &:hover {
-          color: var(--gold-primary);
-        }
+
+  .footer-links {
+    display: flex;
+    gap: 30px;
+
+    a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+
+      &:hover {
+        color: var(--gold-primary);
       }
     }
   }
-  
+
   .copyright {
-    text-align: center;
-    color: var(--text-muted);
-    margin-top: 40px;
-    font-size: 0.9rem;
+    p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
   }
-  
-  .footer-col-wrapper {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .footer-col {
-    margin-bottom: 30px;
-    flex: 1;
-    min-width: 200px;
-    padding-right: 20px;
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .footer-links {
+      justify-content: center;
+    }
   }
 }
 
@@ -257,30 +279,60 @@ p {
 
 // Hero Section
 .hero-section {
-  padding: 100px 0 80px;
+  padding: 120px 0 100px;
   text-align: center;
-  background: linear-gradient(to bottom, var(--black-primary), var(--black-secondary));
-  border-bottom: 2px solid var(--gold-primary);
+  background: linear-gradient(145deg, var(--black-primary) 0%, var(--black-secondary) 50%, var(--black-primary) 100%);
+  border-bottom: 3px solid;
+  border-image: var(--accent-gradient) 1;
+  position: relative;
+  overflow: hidden;
+  
+  // Premium background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
   
   .hero-title {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     margin: 0 0 20px;
     letter-spacing: -0.5px;
-    color: var(--gold-primary);
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
     opacity: 0;
     transform: translateY(40px);
     animation: fadeInUp 1s 0.1s forwards;
+    position: relative;
+    z-index: 1;
   }
   
   .hero-subtitle {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin: 0 0 30px;
     color: var(--text-primary);
     font-weight: 500;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeInUp 1s 0.3s forwards;
+    position: relative;
+    z-index: 1;
+    min-height: 2.5rem; // Prevent layout shift
+    
+    // Clean typing effect - no initial animation conflicts
+    &.typing {
+      border-right: 3px solid var(--gold-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 3s steps(40) 1s forwards, blink 0.8s 4s infinite;
+    }
   }
   
   .hero-description {
@@ -332,6 +384,18 @@ p {
         background-color: #333;
       }
     }
+    
+    .linkedin-btn {
+      background-color: var(--linkedin-blue);
+      color: white;
+      border: 2px solid var(--linkedin-blue);
+      
+      &:hover {
+        background: linear-gradient(135deg, var(--linkedin-blue-light), var(--linkedin-blue));
+        border-color: var(--linkedin-blue-light);
+        color: white;
+      }
+    }
   }
 }
 
@@ -343,6 +407,56 @@ p {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    border-color: var(--gold-primary);
+  }
+  51%, 100% {
+    border-color: transparent;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -371,6 +485,8 @@ p {
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 30px;
     margin-bottom: 50px;
+    padding: 20px 0; // Add padding to prevent clipping
+    overflow: visible; // Ensure animations aren't clipped
   }
   
   .project-card {
@@ -385,8 +501,8 @@ p {
     flex-direction: column;
     
     &:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 10px 25px var(--shadow-color);
+      transform: translateY(-8px) scale(1.02); // Reduced scale to prevent clipping
+      box-shadow: 0 15px 30px var(--shadow-color);
       border-color: var(--gold-muted);
       transition: var(--transition);
     }
@@ -645,11 +761,21 @@ p {
     }
   }
   
+  .section-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: -20px auto 40px;
+    max-width: 600px;
+  }
+  
   .contact-grid {
     display: flex;
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto;
   }
   
   .contact-card {
@@ -661,6 +787,10 @@ p {
     transition: var(--transition);
     border: 1px solid var(--border-color);
     box-shadow: 0 5px 15px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     
     &:hover {
       transform: translateY(-5px) scale(1.03);
@@ -668,550 +798,794 @@ p {
       transition: var(--transition);
     }
     
-    &.github, &.linkedin, &.email {
-      border-top: 4px solid var(--border-color);
+    &.contact {
+      border-top-color: var(--gold-primary);
       
       &:hover {
-        border-color: var(--gold-muted);
+        border-color: var(--gold-secondary);
       }
     }
     
-    &.github {
-      border-top-color: #333;
-    }
-    
-    &.linkedin {
-      border-top-color: var(--linkedin-blue);
-    }
-    
-    .contact-icon {
-      display: block;
-      font-size: 1.4rem;
-      color: var(--gold-primary);
-      margin-bottom: 10px;
-    }
-    
-    .contact-handle {
-      color: var(--text-secondary);
+    .contact-content {
+      text-align: center;
+      
+      .contact-handle {
+        display: block;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        margin-bottom: 5px;
+      }
+      
+      .contact-description {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
     }
   }
 }
 
-/* Gold & Black CV Theme */
-.cv-gold {
-  background-color: var(--black-primary);
-  color: #E0E0E0;
-  padding: 2rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-  box-shadow: 0 4px 20px var(--shadow-color);
+// Contact Page Styles
+.contact-page {
+  padding: 60px 0;
+  min-height: 80vh;
+}
+
+.contact-hero {
+  text-align: center;
+  padding: 60px 0 40px;
+  background: linear-gradient(135deg, var(--black-primary) 0%, var(--black-secondary) 100%);
+  border-radius: 15px;
+  margin-bottom: 60px;
+  border: 1px solid var(--border-color);
+}
+
+.contact-intro {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.contact-method {
+  background-color: var(--black-tertiary);
+  border-radius: 20px;
+  padding: 40px 30px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  transition: var(--transition);
+  border: 2px solid var(--border-color);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s;
+  }
+  
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px var(--shadow-color);
+    text-decoration: none;
+    color: inherit;
     
-  h1, h2, h3 {
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+.github-method {
+  &:hover {
+    border-color: #555;
+    
+    .method-icon svg {
+      color: #fff;
+    }
+  }
+}
+
+.linkedin-method {
+  &:hover {
+    border-color: var(--linkedin-blue);
+    
+    .method-icon svg {
+      color: var(--linkedin-blue);
+    }
+  }
+}
+
+.method-icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--black-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition);
+  
+  svg {
+    transition: var(--transition);
+    color: var(--text-secondary);
+  }
+}
+
+.method-content {
+  flex: 1;
+  
+  h3 {
+    margin: 0 0 12px;
     color: var(--gold-primary);
-    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
   }
   
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  p {
+    margin: 0 0 15px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
   }
   
-  h2 {
-    border-bottom: 2px solid var(--gold-primary);
-    padding-bottom: 0.5rem;
-    margin: 2rem 0 1rem;
+  .method-action {
+    color: var(--gold-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
   }
+}
+
+.contact-method:hover .method-action {
+  color: var(--gold-secondary);
+  transform: translateX(5px);
+}
+
+.contact-note {
+  background: linear-gradient(135deg, var(--black-tertiary), var(--black-secondary));
+  border-radius: 15px;
+  padding: 25px 30px;
+  text-align: center;
+  border: 2px solid var(--gold-muted);
   
-  .position {
-    font-size: 1.3rem;
-    color: var(--gold-muted);
-    margin-bottom: 2rem;
-  }
-  
-  .cv-section {
-    margin: 2rem 0;
-  }
-  
-  .experience, .education {
-    margin-bottom: 1.5rem;
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
     
-    h3 {
-      margin-bottom: 0.25rem;
-    }
-    
-    .company, .institution {
-      color: var(--gold-secondary);
-      font-weight: 500;
-      margin: 0.25rem 0;
-    }
-    
-    .date {
-      color: #A0A0A0;
-      font-style: italic;
-      margin: 0.25rem 0 1rem;
-    }
-  }
-  
-  .skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 1rem 0;
-    
-    span {
-      background-color: var(--black-secondary);
-      border: 1px solid var(--gold-primary);
+    strong {
       color: var(--gold-primary);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
+    }
+  }
+}
+
+// Posts Section (Professional Content)
+.posts-section {
+  padding: 80px 0;
+  background-color: var(--black-secondary);
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    
+    &:after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--gold-primary);
+      margin: 20px auto 0;
     }
   }
   
-  .cv-footer {
-    margin-top: 3rem;
+  .section-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: -20px auto 40px;
+    max-width: 600px;
+  }
+  
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .post-card {
+    background-color: var(--black-tertiary);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    &:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 25px var(--shadow-color);
+      border-color: var(--gold-muted);
+    }
+    
+    .post-header {
+      margin-bottom: 20px;
+      
+      .post-title {
+        margin: 0 0 10px 0;
+        color: var(--gold-primary);
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      
+      .post-date {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+    }
+    
+    .post-excerpt {
+      flex-grow: 1;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+      
+      .tag {
+        background-color: rgba(255, 215, 0, 0.1);
+        color: var(--gold-primary);
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        transition: var(--transition);
+        
+        &:hover {
+          background-color: rgba(255, 215, 0, 0.2);
+          border-color: var(--gold-primary);
+        }
+      }
+    }
+    
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-color);
+      
+      .platform {
+        background: linear-gradient(135deg, var(--linkedin-blue), var(--linkedin-blue-light));
+        color: white;
+        padding: 5px 12px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .engagement {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        
+        &::before {
+          content: "👍";
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+  
+  .view-all-posts {
     text-align: center;
     
-    .gold-btn {
-      background-color: var(--gold-primary);
-      color: var(--black-primary);
-      padding: 12px 24px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-block;
-      transition: var(--transition);
-      
-      &:hover {
-        background-color: var(--gold-secondary);
-        transform: translateY(-2px);
-      }
-    }
-  }
-}
-
-// LinkedIn CV Page Styles
-.linkedin-cv-page {
-  padding: 60px 0;
-    
-  .cv-header {
-    margin-bottom: 50px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid var(--border-color);
-    
-    .profile-info {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      
-      @media (max-width: 768px) {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-    
-    .profile-image {
-      flex-shrink: 0;
-      
-      img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 3px solid var(--gold-primary);
-        object-fit: cover;
-      }
-    }
-    
-    .profile-details {
-      h1 {
-        margin-top: 0;
-        margin-bottom: 10px;
-      }
-      
-      .headline {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-        margin-bottom: 15px;
-      }
-    }
-    
-    .linkedin-profile-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    .secondary-btn {
       background-color: var(--linkedin-blue);
       color: white;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-size: 0.9rem;
+      border: 2px solid var(--linkedin-blue);
+      padding: 12px 28px;
+      border-radius: 5px;
+      font-weight: 600;
       transition: var(--transition);
       
       &:hover {
         background-color: var(--linkedin-blue-light);
-        text-decoration: none;
-        color: white;
+        border-color: var(--linkedin-blue-light);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(10, 102, 194, 0.3);
       }
     }
   }
   
-  .cv-section {
-    margin-bottom: 60px;
+  // No posts message styling
+  .no-posts-message {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
+    margin: 40px 0;
     
-    h2 {
-      margin-bottom: 25px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--gold-primary);
-      display: inline-block;
-    }
-    
-    .experience-item, .education-item {
-      margin-bottom: 30px;
-      padding-left: 20px;
-      border-left: 3px solid var(--gold-muted);
+    .message-card {
+      background: linear-gradient(135deg, var(--black-tertiary), var(--black-secondary));
+      border-radius: 15px;
+      padding: 40px;
+      text-align: center;
+      border: 2px solid var(--gold-muted);
+      max-width: 600px;
       
       h3 {
-        margin-top: 0;
-        margin-bottom: 5px;
-        font-size: 1.4rem;
-      }
-      
-      .company, .degree {
-        color: var(--gold-secondary);
-        font-weight: 500;
-        margin-bottom: 5px;
-      }
-      
-      .date {
-        color: var(--text-muted);
-        font-style: italic;
-        margin-bottom: 10px;
-      }
-      
-      .description {
-        color: var(--text-secondary);
-      }
-    }
-    
-    .skills-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      
-      .skill-tag {
-        background-color: var(--black-tertiary);
         color: var(--gold-primary);
-        border: 1px solid var(--gold-muted);
-        border-radius: 30px;
-        padding: 6px 14px;
-        font-size: 0.9rem;
-        transition: var(--transition);
-        
-        &:hover {
-          background-color: var(--gold-primary);
-          color: var(--black-primary);
-        }
-      }
-    }
-    
-    .linkedin-posts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-      margin-bottom: 30px;
-      
-      @media (max-width: 768px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 20px;
+        font-size: 1.6rem;
       }
       
-      .linkedin-post-item {
-        background-color: var(--black-tertiary);
-        border-radius: 8px;
-        padding: 25px;
-        box-shadow: 0 5px 15px var(--shadow-color);
-        border: 1px solid var(--border-color);
-        transition: var(--transition);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+      p {
         color: var(--text-secondary);
+        margin-bottom: 25px;
+        line-height: 1.6;
         
-        &:hover {
-          transform: translateY(-5px);
-          border-color: var(--gold-muted);
-        }
-        
-        h3 {
-          margin-top: 0;
-          font-size: 1.3rem;
-        }
-        
-        .post-date {
-          color: var(--text-muted);
-          font-size: 0.9rem;
-          margin-bottom: 15px;
-        }
-        
-        .excerpt {
-          flex-grow: 1;
-          margin-bottom: 20px;
-        }
-        
-        .read-more {
+        code {
+          background-color: rgba(255, 215, 0, 0.1);
           color: var(--gold-primary);
-          font-weight: 500;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-family: 'Monaco', 'Menlo', monospace;
+          font-size: 0.9em;
+        }
+      }
+      
+      .quick-steps {
+        text-align: left;
+        background-color: var(--black-primary);
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid var(--border-color);
+        
+        h4 {
+          color: var(--gold-primary);
+          margin-bottom: 15px;
+          font-size: 1.1rem;
+        }
+        
+        ol {
+          color: var(--text-secondary);
+          padding-left: 20px;
           
-          &:hover {
-            color: var(--gold-secondary);
-            text-decoration: none;
+          li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+            
+            a {
+              color: var(--gold-primary);
+              
+              &:hover {
+                color: var(--gold-secondary);
+              }
+            }
+            
+            code {
+              background-color: rgba(255, 215, 0, 0.1);
+              color: var(--gold-primary);
+              padding: 2px 6px;
+              border-radius: 4px;
+              font-family: 'Monaco', 'Menlo', monospace;
+              font-size: 0.85em;
+            }
           }
         }
       }
     }
-    
-    .view-all {
-      text-align: center;
-      margin-top: 20px;
-    }
-    
-    .empty-notice {
-      padding: 30px;
-      background-color: var(--black-tertiary);
-      border-radius: 8px;
-      text-align: center;
-      color: var(--text-secondary);
-      border: 1px dashed var(--border-color);
-    }
   }
 }
 
-/* LinkedIn highlight for CV page */
-.linkedin-highlight {
-  margin-top: 60px;
-  padding: 30px;
-  background-color: var(--black-tertiary);
-  border-radius: 10px;
-  border-left: 4px solid var(--linkedin-blue);
-  box-shadow: 0 5px 15px var(--shadow-color);
+// Professional Experience Section
+.experience-section {
+  padding: 4rem 0;
+  background-color: var(--black-secondary);
   
-  h2 {
-    color: var(--gold-primary);
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.8rem;
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
-  .linkedin-post-preview {
-    h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-    }
+  .section-description {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.experience-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  
+  // Timeline line
+  &::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold-primary), var(--gold-muted));
+    z-index: 1;
+  }
+}
+
+.experience-item {
+  background: var(--black-tertiary);
+  border-radius: 12px;
+  padding: 2rem;
+  border-left: 4px solid var(--gold-primary);
+  margin-left: 50px;
+  position: relative;
+  transition: var(--transition);
+  
+  // Timeline dot
+  &::before {
+    content: '';
+    position: absolute;
+    left: -31px;
+    top: 2rem;
+    width: 12px;
+    height: 12px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    border: 3px solid var(--black-secondary);
+    z-index: 2;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    border-left-color: var(--gold-secondary);
+    box-shadow: 0 8px 25px var(--shadow-color);
+  }
+}
+
+.experience-header {
+  margin-bottom: 1.5rem;
+  
+  .experience-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--gold-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .experience-company {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .experience-period {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+}
+
+.experience-description {
+  margin-bottom: 1.5rem;
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .achievements {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     
-    p {
+    li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 0.75rem;
       color: var(--text-secondary);
-      margin-bottom: 20px;
-    }
-    
-    .linkedin-link {
-      color: var(--linkedin-blue);
-      font-weight: 500;
-      display: inline-block;
+      font-size: 0.95rem;
       
-      &:hover {
-        color: var(--linkedin-blue-light);
-        text-decoration: none;
+      &::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: var(--gold-primary);
+        font-weight: bold;
       }
     }
   }
 }
 
-// Buttons
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: 500;
-  transition: var(--transition);
-}
-
-.primary-btn,
-.linkedin-btn {
-  background-color: var(--gold-primary);
-  color: var(--black-primary);
-  border: none;
+.experience-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   
-  &:hover {
-    background-color: var(--gold-secondary);
-    color: var(--black-primary);
-    text-decoration: none;
-  }
-}
-
-.linkedin-btn {
-  background-color: var(--linkedin-blue);
-  color: white;
-  
-  &:hover {
-    background-color: var(--linkedin-blue-light);
-    color: white;
-  }
-}
-
-.secondary-btn {
-  background-color: transparent;
-  color: var(--gold-primary);
-  border: 2px solid var(--gold-primary);
-  
-  &:hover {
-    background-color: var(--gold-primary);
-    color: var(--black-primary);
-    text-decoration: none;
-  }
-}
-
-// Additional Page Templates
-.page {
-  padding: 80px 0;
-  max-width: 900px;
-  margin: 0 auto;
-  
-  .page-title {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
+  .tech-tag {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--gold-secondary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    transition: var(--transition);
     
-    &:after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background-color: var(--gold-primary);
-      margin: 20px auto 0;
+    &:hover {
+      background: rgba(255, 215, 0, 0.2);
+      border-color: var(--gold-primary);
     }
   }
 }
 
-// Projects page
-.projects-page {
-  padding: 60px 0;
-  
-  .page-title {
-    text-align: center;
-    margin-bottom: 15px;
-    position: relative;
-    
-    &:after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background-color: var(--gold-primary);
-      margin: 20px auto 0;
-    }
-  }
-  
-  .page-description {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 50px;
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-  }
+.view-profile {
+  text-align: center;
+  margin-top: 3rem;
 }
 
-// Blog page
-.blog-page {
-  padding: 60px 0;
-  
-  .page-title {
-    text-align: center;
-    margin-bottom: 15px;
-    position: relative;
-    
-    &:after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background-color: var (--gold-primary);
-      margin: 20px auto 0;
-    }
-  }
-  
-  .page-description {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 50px;
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-  }
-  
-  .blog-posts {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-}
-
-// Responsive styles
+// Responsive design for experience section
 @media (max-width: 768px) {
-  .linkedin-grid,
-  .projects-grid,
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  h1 {
-    font-size: 2em;
-  }
-  
-  h2 {
-    font-size: 1.5em;
-  }
-  
-  .hero-section {
-    padding: 60px 0 40px;
-    
-    .hero-title {
-      font-size: 2.5rem;
+  .experience-timeline {
+    &::before {
+      left: 15px;
     }
+  }
+  
+  .experience-item {
+    margin-left: 40px;
+    padding: 1.5rem;
     
-    .hero-subtitle {
+    &::before {
+      left: -26px;
+      width: 10px;
+      height: 10px;
+    }
+  }
+  
+  .experience-header {
+    .experience-title {
       font-size: 1.2rem;
     }
-  }
-  
-  .section-title {
-    margin-bottom: 30px;
-  }
-  
-  .projects-section,
-  .linkedin-section,
-  .skills-section,
-  .contact-section {
-    padding: 50px 0;
-  }
-  
-  .linkedin-badge-container {
-    width: 100%;
-    overflow-x: auto;
-    margin: 30px 0;
-    padding-bottom: 20px;
     
-    iframe {
-      max-width: 100%;
+    .experience-company {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .experience-tech {
+    .tech-tag {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.6rem;
     }
   }
 }
 
-body {
-  background-color: #000;
-  color: #d4af37;
+// Fun corner animations and decorative elements
+.floating-elements {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
-a {
-  color: #d4af37;
+.floating-icon {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0.3;
+  animation: floatAround 20s infinite linear;
+  
+  &:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 25s;
+  }
+  
+  &:nth-child(2) {
+    top: 60%;
+    right: 15%;
+    animation-delay: -8s;
+    animation-duration: 30s;
+    animation-direction: reverse;
+  }
+  
+  &:nth-child(3) {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: -15s;
+    animation-duration: 35s;
+  }
+  
+  &:nth-child(4) {
+    top: 40%;
+    right: 25%;
+    animation-delay: -20s;
+    animation-duration: 28s;
+    animation-direction: reverse;
+  }
 }
 
-// You can add further custom overrides below as needed
+@keyframes floatAround {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(30px, -30px) rotate(90deg);
+  }
+  50% {
+    transform: translate(-20px, -60px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-40px, -20px) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+// Subtle cursor trail effect
+.cursor-trail {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: var(--gold-primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  animation: cursorTrail 0.8s ease-out forwards;
+}
+
+@keyframes cursorTrail {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+// Cool scroll indicator
+.scroll-indicator {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  opacity: 0.7;
+  animation: bounce 2s infinite;
+  
+  .scroll-text {
+    color: var(--gold-primary);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid var(--gold-primary);
+    border-bottom: 2px solid var(--gold-primary);
+    transform: rotate(45deg);
+    margin: 0 auto;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+// Subtle particle effects
+.gold-particles {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--gold-primary);
+  border-radius: 50%;
+  animation: particleFloat 1.5s ease-out forwards;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0.4;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translateY(-30px);
+  }
+}
+
+// Easter egg - konami code activation
+.konami-activated {
+  .hero-section {
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+    background-size: 400% 400%;
+    animation: rainbowGradient 3s ease infinite;
+  }
+}
+
+@keyframes rainbowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// Responsive hiding for mobile
+@media (max-width: 768px) {
+  .floating-elements,
+  .scroll-indicator {
+    display: none;
+  }
+}
