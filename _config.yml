@@ -2,6 +2,7 @@ title: "Awar Abdulkarim"
 description: "Cloud engineer sharing cool tech discoveries and building stuff with Kubernetes & Azure."
 url: "https://NotAwar.github.io"
 baseurl: ""
+repository: NotAwar/NotAwar.github.io
 github_username: NotAwar
 linkedin_username: notawar
 author: Awar Abdulkarim
