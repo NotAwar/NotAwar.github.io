@@ -1,5 +1,7 @@
 - name: Home
   link: /
+- name: CV
+  link: /cv/
 - name: Socials
   link: /socials/
 - name: Events

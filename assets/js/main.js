@@ -89,7 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
             this.appendChild(ripple);
             
             setTimeout(() => {
-                ripple.remove();
+                if (ripple.parentNode) {
+                    ripple.remove();
+                }
             }, 600);
         });
     });
@@ -169,7 +171,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(trail);
         
         setTimeout(() => {
-            trail.remove();
+            if (trail.parentNode) {
+                trail.remove();
+            }
         }, 800);
     }
     
@@ -197,7 +201,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         setTimeout(() => {
-            particleContainer.remove();
+            if (particleContainer.parentNode) {
+                particleContainer.remove();
+            }
         }, 1500);
     }
 
@@ -237,7 +243,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     particle.style.animation = 'particleFloat 3s ease-out forwards';
                     document.body.appendChild(particle);
                     
-                    setTimeout(() => particle.remove(), 3000);
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 3000);
                 }, i * 50);
             }
             
