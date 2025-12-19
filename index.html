@@ -105,7 +105,9 @@ title: Home
   .typewriter::after {
     content: '_';
     color: var(--gold-primary);
-    animation: blink-caret 0.75s step-end infinite;
+    animation: 
+      blink-caret 0.75s step-end infinite,
+      hide-cursor-0 0s 0.9s forwards;
   }
   
   .typewriter-delay-1 {
@@ -149,6 +151,13 @@ title: Home
   @keyframes blink-caret {
     from, to { opacity: 0; }
     50% { opacity: 1; }
+  }
+  
+  @keyframes hide-cursor-0 {
+    to { 
+      content: '';
+      display: none;
+    }
   }
   
   @keyframes hide-cursor-1 {
