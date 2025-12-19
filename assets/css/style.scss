@@ -66,8 +66,11 @@ body {
     transition: var(--transition);
     
     .site-logo {
-      height: 45px;
+      height: 40px;
+      max-height: 40px;
       width: auto;
+      max-width: 150px;
+      object-fit: contain;
       transition: var(--transition);
     }
     
