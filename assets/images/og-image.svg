@@ -1,0 +1,39 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D0D0D;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A1A1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0D0D0D;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="25%" cy="25%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.1" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="glow2" cx="75%" cy="75%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.05" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background gradients -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  
+  <!-- Border -->
+  <rect x="0" y="627" width="1200" height="3" fill="url(#goldGrad)"/>
+  
+  <!-- Content -->
+  <text x="600" y="240" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="800" fill="url(#goldGrad)" text-anchor="middle">Awar Abdulkarim</text>
+  
+  <text x="600" y="320" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cloud Engineer &amp; Tech Enthusiast</text>
+  
+  <text x="600" y="390" font-family="Inter, Arial, sans-serif" font-size="28" fill="#E0E0E0" text-anchor="middle">Building innovative solutions with Kubernetes &amp; Azure</text>
+  
+  <text x="600" y="490" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="500" fill="#FFD700" text-anchor="middle">awar.no</text>
+</svg>
