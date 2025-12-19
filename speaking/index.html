@@ -1,0 +1,579 @@
+---
+layout: default
+title: Speaking
+permalink: /speaking/
+---
+
+<div class="speaking-page">
+  <div class="container">
+    <div class="speaking-hero">
+      <h1 class="page-title">Speaking Engagements</h1>
+      <p class="speaking-intro">Sharing knowledge and insights with the tech community through conferences, meetups, and workshops.</p>
+      <a href="https://sessionize.com/awar" class="sessionize-profile-link" target="_blank" rel="noopener noreferrer">
+        <svg class="sessionize-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        View Full Sessionize Profile
+      </a>
+    </div>
+
+    <!-- Next Speaking Engagement -->
+    <section class="next-speaking-section" id="next-speaking">
+      <div class="next-speaking-header">
+        <svg class="section-svg-icon" viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        <h2>Next Speaking Engagement</h2>
+      </div>
+      <div id="next-event-container" class="next-event-card">
+        <div class="loading">Loading next event...</div>
+      </div>
+    </section>
+
+    <!-- Places I'm Speaking At -->
+    <section class="speaking-section events-section">
+      <div class="section-header">
+        <svg class="section-svg-icon" viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <div class="section-header-content">
+          <h2 class="section-title">Places I'm Speaking At</h2>
+          <p class="section-description">Upcoming conferences, meetups, and events where you can catch me live</p>
+        </div>
+      </div>
+      <div class="sessionize-container" id="events-container">
+        <script type="text/javascript" src="https://sessionize.com/api/speaker/events/8zkgq232gg/1x1x3fb393x"></script>
+      </div>
+    </section>
+
+    <!-- What I'm Speaking About -->
+    <section class="speaking-section sessions-section">
+      <div class="section-header">
+        <svg class="section-svg-icon" viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+          <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+        </svg>
+        <div class="section-header-content">
+          <h2 class="section-title">What I'm Speaking About</h2>
+          <p class="section-description">Topics, sessions, and presentations I've delivered or have scheduled</p>
+        </div>
+      </div>
+      <div class="sessionize-container" id="sessions-container">
+        <script type="text/javascript" src="https://sessionize.com/api/speaker/sessions/8zkgq232gg/1x1x3fb393x"></script>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="speaking-cta">
+      <div class="cta-content">
+        <h3>Interested in having me speak at your event?</h3>
+        <p>I'm always excited to share knowledge about cloud technologies, Kubernetes, DevOps, and Azure infrastructure.</p>
+        <div class="cta-buttons">
+          <a href="{{ site.data.profile.contact.linkedin }}" class="btn primary-btn" target="_blank">Connect on LinkedIn</a>
+          <a href="{{ site.data.profile.contact.github }}" class="btn secondary-btn" target="_blank">View My Work</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  .speaking-page {
+    padding: 60px 0;
+    min-height: 100vh;
+  }
+
+  .speaking-hero {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+  }
+
+  .page-title {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--gold-primary);
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .speaking-intro {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 800px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+  }
+
+  .sessionize-profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: rgba(218, 165, 32, 0.1);
+    border: 2px solid var(--gold-primary);
+    border-radius: 8px;
+    color: var(--gold-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .sessionize-profile-link:hover {
+    background-color: rgba(218, 165, 32, 0.2);
+    border-color: var(--gold-secondary);
+    transform: translateY(-2px);
+  }
+
+  .sessionize-icon {
+    flex-shrink: 0;
+  }
+
+  /* Next Speaking Engagement */
+  .next-speaking-section {
+    margin-bottom: 60px;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.15) 0%, rgba(0, 0, 0, 0.2) 100%);
+    border-radius: 15px;
+    border: 2px solid rgba(218, 165, 32, 0.3);
+  }
+
+  .next-speaking-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .next-speaking-header h2 {
+    font-size: 2rem;
+    color: var(--gold-primary);
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .next-event-card {
+    background-color: var(--black-tertiary);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border-left: 4px solid var(--gold-primary);
+  }
+
+  .event-main-info {
+    margin-bottom: 20px;
+  }
+
+  .event-title {
+    font-size: 1.8rem;
+    color: var(--gold-primary);
+    margin: 0 0 15px 0;
+    font-weight: 600;
+  }
+
+  .event-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 15px;
+    padding: 15px 0;
+    border-top: 1px solid rgba(218, 165, 32, 0.2);
+    border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+  }
+
+  .event-date,
+  .event-time,
+  .event-room {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold-secondary);
+    font-weight: 600;
+  }
+
+  .event-date svg,
+  .event-time svg,
+  .event-room svg {
+    flex-shrink: 0;
+  }
+
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .event-tag {
+    background-color: rgba(218, 165, 32, 0.2);
+    color: var(--gold-primary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(218, 165, 32, 0.3);
+    font-weight: 500;
+  }
+
+  .loading,
+  .no-events,
+  .error-message {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .error-message {
+    color: #ff6b6b;
+  }
+
+  .speaking-section {
+    margin-bottom: 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(218, 165, 32, 0.3);
+  }
+
+  .section-icon {
+    font-size: 3rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .section-svg-icon {
+    flex-shrink: 0;
+    color: var(--gold-primary);
+  }
+
+  .section-header-content {
+    flex: 1;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    color: var(--gold-primary);
+    font-weight: 600;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+  }
+
+  .sessionize-container {
+    background-color: var(--black-tertiary);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    min-height: 200px;
+    transition: all 0.3s ease;
+  }
+
+  .sessionize-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-color: rgba(218, 165, 32, 0.4);
+  }
+
+  /* Style Sessionize content */
+  .sessionize-container :global(h2),
+  .sessionize-container :global(h3) {
+    color: var(--gold-primary) !important;
+  }
+
+  .sessionize-container :global(a) {
+    color: var(--gold-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .sessionize-container :global(a:hover) {
+    color: var(--gold-hover);
+    text-decoration: underline;
+  }
+
+  /* Enhanced Sessionize widget styling */
+  #events-container :global(.sz-event),
+  #sessions-container :global(.sz-session) {
+    background-color: rgba(42, 42, 42, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--gold-primary);
+    transition: all 0.3s ease;
+  }
+
+  #events-container :global(.sz-event:hover),
+  #sessions-container :global(.sz-session:hover) {
+    background-color: rgba(42, 42, 42, 0.9);
+    transform: translateX(5px);
+    border-left-color: var(--gold-secondary);
+  }
+
+  .sessionize-container :global(.sz-date),
+  .sessionize-container :global(.sz-time) {
+    color: var(--gold-secondary) !important;
+    font-weight: 600;
+  }
+
+  .sessionize-container :global(.sz-title) {
+    color: var(--text-primary) !important;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .sessionize-container :global(.sz-description) {
+    color: var(--text-secondary) !important;
+    line-height: 1.6 !important;
+  }
+
+  .sessionize-container :global(.sz-tags) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .sessionize-container :global(.sz-tag) {
+    background-color: rgba(218, 165, 32, 0.2);
+    color: var(--gold-primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(218, 165, 32, 0.3);
+  }
+
+  .speaking-cta {
+    margin-top: 80px;
+    padding: 50px;
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.15) 0%, rgba(0, 0, 0, 0.2) 100%);
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid rgba(218, 165, 32, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .cta-content h3 {
+    font-size: 2rem;
+    color: var(--gold-primary);
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .cta-content p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  .primary-btn {
+    background-color: var(--gold-primary);
+    color: var(--black-primary);
+    border-color: var(--gold-primary);
+  }
+
+  .primary-btn:hover {
+    background-color: var(--gold-hover);
+    border-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4);
+  }
+
+  .secondary-btn {
+    background-color: transparent;
+    color: var(--gold-primary);
+    border-color: var(--gold-primary);
+  }
+
+  .secondary-btn:hover {
+    background-color: rgba(218, 165, 32, 0.1);
+    border-color: var(--gold-hover);
+    color: var(--gold-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .speaking-hero {
+      padding: 30px 15px;
+      margin-bottom: 40px;
+    }
+
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .speaking-intro {
+      font-size: 1rem;
+    }
+
+    .section-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+
+    .section-description {
+      font-size: 1rem;
+    }
+
+    .sessionize-container {
+      padding: 20px;
+    }
+
+    .speaking-cta {
+      padding: 30px 20px;
+    }
+
+    .cta-content h3 {
+      font-size: 1.5rem;
+    }
+
+    .cta-content p {
+      font-size: 1rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title {
+      font-size: 1.75rem;
+    }
+
+    .section-icon {
+      font-size: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Fetch and display next speaking engagement
+  fetch('https://sessionize.com/api/speaker/json/8zkgq232gg')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('next-event-container');
+      
+      // Find the next upcoming event
+      let nextEvent = null;
+      const now = new Date();
+      
+      if (data.sessions && data.sessions.length > 0) {
+        // Sort sessions by date
+        const upcomingSessions = data.sessions
+          .filter(session => {
+            if (!session.startsAt) return false;
+            const sessionDate = new Date(session.startsAt);
+            return sessionDate >= now;
+          })
+          .sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+        
+        if (upcomingSessions.length > 0) {
+          nextEvent = upcomingSessions[0];
+        }
+      }
+      
+      if (nextEvent) {
+        const eventDate = new Date(nextEvent.startsAt);
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit' };
+        
+        container.innerHTML = `
+          <div class="event-main-info">
+            <h3 class="event-title">${nextEvent.title}</h3>
+            ${nextEvent.description ? `<p class="event-description">${nextEvent.description}</p>` : ''}
+          </div>
+          <div class="event-meta">
+            <div class="event-date">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+              </svg>
+              <span>${eventDate.toLocaleDateString('en-US', dateOptions)}</span>
+            </div>
+            <div class="event-time">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+              <span>${eventDate.toLocaleTimeString('en-US', timeOptions)}</span>
+            </div>
+            ${nextEvent.room ? `
+            <div class="event-room">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span>${nextEvent.room}</span>
+            </div>` : ''}
+          </div>
+          ${nextEvent.categories && nextEvent.categories.length > 0 ? `
+          <div class="event-tags">
+            ${nextEvent.categories.map(cat => 
+              cat.categoryItems.map(item => `<span class="event-tag">${item.name}</span>`).join('')
+            ).join('')}
+          </div>` : ''}
+        `;
+      } else {
+        container.innerHTML = '<p class="no-events">No upcoming speaking engagements scheduled at the moment. Check back soon!</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching speaking data:', error);
+      document.getElementById('next-event-container').innerHTML = 
+        '<p class="error-message">Unable to load upcoming events. Please check back later.</p>';
+    });
+</script>
