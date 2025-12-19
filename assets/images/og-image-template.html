@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html style="margin: 0; padding: 0; width: 1200px; height: 630px; overflow: hidden;">
 <head>
     <meta charset="UTF-8">
     <style>
-        html, body { margin: 0; padding: 0; box-sizing: border-box; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { height: 630px; width: 1200px; }
+        html { 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            width: 1200px !important; 
+            height: 630px !important; 
+            overflow: hidden !important;
+            background: #0D0D0D;
+        }
         body {
-            width: 1200px;
-            height: 630px;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 1200px !important;
+            height: 630px !important;
             background: linear-gradient(145deg, #0D0D0D 0%, #1A1A1A 50%, #0D0D0D 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Inter', -apple-system, sans-serif;
             position: relative;
-            overflow: hidden;
+            overflow: hidden !important;
         }
         body::before {
             content: '';
