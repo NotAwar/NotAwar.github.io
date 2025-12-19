@@ -46,8 +46,8 @@ title: Home
         <div class="stat-label">Years Experience</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" data-count="50">50+</div>
-        <div class="stat-label">Projects Delivered</div>
+        <div class="stat-number" id="github-contributions" data-count="0">Loading...</div>
+        <div class="stat-label">Contributions Last Year</div>
       </div>
       <div class="stat-card">
         <div class="stat-number" data-count="{{ site.github.public_repositories.size }}">{{ site.github.public_repositories.size }}+</div>
@@ -92,3 +92,73 @@ title: Home
     </div>
   </div>
 </section>
+
+<script>
+  // Fetch live GitHub contributions count
+  async function fetchGitHubContributions() {
+    const contributionsElement = document.getElementById('github-contributions');
+    
+    try {
+      // Fetch the GitHub profile page
+      const response = await fetch('https://github.com/NotAwar');
+      const html = await response.text();
+      
+      // Parse the HTML to find the contribution count
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Find the contributions heading
+      const contributionHeading = doc.querySelector('h2.f4.text-normal.mb-2');
+      
+      if (contributionHeading) {
+        // Extract just the number from the text
+        const text = contributionHeading.textContent.trim();
+        const match = text.match(/^([\d,]+)/);
+        
+        if (match) {
+          const count = match[1].replace(/,/g, '');
+          const displayCount = parseInt(count).toLocaleString();
+          
+          // Animate the counter
+          animateCounter(contributionsElement, parseInt(count), displayCount);
+        } else {
+          contributionsElement.textContent = '620+';
+        }
+      } else {
+        contributionsElement.textContent = '620+';
+      }
+    } catch (error) {
+      console.error('Error fetching GitHub contributions:', error);
+      // Fallback to a default value
+      contributionsElement.textContent = '620+';
+    }
+  }
+  
+  // Animate counter from 0 to target
+  function animateCounter(element, targetNum, displayCount) {
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const increment = targetNum / steps;
+    let current = 0;
+    let step = 0;
+    
+    const timer = setInterval(() => {
+      step++;
+      current += increment;
+      
+      if (step >= steps) {
+        element.textContent = displayCount;
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(current).toLocaleString();
+      }
+    }, duration / steps);
+  }
+  
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fetchGitHubContributions);
+  } else {
+    fetchGitHubContributions();
+  }
+</script>
