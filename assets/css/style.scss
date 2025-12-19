@@ -353,6 +353,13 @@ p {
   .hero-image {
   }
   
+  .terminal-cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+    color: var(--gold-primary);
+    font-weight: bold;
+  }
+  
   .profile-image-wrapper {
     position: relative;
     width: 300px;
@@ -607,21 +614,14 @@ p {
   }
 }
 
-@keyframes typing {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
-}
+
 
 @keyframes blink {
-  0%, 50% {
-    border-color: var(--gold-primary);
+  0%, 50% { 
+    opacity: 1; 
   }
-  51%, 100% {
-    border-color: transparent;
+  51%, 100% { 
+    opacity: 0; 
   }
 }
 
