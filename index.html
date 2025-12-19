@@ -135,7 +135,7 @@ title: Home
     content: '_';
     color: var(--gold-primary);
     animation: 
-      blink-caret 0.75s step-end 4s,
+      blink-caret 0.75s step-end infinite 4s,
       hide-cursor 0s 6s forwards;
   }
   
@@ -150,7 +150,10 @@ title: Home
   }
   
   @keyframes hide-cursor {
-    to { content: ''; }
+    to { 
+      content: '';
+      opacity: 0;
+    }
   }
   
   @keyframes fade-in {
