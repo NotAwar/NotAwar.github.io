@@ -154,31 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initDarkModeToggle();
 
-    // Subtle cursor trail effect - reduced frequency
-    let cursorTrailEnabled = true;
-    let trailTimeout = null;
-    function createCursorTrail(e) {
-        if (!cursorTrailEnabled) return;
-        
-        // Only create trail every 100ms to reduce frequency
-        if (trailTimeout) return;
-        trailTimeout = setTimeout(() => trailTimeout = null, 100);
-        
-        const trail = document.createElement('div');
-        trail.className = 'cursor-trail';
-        trail.style.left = e.clientX + 'px';
-        trail.style.top = e.clientY + 'px';
-        document.body.appendChild(trail);
-        
-        setTimeout(() => {
-            if (trail.parentNode) {
-                trail.remove();
-            }
-        }, 800);
-    }
-    
-    document.addEventListener('mousemove', createCursorTrail);
-
     // Subtle particle effects on hover for special elements
     function createParticles(element) {
         const rect = element.getBoundingClientRect();
