@@ -1,0 +1,21 @@
+{
+  "name": "Awar Abdulkarim",
+  "short_name": "Awar",
+  "description": "Cloud Platform Engineer specializing in Azure, Kubernetes, and DevOps automation",
+  "icons": [
+    {
+      "src": "/assets/images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#0D0D0D",
+  "background_color": "#0D0D0D",
+  "display": "standalone",
+  "start_url": "/"
+}

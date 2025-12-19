@@ -5,6 +5,7 @@ A modern, professional portfolio website with automated LinkedIn profile sync an
 ## Features
 
 ### 🎨 Modern UI/UX
+
 - **Enhanced Typography** - Large, bold headlines with improved hierarchy
 - **Glassmorphism Design** - Backdrop blur effects and layered depth
 - **Micro-interactions** - Smooth hover states and animations
