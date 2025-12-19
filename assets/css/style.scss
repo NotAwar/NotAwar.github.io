@@ -663,6 +663,86 @@ p {
 }
 
 // Projects Section
+// Quick Links Section
+.quick-links-section {
+  padding: 60px 0;
+  background-color: var(--black-secondary);
+}
+
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.quick-link-card {
+  background: var(--black-tertiary);
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold-primary);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    .quick-link-icon {
+      transform: scale(1.1) rotate(5deg);
+      color: var(--gold-secondary);
+    }
+    
+    h3 {
+      color: var(--gold-secondary);
+    }
+  }
+}
+
+.quick-link-icon {
+  color: var(--gold-primary);
+  margin-bottom: 20px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.quick-link-card h3 {
+  color: var(--gold-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  transition: color 0.3s ease;
+}
+
+.quick-link-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+// Projects Section (simplified)
 .projects-section {
   padding: 80px 0;
   background-color: var(--black-primary);
@@ -687,8 +767,8 @@ p {
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 30px;
     margin-bottom: 50px;
-    padding: 20px 0; // Add padding to prevent clipping
-    overflow: visible; // Ensure animations aren't clipped
+    padding: 20px 0;
+    overflow: visible;
   }
   
   .project-card {
@@ -703,7 +783,7 @@ p {
     flex-direction: column;
     
     &:hover {
-      transform: translateY(-8px) scale(1.02); // Reduced scale to prevent clipping
+      transform: translateY(-8px) scale(1.02);
       box-shadow: 0 15px 30px var(--shadow-color);
       border-color: var(--gold-muted);
       transition: var(--transition);
@@ -757,193 +837,7 @@ p {
   }
 }
 
-// LinkedIn Feed Section
-.linkedin-section {
-  padding: 80px 0;
-  background-color: var(--black-secondary);
-  
-  .section-title {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-    
-    &:after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background-color: var(--gold-primary);
-      margin: 20px auto 0;
-    }
-  }
-  
-  .linkedin-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
-  }
-  
-  .linkedin-card {
-    background-color: var(--black-tertiary);
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid var(--border-color);
-    transition: var(--transition);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    
-    &:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 8px 20px var(--shadow-color);
-      border-color: var(--gold-muted);
-      transition: var(--transition);
-    }
-    
-    .linkedin-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-      
-      .linkedin-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-      }
-      
-      .post-date {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-      }
-    }
-    
-    .post-title {
-      font-size: 1.4rem;
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: var(--gold-primary);
-    }
-    
-    .post-excerpt {
-      flex-grow: 1;
-      margin-bottom: 20px;
-      color: var(--text-secondary);
-    }
-    
-    .linkedin-link {
-      color: var(--gold-primary);
-      font-weight: 500;
-      display: inline-block;
-      transition: var(--transition);
-      
-      &:hover {
-        color: var(--gold-secondary);
-        text-decoration: none;
-        transform: translateX(3px);
-      }
-    }
-  }
-  
-  .profile-link {
-    text-align: center;
-    
-    .linkedin-btn {
-      background-color: var(--linkedin-blue);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 5px;
-      font-weight: 600;
-      
-      &:hover {
-        background-color: var(--linkedin-blue-light);
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-// LinkedIn Badge styling
-.linkedin-badge-container {
-  margin: 40px auto;
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  min-height: 125px;
-  padding-bottom: 30px;
-  background-color: var(--black-tertiary) !important;
-  border-radius: 10px;
-  border: 1px solid var(--gold-muted);
-  box-shadow: 0 5px 15px var(--shadow-color);
-  
-  .LI-profile-badge {
-    margin: 0 auto !important; 
-    display: inline-block !important;
-    background-color: transparent !important;
-  }
-}
-
-// Skills section
-.skills-section {
-  padding: 80px 0;
-  background-color: var(--black-primary);
-  
-  .section-title {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-    
-    &:after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 3px;
-      background-color: var(--gold-primary);
-      margin: 20px auto 0;
-    }
-  }
-  
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-  }
-  
-  .skill-card {
-    background-color: var(--black-tertiary);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    text-align: center;
-    transition: var(--transition);
-    border: 1px solid var(--border-color);
-    
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px var(--shadow-color);
-      border-color: var(--gold-muted);
-    }
-    
-    .skill-icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-    
-    h4 {
-      color: var(--gold-primary);
-      margin-bottom: 10px;
-    }
-    
-    p {
-      margin: 0;
-      color: var(--text-secondary);
-    }
-  }
-}
-
-// Contact Section
+// Contact Section (simplified)
 .contact-section {
   padding: 80px 0;
   background-color: var(--black-primary);
@@ -1414,201 +1308,104 @@ p {
   }
 }
 
-// Professional Experience Section
-.experience-section {
-  padding: 4rem 0;
-  background-color: var(--black-secondary);
+// Contact Section (simplified)
+.contact-section {
+  padding: 80px 0;
+  background-color: var(--black-primary);
   
   .section-title {
     text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin-bottom: 50px;
+    position: relative;
+    
+    &:after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background-color: var(--gold-primary);
+      margin: 20px auto 0;
+    }
   }
   
   .section-description {
     text-align: center;
-    color: var(--text-secondary);
     font-size: 1.1rem;
-    margin-bottom: 3rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-.experience-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  margin-bottom: 3rem;
-  position: relative;
-  
-  // Timeline line
-  &::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    bottom: 20px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--gold-primary), var(--gold-muted));
-    z-index: 1;
-  }
-}
-
-.experience-item {
-  background: var(--black-tertiary);
-  border-radius: 12px;
-  padding: 2rem;
-  border-left: 4px solid var(--gold-primary);
-  margin-left: 50px;
-  position: relative;
-  transition: var(--transition);
-  
-  // Timeline dot
-  &::before {
-    content: '';
-    position: absolute;
-    left: -31px;
-    top: 2rem;
-    width: 12px;
-    height: 12px;
-    background: var(--gold-primary);
-    border-radius: 50%;
-    border: 3px solid var(--black-secondary);
-    z-index: 2;
-  }
-  
-  &:hover {
-    transform: translateY(-2px);
-    border-left-color: var(--gold-secondary);
-    box-shadow: 0 8px 25px var(--shadow-color);
-  }
-}
-
-.experience-header {
-  margin-bottom: 1.5rem;
-  
-  .experience-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--gold-primary);
-    margin-bottom: 0.5rem;
-  }
-  
-  .experience-company {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-  }
-  
-  .experience-period {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-}
-
-.experience-description {
-  margin-bottom: 1.5rem;
-  
-  p {
     color: var(--text-secondary);
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    line-height: 1.6;
+    margin: -20px auto 40px;
+    max-width: 600px;
   }
   
-  .achievements {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .contact-card {
+    background-color: var(--black-tertiary);
+    border-radius: 10px;
+    padding: 30px;
+    min-width: 250px;
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     
-    li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 0.75rem;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      
-      &::before {
-        content: '▸';
-        position: absolute;
-        left: 0;
+    &:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 25px var(--shadow-color);
+      transition: var(--transition);
+      border-color: var(--gold-muted);
+    }
+    
+    .contact-icon {
+      svg {
         color: var(--gold-primary);
-        font-weight: bold;
+        transition: var(--transition);
+      }
+    }
+    
+    &:hover .contact-icon svg {
+      color: var(--gold-secondary);
+      transform: scale(1.1);
+    }
+    
+    .contact-content {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      
+      .contact-handle {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--gold-primary);
+      }
+      
+      .contact-description {
+        font-size: 0.9rem;
+        color: var(--text-muted);
       }
     }
   }
 }
 
-.experience-tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  
-  .tech-tag {
-    background: rgba(255, 215, 0, 0.1);
-    color: var(--gold-secondary);
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    transition: var(--transition);
-    
-    &:hover {
-      background: rgba(255, 215, 0, 0.2);
-      border-color: var(--gold-primary);
-    }
-  }
-}
-
-.view-profile {
-  text-align: center;
-  margin-top: 3rem;
-}
-
-// Responsive design for experience section
+// Responsive adjustments
 @media (max-width: 768px) {
-  .experience-timeline {
-    &::before {
-      left: 15px;
-    }
+  .quick-links-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
   
-  .experience-item {
-    margin-left: 40px;
-    padding: 1.5rem;
-    
-    &::before {
-      left: -26px;
-      width: 10px;
-      height: 10px;
-    }
-  }
-  
-  .experience-header {
-    .experience-title {
-      font-size: 1.2rem;
-    }
-    
-    .experience-company {
-      font-size: 1.1rem;
-    }
-  }
-  
-  .experience-tech {
-    .tech-tag {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.6rem;
-    }
+  .quick-link-card {
+    padding: 30px 20px;
   }
 }
 
