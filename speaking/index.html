@@ -666,25 +666,52 @@ permalink: /speaking/
   fetch('https://sessionize.com/api/speaker/json/8zkgq232gg')
     .then(response => response.json())
     .then(data => {
+      console.log('Sessionize API response:', data); // Debug log
       const container = document.getElementById('next-event-container');
       
       // Find the next upcoming event
       let nextEvent = null;
       const now = new Date();
       
+      // Try to find upcoming sessions or events
+      let upcomingItems = [];
+      
+      // Check for sessions
       if (data.sessions && data.sessions.length > 0) {
-        // Sort sessions by date
-        const upcomingSessions = data.sessions
+        upcomingItems = data.sessions
           .filter(session => {
             if (!session.startsAt) return false;
             const sessionDate = new Date(session.startsAt);
             return sessionDate >= now;
           })
-          .sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
-        
-        if (upcomingSessions.length > 0) {
-          nextEvent = upcomingSessions[0];
-        }
+          .map(session => ({
+            ...session,
+            type: 'session'
+          }));
+      }
+      
+      // Check for events (if sessions not found or empty)
+      if (upcomingItems.length === 0 && data.events && data.events.length > 0) {
+        upcomingItems = data.events
+          .filter(event => {
+            if (!event.startDate && !event.endDate) return false;
+            const eventDate = new Date(event.startDate || event.endDate);
+            return eventDate >= now;
+          })
+          .map(event => ({
+            title: event.name,
+            description: event.description,
+            startsAt: event.startDate,
+            room: event.location,
+            categories: event.categories || [],
+            type: 'event'
+          }));
+      }
+      
+      // Sort by date and get the next one
+      if (upcomingItems.length > 0) {
+        upcomingItems.sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+        nextEvent = upcomingItems[0];
       }
       
       if (nextEvent) {
@@ -721,7 +748,7 @@ permalink: /speaking/
           ${nextEvent.categories && nextEvent.categories.length > 0 ? `
           <div class="event-tags">
             ${nextEvent.categories.map(cat => 
-              cat.categoryItems.map(item => `<span class="event-tag">${item.name}</span>`).join('')
+              cat.categoryItems ? cat.categoryItems.map(item => `<span class="event-tag">${item.name}</span>`).join('') : ''
             ).join('')}
           </div>` : ''}
         `;
