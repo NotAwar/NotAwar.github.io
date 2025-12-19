@@ -112,19 +112,71 @@ permalink: /cv/
   min-height: 100vh;
 }
 
+.cv-page {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .cv-header {
   text-align: center;
-  margin-bottom: 50px;
-  padding: 40px 0;
-  background: linear-gradient(135deg, var(--black-secondary), var(--black-tertiary));
-  border-radius: 15px;
-  border: 1px solid var(--border-color);
+  margin-bottom: 60px;
+  padding: 60px 40px;
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.cv-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .cv-header h1 {
   color: var(--gold-primary);
-  margin: 0 0 10px;
-  font-size: 2.5rem;
+  margin: 0 0 15px;
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+  letter-spacing: -0.5px;
+  position: relative;
 }
 
 .cv-header .position {
@@ -173,18 +225,30 @@ permalink: /cv/
 
 .cv-section {
   margin-bottom: 50px;
-  padding: 30px;
-  background-color: var(--black-secondary);
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
+  padding: 40px;
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 215, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cv-section:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 
 .cv-section h2 {
   color: var(--gold-primary);
-  margin: 0 0 30px;
-  font-size: 1.8rem;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--gold-primary);
+  margin: 0 0 35px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
 }
 
 .experience-item, .education-item {
@@ -255,14 +319,24 @@ permalink: /cv/
 }
 
 .tech-tag {
-  background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
-  color: var(--black-primary);
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  background: rgba(255, 215, 0, 0.15);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--gold-primary);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
   font-weight: 600;
-  margin: 0 5px 5px 0;
+  margin: 0 8px 8px 0;
   display: inline-block;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  background: rgba(255, 215, 0, 0.25);
+  border-color: var(--gold-primary);
+  transform: translateY(-2px);
 }
 
 .skills-categories {
@@ -325,11 +399,14 @@ permalink: /cv/
 
 .cv-footer {
   text-align: center;
-  margin-top: 50px;
-  padding: 30px;
-  background: linear-gradient(135deg, var(--black-secondary), var(--black-tertiary));
-  border-radius: 15px;
-  border: 1px solid var(--border-color);
+  margin-top: 60px;
+  padding: 50px 40px;
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -337,12 +414,15 @@ permalink: /cv/
 }
 
 .cv-footer .btn {
-  padding: 12px 24px;
-  border-radius: 5px;
+  padding: 16px 36px;
+  border-radius: 50px;
   font-weight: 600;
-  transition: var(--transition);
+  font-size: 1.05rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .linkedin-btn {
