@@ -98,7 +98,7 @@ title: Home
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0.05em;
-    animation: typing 2s steps(30, end) forwards;
+    animation: typing 1.2s steps(30, end) forwards;
     width: 0;
   }
   
@@ -114,20 +114,20 @@ title: Home
     margin: 0 auto;
     letter-spacing: 0.05em;
     width: 0;
-    animation: typing 1.5s steps(40, end) 2.2s forwards;
+    animation: typing 1s steps(40, end) 1.3s forwards;
   }
   
   .typewriter-delay-1::after {
     content: '_';
     color: var(--gold-primary);
-    animation: blink-caret 0.75s step-end infinite 2.2s;
+    animation: blink-caret 0.75s step-end infinite 1.3s;
   }
   
   .typewriter-delay-2 {
     overflow: visible;
     white-space: normal;
     max-width: 600px;
-    animation: fade-in 0.5s 4s forwards;
+    animation: fade-in 0.5s 2.5s forwards;
     opacity: 0;
   }
   
@@ -135,8 +135,8 @@ title: Home
     content: '_';
     color: var(--gold-primary);
     animation: 
-      blink-caret 0.75s step-end infinite 4s,
-      hide-cursor 0s 6s forwards;
+      blink-caret 0.75s step-end infinite 2.5s,
+      hide-cursor 0s 4s forwards;
   }
   
   @keyframes typing {
@@ -163,7 +163,7 @@ title: Home
   
   .fade-in-after-typing {
     opacity: 0;
-    animation: fade-in 0.5s ease-in 6.5s forwards;
+    animation: fade-in 0.5s ease-in 4.2s forwards;
   }
 </style>
 
