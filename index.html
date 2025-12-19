@@ -95,41 +95,48 @@ title: Home
   /* CSS-based typewriter effect */
   .typewriter {
     overflow: hidden;
-    border-right: 2px solid var(--gold-primary);
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0.05em;
-    animation: 
-      typing 2s steps(30, end),
-      blink-caret 0.75s step-end infinite;
-    animation-fill-mode: forwards;
+    animation: typing 2s steps(30, end) forwards;
+    width: 0;
+  }
+  
+  .typewriter::after {
+    content: '_';
+    color: var(--gold-primary);
+    animation: blink-caret 0.75s step-end infinite;
   }
   
   .typewriter-delay-1 {
     overflow: hidden;
-    border-right: 2px solid var(--gold-primary);
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0.05em;
     width: 0;
-    animation: 
-      typing 1.5s steps(40, end) 2.2s,
-      blink-caret 0.75s step-end infinite 2.2s;
-    animation-fill-mode: forwards;
+    animation: typing 1.5s steps(40, end) 2.2s forwards;
+  }
+  
+  .typewriter-delay-1::after {
+    content: '_';
+    color: var(--gold-primary);
+    animation: blink-caret 0.75s step-end infinite 2.2s;
   }
   
   .typewriter-delay-2 {
-    overflow: hidden;
-    border-right: 2px solid var(--gold-primary);
-    white-space: nowrap;
-    margin: 0 auto;
-    letter-spacing: 0.05em;
-    width: 0;
+    overflow: visible;
+    white-space: normal;
+    max-width: 600px;
+    animation: fade-in 0.5s 4s forwards;
+    opacity: 0;
+  }
+  
+  .typewriter-delay-2::after {
+    content: '_';
+    color: var(--gold-primary);
     animation: 
-      typing 3s steps(60, end) 4s,
-      blink-caret 0.75s step-end infinite 4s,
-      remove-caret 0s 7s forwards;
-    animation-fill-mode: forwards;
+      blink-caret 0.75s step-end 4s,
+      hide-cursor 0s 6s forwards;
   }
   
   @keyframes typing {
@@ -138,21 +145,22 @@ title: Home
   }
   
   @keyframes blink-caret {
-    from, to { border-color: transparent; }
-    50% { border-color: var(--gold-primary); }
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
   }
   
-  @keyframes remove-caret {
-    to { border-right: none; }
+  @keyframes hide-cursor {
+    to { content: ''; }
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   
   .fade-in-after-typing {
     opacity: 0;
-    animation: fade-in 0.5s ease-in 7.2s forwards;
-  }
-  
-  @keyframes fade-in {
-    to { opacity: 1; }
+    animation: fade-in 0.5s ease-in 6.5s forwards;
   }
 </style>
 
