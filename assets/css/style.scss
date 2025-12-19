@@ -325,7 +325,6 @@ p {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: fadeInUp 1s 0.1s backwards;
     line-height: 1.1;
   }
   
@@ -335,7 +334,6 @@ p {
     color: var(--text-primary);
     font-weight: 500;
     min-height: 2.5rem;
-    animation: fadeInUp 1s 0.3s backwards;
   }
   
   .hero-description {
@@ -344,18 +342,15 @@ p {
     font-size: 1.15rem;
     color: var(--text-secondary);
     line-height: 1.8;
-    animation: fadeInUp 1s 0.5s backwards;
   }
   
   .hero-buttons {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
-    animation: fadeInUp 1s 0.7s backwards;
   }
   
   .hero-image {
-    animation: fadeInUp 1s 0.5s backwards;
   }
   
   .profile-image-wrapper {
