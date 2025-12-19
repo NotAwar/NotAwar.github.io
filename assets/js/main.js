@@ -107,38 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Typing animation for hero subtitle (optional enhancement)
-    function typeWriter(element, text, speed = 100) {
-        if (!element) return;
-        
-        element.innerHTML = '';
-        element.style.borderRight = '2px solid var(--gold-primary)';
-        
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                // Remove cursor after typing
-                setTimeout(() => {
-                    element.style.borderRight = 'none';
-                }, 1000);
-            }
-        }
-        type();
-    }
-
-    // Initialize typing animation for hero subtitle after page load
-    setTimeout(() => {
-        const heroSubtitle = document.querySelector('.hero-subtitle');
-        if (heroSubtitle) {
-            const originalText = heroSubtitle.textContent;
-            typeWriter(heroSubtitle, originalText, 80);
-        }
-    }, 1500);
-
     // Dark mode toggle (future enhancement)
     function initDarkModeToggle() {
         const toggleButton = document.querySelector('.dark-mode-toggle');
@@ -200,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (JSON.stringify(konamiInput) === JSON.stringify(konamiCode)) {
             document.body.classList.add('konami-activated');
-            cursorTrailEnabled = false; // Disable cursor trail during rainbow mode
             
             // Create celebration particles
             for (let i = 0; i < 50; i++) {
@@ -229,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reset after 5 seconds
             setTimeout(() => {
                 document.body.classList.remove('konami-activated');
-                cursorTrailEnabled = true;
                 konamiInput = [];
             }, 5000);
         }
@@ -276,24 +242,6 @@ style.textContent = `
         to {
             transform: translateY(-100px);
             opacity: 0;
-        }
-    }
-    
-    .cursor-trail {
-        position: fixed;
-        width: 6px;
-        height: 6px;
-        background: var(--gold-primary);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        animation: trailFade 0.8s ease-out forwards;
-    }
-    
-    @keyframes trailFade {
-        to {
-            opacity: 0;
-            transform: scale(0);
         }
     }
     
