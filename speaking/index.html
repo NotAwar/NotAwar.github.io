@@ -662,51 +662,56 @@ permalink: /speaking/
 </style>
 
 <script>
-  // Fetch and display next speaking engagement
-  fetch('https://sessionize.com/api/speaker/json/8zkgq232gg')
+  // Fetch and display next speaking engagement from Sessionize view-source API
+  fetch('https://sessionize.com/api/v2/8zkgq232gg/view/Sessions')
     .then(response => response.json())
     .then(data => {
       console.log('Sessionize API response:', data); // Debug log
       const container = document.getElementById('next-event-container');
       
-      // Find the next upcoming event
       let nextEvent = null;
       const now = new Date();
-      
-      // Try to find upcoming sessions or events
       let upcomingItems = [];
       
-      // Check for sessions
-      if (data.sessions && data.sessions.length > 0) {
-        upcomingItems = data.sessions
-          .filter(session => {
-            if (!session.startsAt) return false;
-            const sessionDate = new Date(session.startsAt);
-            return sessionDate >= now;
-          })
-          .map(session => ({
-            ...session,
-            type: 'session'
-          }));
+      // Parse the response - it could be an array or nested object
+      let sessions = [];
+      
+      // Try different possible structures
+      if (Array.isArray(data)) {
+        // If data is directly an array
+        sessions = data;
+      } else if (data.sessions && Array.isArray(data.sessions)) {
+        sessions = data.sessions;
+      } else if (data.groupedSessions && Array.isArray(data.groupedSessions)) {
+        // Flatten grouped sessions
+        sessions = data.groupedSessions.flatMap(group => group.sessions || []);
+      } else if (data.data && Array.isArray(data.data)) {
+        sessions = data.data;
       }
       
-      // Check for events (if sessions not found or empty)
-      if (upcomingItems.length === 0 && data.events && data.events.length > 0) {
-        upcomingItems = data.events
-          .filter(event => {
-            if (!event.startDate && !event.endDate) return false;
-            const eventDate = new Date(event.startDate || event.endDate);
-            return eventDate >= now;
-          })
-          .map(event => ({
-            title: event.name,
-            description: event.description,
-            startsAt: event.startDate,
-            room: event.location,
-            categories: event.categories || [],
-            type: 'event'
-          }));
-      }
+      // Find upcoming sessions
+      sessions.forEach(session => {
+        // Check various date field names that Sessionize might use
+        const dateStr = session.startsAt || session.startTime || session.sessionStartTime || 
+                       session.startDate || session.starts || session.date;
+        
+        if (dateStr) {
+          try {
+            const sessionDate = new Date(dateStr);
+            if (sessionDate >= now && !isNaN(sessionDate.getTime())) {
+              upcomingItems.push({
+                title: session.title || session.name || session.sessionTitle || 'Untitled Session',
+                description: session.description || session.sessionDescription || '',
+                startsAt: dateStr,
+                room: session.room || session.roomName || session.location || '',
+                categories: session.categories || session.tags || []
+              });
+            }
+          } catch (e) {
+            console.warn('Error parsing date:', dateStr, e);
+          }
+        }
+      });
       
       // Sort by date and get the next one
       if (upcomingItems.length > 0) {
@@ -747,9 +752,12 @@ permalink: /speaking/
           </div>
           ${nextEvent.categories && nextEvent.categories.length > 0 ? `
           <div class="event-tags">
-            ${nextEvent.categories.map(cat => 
-              cat.categoryItems ? cat.categoryItems.map(item => `<span class="event-tag">${item.name}</span>`).join('') : ''
-            ).join('')}
+            ${nextEvent.categories.map(cat => {
+              if (typeof cat === 'string') return `<span class="event-tag">${cat}</span>`;
+              if (cat.categoryItems) return cat.categoryItems.map(item => `<span class="event-tag">${item.name || item}</span>`).join('');
+              if (cat.name) return `<span class="event-tag">${cat.name}</span>`;
+              return '';
+            }).join('')}
           </div>` : ''}
         `;
       } else {
