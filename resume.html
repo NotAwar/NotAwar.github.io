@@ -26,11 +26,26 @@ permalink: /cv/
       {% for job in site.data.profile.experience %}
       <div class="experience-item">
         <div class="experience-header">
-          <h3>{{ job.title }}</h3>
-          <span class="date">{{ job.startDate }} - {{ job.endDate }}</span>
+          <h3>{{ job.position }}</h3>
+          <span class="date">{{ job.period }}</span>
         </div>
-        <p class="company">{{ job.company }}{% if job.location %}, {{ job.location }}{% endif %}</p>
+        <p class="company">{{ job.company }}</p>
         <p class="description">{{ job.description }}</p>
+        {% if job.achievements %}
+        <ul class="achievements">
+          {% for achievement in job.achievements %}
+          <li>{{ achievement }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% if job.technologies %}
+        <div class="technologies">
+          <strong>Technologies:</strong>
+          {% for tech in job.technologies %}
+          <span class="tech-tag">{{ tech }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
       </div>
       {% endfor %}
     </section>
@@ -217,6 +232,37 @@ permalink: /cv/
   color: var(--text-secondary);
   line-height: 1.6;
   margin: 10px 0 0;
+}
+
+.achievements {
+  margin: 15px 0;
+  padding-left: 20px;
+}
+
+.achievements li {
+  color: var(--text-secondary);
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+.technologies {
+  margin: 15px 0 0;
+}
+
+.technologies strong {
+  color: var(--text-primary);
+  margin-right: 10px;
+}
+
+.tech-tag {
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+  color: var(--black-primary);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0 5px 5px 0;
+  display: inline-block;
 }
 
 .skills-categories {

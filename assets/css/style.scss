@@ -146,7 +146,7 @@ body {
           position: relative;
           
           svg {
-            fill: var (--text-primary);
+            fill: var(--text-primary);
           }
         }
       }
@@ -278,7 +278,7 @@ a {
 
 p {
   margin-bottom: 1.5rem;
-  color: var (--text-secondary);
+  color: var(--text-secondary);
 }
 
 // Hero Section
@@ -915,7 +915,7 @@ p {
     background-color: var(--black-tertiary);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 5px 15px var (--shadow-color);
+    box-shadow: 0 5px 15px var(--shadow-color);
     text-align: center;
     transition: var(--transition);
     border: 1px solid var(--border-color);

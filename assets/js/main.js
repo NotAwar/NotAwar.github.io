@@ -89,7 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
             this.appendChild(ripple);
             
             setTimeout(() => {
-                ripple.remove();
+                if (ripple.parentNode) {
+                    ripple.remove();
+                }
             }, 600);
         });
     });
@@ -169,7 +171,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(trail);
         
         setTimeout(() => {
-            trail.remove();
+            if (trail.parentNode) {
+                trail.remove();
+            }
         }, 800);
     }
     
@@ -197,7 +201,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         setTimeout(() => {
-            particleContainer.remove();
+            if (particleContainer.parentNode) {
+                particleContainer.remove();
+            }
         }, 1500);
     }
 
@@ -237,7 +243,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     particle.style.animation = 'particleFloat 3s ease-out forwards';
                     document.body.appendChild(particle);
                     
-                    setTimeout(() => particle.remove(), 3000);
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 3000);
                 }, i * 50);
             }
             
@@ -263,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `);
 });
 
-// CSS for ripple effect
+// CSS for ripple effect and animations
 const style = document.createElement('style');
 style.textContent = `
     .btn {
@@ -280,33 +290,54 @@ style.textContent = `
         pointer-events: none;
     }
     
-    // Initialize typing animation for hero subtitle
-    function initTypewriter() {
-        const typewriterElement = document.getElementById('typewriter');
-        if (!typewriterElement) return;
-        
-        // Get the title from the data attribute or fallback
-        const text = typewriterElement.getAttribute('data-text') || "Senior Cloud Engineer & Cloud Native Competency Lead";
-        
-        // Set initial state
-        typewriterElement.textContent = '';
-        typewriterElement.style.width = '0';
-        
-        // Add typing class after a short delay to prevent layout shift
-        setTimeout(() => {
-            typewriterElement.textContent = text;
-            typewriterElement.classList.add('typing');
-        }, 1000);
-    }
-
-    // Initialize typewriter effect
-    initTypewriter();
-
     @keyframes ripple-animation {
         to {
             transform: scale(4);
             opacity: 0;
         }
+    }
+    
+    @keyframes particleFloat {
+        to {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+    }
+    
+    .cursor-trail {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        background: var(--gold-primary);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        animation: trailFade 0.8s ease-out forwards;
+    }
+    
+    @keyframes trailFade {
+        to {
+            opacity: 0;
+            transform: scale(0);
+        }
+    }
+    
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: var(--gold-primary);
+        border-radius: 50%;
+        animation: particleFloat 1.5s ease-out forwards;
+    }
+    
+    .konami-activated {
+        animation: rainbow 2s linear infinite;
+    }
+    
+    @keyframes rainbow {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
     }
 `;
 document.head.appendChild(style);
