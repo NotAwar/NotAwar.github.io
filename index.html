@@ -96,10 +96,11 @@ title: Home
   .typewriter {
     overflow: hidden;
     white-space: nowrap;
-    margin: 0 auto;
     letter-spacing: 0.05em;
-    animation: typing 0.8s steps(30, end) forwards;
-    width: 0;
+    opacity: 0;
+    animation: 
+      typing 0.8s steps(30, end) forwards,
+      fade-in 0s 0s forwards;
   }
   
   .typewriter::after {
@@ -113,10 +114,11 @@ title: Home
   .typewriter-delay-1 {
     overflow: hidden;
     white-space: nowrap;
-    margin: 0 auto;
     letter-spacing: 0.05em;
-    width: 0;
-    animation: typing 0.7s steps(40, end) 0.9s forwards;
+    opacity: 0;
+    animation: 
+      typing 0.7s steps(40, end) 0.9s forwards,
+      fade-in 0s 0.9s forwards;
   }
   
   .typewriter-delay-1::after {
@@ -134,8 +136,12 @@ title: Home
   }
   
   @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
+    from { 
+      max-width: 0;
+    }
+    to { 
+      max-width: 100%;
+    }
   }
   
   @keyframes blink-caret {
