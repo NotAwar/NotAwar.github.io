@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { activeProfile } from "../../data/site";
+---
+
+<BaseLayout title={`Speaking | ${activeProfile.name}`} description="Conferences, meetups, and sessions by Awar Abdulkarim.">
+  <section class="panel fx-slide-in">
+    <div class="page-intro">
+      <p class="eyebrow">Sessions & Events</p>
+      <h1>Speaking Engagements</h1>
+      <p>
+        Sharing practical cloud-native lessons around Kubernetes, Azure, automation, and platform engineering.
+      </p>
+    </div>
+    <a class="btn neon" href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize profile in new tab" aria-label="View Sessionize speaking profile">
+      View Sessionize Profile
+    </a>
+  </section>
+
+  <h2 class="section-title">Places I'm Speaking At</h2>
+  <section class="panel fx-slide-in sessionize-panel" id="sessionize-events">
+    <script type="text/javascript" src="https://sessionize.com/api/speaker/events/8zkgq232gg/1x1x3fb393x"></script>
+  </section>
+
+  <h2 class="section-title">What I'm Speaking About</h2>
+  <section class="panel fx-slide-in sessionize-panel" id="sessionize-sessions">
+    <script type="text/javascript" src="https://sessionize.com/api/speaker/sessions/8zkgq232gg/1x1x3fb393x"></script>
+  </section>
+
+  <section class="panel fx-slide-in">
+    <h2>Invite me to speak</h2>
+    <p>
+      Interested in having me at your event? Reach out on LinkedIn or review technical talks on GitHub and Sessionize.
+    </p>
+    <div class="cta-row">
+      <a class="btn neon" href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Connect on LinkedIn">Connect on LinkedIn</a>
+      <a class="btn" href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="View GitHub work">View GitHub Work</a>
+    </div>
+  </section>
+
+</BaseLayout>
+

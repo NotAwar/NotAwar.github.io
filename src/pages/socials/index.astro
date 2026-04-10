@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { activeProfile } from "../../data/site";
+---
+
+<BaseLayout title={`Socials | ${activeProfile.name}`} description="Connect with Awar Abdulkarim on GitHub, LinkedIn, and Sessionize.">
+  <section class="panel fx-slide-in">
+    <div class="page-intro">
+      <p class="eyebrow">Connect</p>
+      <h1>Socials</h1>
+      <p>
+        Find me across platforms for professional networking, open source collaboration, and conference opportunities.
+      </p>
+    </div>
+  </section>
+
+  <section class="cards section-title">
+    <a href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="Visit GitHub profile">
+      <article class="card fx-slide-in">
+        <h2>GitHub</h2>
+        <p>Open source repositories, implementation notes, and technical demos.</p>
+      </article>
+    </a>
+    <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Visit LinkedIn profile">
+      <article class="card fx-slide-in">
+        <h2>LinkedIn</h2>
+        <p>Professional profile, industry perspectives, and networking.</p>
+      </article>
+    </a>
+    <a href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab" aria-label="View Sessionize speaking profile">
+      <article class="card fx-slide-in">
+        <h2>Sessionize</h2>
+        <p>Speaking topics, sessions, and conference appearances.</p>
+      </article>
+    </a>
+  </section>
+
+</BaseLayout>
+

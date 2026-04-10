@@ -1,14 +1,22 @@
 const axios = require('axios');
 const fs = require('fs');
-const yaml = require('js-yaml');
 
 /**
  * LinkedIn Profile Sync Script
- * Fetches LinkedIn profile data and updates _data/profile.yml
+ * Fetches LinkedIn profile data and updates src/data/generated-profile.json
+ * Source of truth: src/data/generated-profile.json (JSON only)
  */
 
 const PROXYCURL_API_KEY = process.env.PROXYCURL_API_KEY;
 const LINKEDIN_PROFILE_URL = process.env.LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/notawar';
+const GENERATED_PROFILE_PATH = 'src/data/generated-profile.json';
+
+function ensureGeneratedProfileDir() {
+  const dir = GENERATED_PROFILE_PATH.split('/').slice(0, -1).join('/');
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+}
 
 async function fetchLinkedInProfile() {
   if (!PROXYCURL_API_KEY) {
@@ -64,6 +72,7 @@ function transformLinkedInData(linkedinData) {
     headline: linkedinData.headline || 'Senior Cloud Engineer & Cloud Native Competency Lead',
     summary: linkedinData.summary || '',
     bio: linkedinData.summary ? linkedinData.summary.substring(0, 200) + '...' : '',
+    avatar_url: linkedinData.profile_pic_url || linkedinData.profile_picture_url || '',
     experience: [],
     education: [],
     skills: {
@@ -75,8 +84,15 @@ function transformLinkedInData(linkedinData) {
       github: linkedinData.github_profile_id 
         ? `https://github.com/${linkedinData.github_profile_id.split('/').pop()}`
         : 'https://github.com/NotAwar',
-      linkedin: LINKEDIN_PROFILE_URL,
+      linkedin: 'https://www.linkedin.com/in/notawar/',
+      sessionize: 'https://sessionize.com/awar',
       twitter: linkedinData.twitter_profile_id || null
+    },
+    linkedin_posts: [],
+    metrics: {
+      years_experience: 0,
+      github_repos: 0,
+      linkedin_posts: 0
     }
   };
 
@@ -138,8 +154,51 @@ function transformLinkedInData(linkedinData) {
     ];
   }
 
+  profile.metrics.years_experience = estimateYearsExperience(profile.experience);
+
+  // Capture latest LinkedIn posts when available from provider response
+  const candidatePosts = linkedinData.activities || linkedinData.posts || linkedinData.updates || [];
+  if (Array.isArray(candidatePosts) && candidatePosts.length > 0) {
+    profile.linkedin_posts = candidatePosts.slice(0, 6).map((post, index) => ({
+      id: String(post.id || post.activity_id || post.urn || `post-${index + 1}`),
+      text: (post.text || post.content || post.commentary || "").toString().slice(0, 350),
+      url:
+        post.url ||
+        post.activity_url ||
+        post.post_url ||
+        LINKEDIN_PROFILE_URL,
+      published_at: post.published_at || post.created_at || post.date || ""
+    })).filter((post) => post.text || post.url);
+  }
+  profile.metrics.linkedin_posts = profile.linkedin_posts.length;
+
   console.log('✅ Data transformation complete');
   return profile;
+}
+
+function estimateYearsExperience(experience = []) {
+  const ranges = experience
+    .map((item) => (item.period || '').split('-').map((v) => v.trim()))
+    .filter((parts) => parts.length >= 1);
+
+  let earliestYear = new Date().getFullYear();
+  let latestYear = new Date().getFullYear();
+
+  for (const parts of ranges) {
+    const startMatch = (parts[0] || '').match(/(19|20)\d{2}/);
+    const endMatch = (parts[1] || '').match(/(19|20)\d{2}/);
+    if (startMatch) {
+      earliestYear = Math.min(earliestYear, parseInt(startMatch[0], 10));
+    }
+    if (endMatch) {
+      latestYear = Math.max(latestYear, parseInt(endMatch[0], 10));
+    } else {
+      latestYear = Math.max(latestYear, new Date().getFullYear());
+    }
+  }
+
+  const years = Math.max(1, latestYear - earliestYear + 1);
+  return years;
 }
 
 function getMonthName(month) {
@@ -174,19 +233,21 @@ async function main() {
   try {
     console.log('🚀 Starting LinkedIn profile sync...\n');
 
-    // Read existing profile
+    // Read existing profile from JSON
     let existingProfile = {};
     try {
-      const existingData = fs.readFileSync('_data/profile.yml', 'utf8');
-      existingProfile = yaml.load(existingData);
-      console.log('📖 Loaded existing profile data');
+      if (fs.existsSync(GENERATED_PROFILE_PATH)) {
+        const existingData = fs.readFileSync(GENERATED_PROFILE_PATH, 'utf8');
+        existingProfile = JSON.parse(existingData);
+        console.log('📖 Loaded existing profile data');
+      }
     } catch (error) {
       console.log('📝 No existing profile found, creating new one');
     }
 
     // Fetch LinkedIn data
     const linkedinData = await fetchLinkedInProfile();
-    
+
     if (linkedinData) {
       // Transform and merge data
       let newProfile = transformLinkedInData(linkedinData);
@@ -196,14 +257,9 @@ async function main() {
       newProfile._last_synced = new Date().toISOString();
       newProfile._sync_source = 'LinkedIn (Proxycurl API)';
 
-      // Write updated profile
-      const yamlString = yaml.dump(newProfile, {
-        lineWidth: -1,
-        noRefs: true,
-        quotingType: '"'
-      });
-
-      fs.writeFileSync('_data/profile.yml', yamlString, 'utf8');
+      // Write updated profile (JSON only - single source of truth)
+      ensureGeneratedProfileDir();
+      fs.writeFileSync(GENERATED_PROFILE_PATH, JSON.stringify(newProfile, null, 2), 'utf8');
       console.log('✅ Profile updated successfully!\n');
       console.log(`📅 Last synced: ${newProfile._last_synced}`);
     } else {

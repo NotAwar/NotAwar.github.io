@@ -1,0 +1,27 @@
+{
+  "name": "Awar Abdulkarim",
+  "title": "Cloud Engineer",
+  "headline": "Cloud Engineer & Tech Speaker",
+  "summary": "Run npm run sync-linkedin to load profile content from LinkedIn.",
+  "bio": "Cloud engineer passionate about Kubernetes, Azure, and building innovative tech solutions.",
+  "avatar_url": "https://avatars.githubusercontent.com/u/48431495?s=400&u=725a6511898ed4b014f4100dac2dfce25b701055&v=4",
+  "experience": [],
+  "education": [],
+  "skills": {
+    "primary": [],
+    "technical": []
+  },
+  "current_focus": [],
+  "contact": {
+    "github": "https://github.com/NotAwar",
+    "linkedin": "https://www.linkedin.com/in/notawar",
+    "sessionize": "https://sessionize.com/awar"
+  },
+  "linkedin_posts": [],
+  "metrics": {
+    "years_experience": 0,
+    "github_repos": 0,
+    "linkedin_posts": 0,
+    "github_contributions": 0
+  }
+}

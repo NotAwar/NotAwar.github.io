@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://notawar.github.io/sitemap.xml
+Sitemap: https://awar.no/sitemap-index.xml

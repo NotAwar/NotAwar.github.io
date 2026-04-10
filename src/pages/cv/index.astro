@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { activeProfile } from "../../data/site";
+
+const hasExperience = (activeProfile.experience?.length ?? 0) > 0;
+const hasEducation = (activeProfile.education?.length ?? 0) > 0;
+const hasPrimarySkills = (activeProfile.skills?.primary?.length ?? 0) > 0;
+const hasTechnicalSkills = (activeProfile.skills?.technical?.length ?? 0) > 0;
+---
+
+<BaseLayout title={`CV | ${activeProfile.name}`} description={activeProfile.summary}>
+  <section class="panel fx-slide-in">
+    <div class="page-intro">
+      <p class="eyebrow">Professional Profile</p>
+      <h1>{activeProfile.name}</h1>
+      <p>{activeProfile.title}</p>
+      <p>{activeProfile.summary}</p>
+    </div>
+    <div class="cta-row">
+      <a class="btn neon" href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn profile in new tab" aria-label="Visit LinkedIn profile">LinkedIn Profile</a>
+      <a class="btn" href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub profile in new tab" aria-label="Visit GitHub profile">GitHub Projects</a>
+    </div>
+  </section>
+
+  <h2 class="section-title">Experience</h2>
+  <section class="cards">
+    {hasExperience ? (
+      activeProfile.experience.map((job) => (
+        <article class="card fx-slide-in">
+          <h3>{job.position}</h3>
+          <p>
+            <strong>{job.company}</strong> · {job.period}
+          </p>
+          <p>{job.description}</p>
+          {job.achievements?.length ? (
+            <ul>
+              {job.achievements.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : null}
+          {job.technologies?.length ? (
+            <div class="chip-list">
+              {job.technologies.map((tech) => (
+                <span class="chip">{tech}</span>
+              ))}
+            </div>
+          ) : null}
+        </article>
+      ))
+    ) : (
+      <article class="card fx-slide-in">
+        <h3>Experience is being updated</h3>
+        <p>Profile data sync will populate this section with your latest roles and achievements.</p>
+      </article>
+    )}
+  </section>
+
+  <h2 class="section-title">Education</h2>
+  <section class="cards">
+    {hasEducation ? (
+      activeProfile.education.map((edu) => (
+        <article class="card fx-slide-in">
+          <h3>{edu.degree}</h3>
+          <p>
+            <strong>{edu.school}</strong> · {edu.year}
+          </p>
+          <p>{edu.location}</p>
+          {edu.description ? <p>{edu.description}</p> : null}
+        </article>
+      ))
+    ) : (
+      <article class="card fx-slide-in">
+        <h3>Education details are being updated</h3>
+        <p>This section will be auto-filled from your profile source.</p>
+      </article>
+    )}
+  </section>
+
+  <h2 class="section-title">Skills</h2>
+  <section class="panel fx-slide-in">
+    <h3>Core Competencies</h3>
+    <div class="chip-list">
+      {hasPrimarySkills ? activeProfile.skills.primary.map((skill) => <span class="chip">{skill}</span>) : <span class="chip">Updating</span>}
+    </div>
+    <h3>Technical Skills</h3>
+    <div class="chip-list">
+      {hasTechnicalSkills ? activeProfile.skills.technical.map((skill) => <span class="chip">{skill}</span>) : <span class="chip">Updating</span>}
+    </div>
+  </section>
+</BaseLayout>
+

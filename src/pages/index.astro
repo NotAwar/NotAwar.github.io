@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NeonHero from "../components/NeonHero.jsx";
+import { activeProfile } from "../data/site";
+---
+
+<BaseLayout
+  title={`${activeProfile.name} - Cloud Engineer & Tech Speaker`}
+  description="Cloud engineer passionate about Kubernetes, Azure, and building innovative tech solutions."
+>
+  <NeonHero
+    client:idle
+    name={activeProfile.name}
+    headline={activeProfile.headline}
+    linkedinUrl={activeProfile.contact.linkedin}
+    githubUrl={activeProfile.contact.github}
+    sessionizeUrl={activeProfile.contact.sessionize}
+    metrics={activeProfile.metrics}
+    avatarUrl={activeProfile.avatar_url}
+  />
+  <section class="cards section-title">
+    <a href="/cv/">
+      <article class="card fx-slide-in">
+        <h3>Professional CV</h3>
+        <p>Career history, achievements, and technical strengths.</p>
+      </article>
+    </a>
+    <a href="/speaking/">
+      <article class="card fx-slide-in">
+        <h3>Speaking</h3>
+        <p>Conference sessions, topics, and event updates from Sessionize.</p>
+      </article>
+    </a>
+    <a href="/socials/">
+      <article class="card fx-slide-in">
+        <h3>Socials</h3>
+        <p>Direct links for collaboration, networking, and OSS discussions.</p>
+      </article>
+    </a>
+  </section>
+
+  <section class="section-title">
+    <p class="eyebrow">LinkedIn // Latest</p>
+    <h2>Latest LinkedIn Posts</h2>
+    <div class="cards">
+      {
+        (activeProfile.linkedin_posts || []).slice(0, 3).map((post) => (
+          <a href={post.url} target="_blank" rel="noreferrer" title="Read post on LinkedIn in new tab" aria-label="Read LinkedIn post">
+            <article class="card fx-slide-in linkedin-post">
+              <p>{post.text || "Read my latest update on LinkedIn."}</p>
+              <small>{post.published_at ? new Date(post.published_at).toLocaleDateString() : "Recent update"}</small>
+            </article>
+          </a>
+        ))
+      }
+      {
+        (!activeProfile.linkedin_posts || activeProfile.linkedin_posts.length === 0) ? (
+          <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="View LinkedIn profile in new tab" aria-label="Open LinkedIn profile">
+            <article class="card fx-slide-in linkedin-post">
+              <p>Follow my latest posts and cloud-native updates on LinkedIn.</p>
+              <small>Open profile</small>
+            </article>
+          </a>
+        ) : null
+      }
+    </div>
+  </section>
+</BaseLayout>
+
