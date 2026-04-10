@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Awar favicon">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7f4e7" />
+      <stop offset="100%" stop-color="#f7efb8" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0f1117" />
+  <rect x="3" y="3" width="58" height="58" rx="11" fill="none" stroke="#474233" stroke-width="2" />
+  <path d="M32 13L49 51H41.6L37.7 42.1H26.3L22.4 51H15L32 13ZM34.9 35.7L32 28.8L29.1 35.7H34.9Z" fill="url(#g)" />
+</svg>
