@@ -3,3 +3,11 @@ dist/
 .DS_Store
 *~
 node_modules/
+# Jekyll build artefacts (pre-Astro migration)
+_site/
+vendor/
+.bundle/
+Gemfile.lock
+# Sync script scratch files
+badges_awar.json
+user_awar.json

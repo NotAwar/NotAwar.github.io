@@ -689,6 +689,19 @@ nav a.active {
   margin: 0;
 }
 
+.credly-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 480px) {
+  .credly-badges {
+    justify-content: center;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
