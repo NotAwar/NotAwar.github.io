@@ -689,6 +689,56 @@ nav a.active {
   margin: 0;
 }
 
+.github-activity-card .activity-action {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+}
+
+.github-activity-card .activity-label {
+  color: var(--muted);
+}
+
+.github-activity-card .activity-repo {
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+.github-activity-card .activity-detail {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.github-activity-card small {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.loading-card {
+  min-height: 100px;
+}
+
+.activity-skeleton {
+  height: 60px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    rgba(247, 239, 184, 0.06) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .credly-badges {
   display: flex;
   flex-wrap: wrap;
