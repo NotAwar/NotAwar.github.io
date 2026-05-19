@@ -1,17 +1,87 @@
 {
   "name": "Awar Abdulkarim",
-  "title": "Cloud Engineer",
-  "headline": "Cloud Engineer & Tech Speaker",
-  "summary": "Run npm run sync-linkedin to load profile content from LinkedIn.",
-  "bio": "Cloud engineer passionate about Kubernetes, Azure, and building innovative tech solutions.",
+  "title": "Senior Cloud Engineer & Cloud Native Competency Lead",
+  "headline": "Senior Cloud Engineer & Cloud Native Competency Lead",
+  "summary": "Senior Cloud Engineer with expertise in designing and implementing scalable cloud-native solutions. Currently serving as Competency Lead for Cloud Native at Sopra Steria, focusing on innovative solutions in the cloud space and mentoring teams on modern DevOps practices.",
+  "bio": "Cloud engineer specialising in Kubernetes, Azure infrastructure, and automation solutions. Building scalable cloud-native solutions and sharing insights from enterprise implementations.",
   "avatar_url": "https://avatars.githubusercontent.com/u/48431495?s=400&u=725a6511898ed4b014f4100dac2dfce25b701055&v=4",
-  "experience": [],
-  "education": [],
+  "experience": [
+    {
+      "position": "Senior Cloud Engineer & Cloud Native Competency Lead",
+      "company": "Sopra Steria",
+      "period": "July 2024 - Present",
+      "description": "Leading cloud-native initiatives and overseeing projects on Microsoft Azure. Focus on developing cloud infrastructure, enhancing DevOps practices, and mentoring junior engineers.",
+      "achievements": [
+        "Lead cloud native competency initiatives across the organisation",
+        "Architect and implement scalable Kubernetes solutions",
+        "Mentor engineering teams on modern DevOps practices",
+        "Drive adoption of cloud-native technologies and methodologies"
+      ],
+      "technologies": ["Kubernetes", "Azure", "Docker", "Terraform", "DevOps", "CI/CD"]
+    },
+    {
+      "position": "Cloud Engineer",
+      "company": "Sopra Steria",
+      "period": "August 2022 - July 2024",
+      "description": "Specialised in programming and infrastructure, contributing to the development of scalable cloud solutions and improving deployment processes.",
+      "achievements": [
+        "Developed and maintained cloud infrastructure on Microsoft Azure",
+        "Improved deployment processes and automation frameworks",
+        "Contributed to scalable cloud solution architectures",
+        "Enhanced monitoring and observability practices"
+      ],
+      "technologies": ["Azure", "Python", "Infrastructure as Code", "Monitoring", "Automation"]
+    },
+    {
+      "position": "IT Employee",
+      "company": "OsloMet – Storbyuniversitetet",
+      "period": "August 2021 - August 2022",
+      "description": "Provided technical support and contributed to various IT projects within the university, focusing on automation and system management.",
+      "achievements": [
+        "Provided comprehensive technical support across university systems",
+        "Contributed to automation initiatives and system improvements",
+        "Managed and maintained university IT infrastructure",
+        "Supported academic and administrative technology needs"
+      ],
+      "technologies": ["Linux", "System Administration", "PowerShell", "IT Support"]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor's Degree in Electronics and IT Engineering",
+      "school": "OsloMet – Oslo Metropolitan University",
+      "location": "Oslo, Norway",
+      "year": "2021",
+      "description": "Focus on cloud technologies and software development"
+    }
+  ],
   "skills": {
-    "primary": [],
-    "technical": []
+    "primary": [
+      "Kubernetes & Container Orchestration",
+      "Azure Cloud Platform",
+      "DevOps & Site Reliability",
+      "CI/CD Pipeline Architecture",
+      "Infrastructure as Code",
+      "Cloud Native Technologies",
+      "Monitoring & Observability"
+    ],
+    "technical": [
+      "Python",
+      "Docker",
+      "Terraform",
+      "Git",
+      "Linux",
+      "PowerShell",
+      "C++",
+      "VHDL"
+    ]
   },
-  "current_focus": [],
+  "current_focus": [
+    "Leading cloud native competency initiatives",
+    "Developing robust Kubernetes solutions",
+    "Building automation frameworks for enterprise scale",
+    "Mentoring teams on modern DevOps practices"
+  ],
   "contact": {
     "github": "https://github.com/NotAwar",
     "linkedin": "https://www.linkedin.com/in/notawar",
@@ -19,7 +89,7 @@
   },
   "linkedin_posts": [],
   "metrics": {
-    "years_experience": 0,
+    "years_experience": 4,
     "github_repos": 0,
     "linkedin_posts": 0,
     "github_contributions": 0
