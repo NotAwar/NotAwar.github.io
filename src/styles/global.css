@@ -689,6 +689,121 @@ nav a.active {
   margin: 0;
 }
 
+.cg-panel {
+  padding: 1.2rem 1.4rem 1.5rem;
+}
+
+/* Contribution graph */
+.cg-wrap {
+  user-select: none;
+}
+
+.cg-total {
+  margin: 0 0 0.8rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.cg-total strong {
+  color: var(--accent-soft);
+}
+
+.cg-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: 0.25rem;
+}
+
+.cg-inner {
+  position: relative;
+}
+
+.cg-months {
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.cg-month {
+  position: absolute;
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.cg-body {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.cg-day-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 1px;
+}
+
+.cg-day-label {
+  width: 22px;
+  height: 11px;
+  font-size: 0.68rem;
+  color: var(--muted);
+  line-height: 11px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.cg-weeks {
+  display: flex;
+  gap: 3px;
+}
+
+.cg-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cg-cell {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cg-cell:hover {
+  outline: 1px solid rgba(247, 239, 184, 0.5);
+  outline-offset: 1px;
+}
+
+.cg-legend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.cg-legend span {
+  margin: 0 2px;
+}
+
+.cg-skeleton {
+  height: 116px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    rgba(247, 239, 184, 0.06) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
 .github-activity-card .activity-action {
   margin: 0 0 0.35rem;
   font-size: 0.95rem;

@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NeonHero from "../components/NeonHero.jsx";
 import GitHubActivity from "../components/GitHubActivity.jsx";
+import ContributionGraph from "../components/ContributionGraph.jsx";
 import { activeProfile } from "../data/site";
 ---
 
@@ -43,7 +44,12 @@ import { activeProfile } from "../data/site";
   <section class="section-title">
     <p class="eyebrow">GitHub // Activity</p>
     <h2>Recent GitHub Activity</h2>
-    <GitHubActivity client:idle githubUrl={activeProfile.contact.github} />
+    <div class="panel fx-slide-in cg-panel">
+      <ContributionGraph client:idle githubUrl={activeProfile.contact.github} />
+    </div>
+    <div style="margin-top: 1rem;">
+      <GitHubActivity client:idle githubUrl={activeProfile.contact.github} />
+    </div>
   </section>
 
   <section class="section-title">
