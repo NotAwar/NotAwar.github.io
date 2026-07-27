@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const TITLES = [
-  "Senior Cloud Engineer",
+  "Cloud Native Architect",
   "Cloud Native Competency Lead",
   "Platform Engineer",
   "Kubernetes & Azure Specialist",
