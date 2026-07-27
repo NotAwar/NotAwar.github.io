@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NeonHero from "../components/NeonHero.jsx";
+import GitHubActivity from "../components/GitHubActivity.jsx";
+import ContributionGraph from "../components/ContributionGraph.jsx";
 import { activeProfile } from "../data/site";
 ---
 
@@ -40,30 +42,73 @@ import { activeProfile } from "../data/site";
   </section>
 
   <section class="section-title">
-    <p class="eyebrow">LinkedIn // Latest</p>
-    <h2>Latest LinkedIn Posts</h2>
-    <div class="cards">
-      {
-        (activeProfile.linkedin_posts || []).slice(0, 3).map((post) => (
+    <p class="eyebrow">GitHub // Activity</p>
+    <h2>Recent GitHub Activity</h2>
+    <div class="panel fx-slide-in cg-panel">
+      <ContributionGraph client:idle githubUrl={activeProfile.contact.github} />
+    </div>
+    <div style="margin-top: 1rem;">
+      <GitHubActivity client:idle githubUrl={activeProfile.contact.github} />
+    </div>
+  </section>
+
+  <section class="section-title">
+    <p class="eyebrow">LinkedIn // Connect</p>
+    <h2>Let's Connect</h2>
+
+    {(activeProfile.linkedin_posts?.length ?? 0) > 0 ? (
+      /* Real posts when Proxycurl is configured */
+      <div class="cards">
+        {(activeProfile.linkedin_posts ?? []).slice(0, 3).map((post) => (
           <a href={post.url} target="_blank" rel="noreferrer" title="Read post on LinkedIn in new tab" aria-label="Read LinkedIn post">
             <article class="card fx-slide-in linkedin-post">
-              <p>{post.text || "Read my latest update on LinkedIn."}</p>
-              <small>{post.published_at ? new Date(post.published_at).toLocaleDateString() : "Recent update"}</small>
+              <p>{post.text}</p>
+              <small>{post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}</small>
             </article>
           </a>
-        ))
-      }
-      {
-        (!activeProfile.linkedin_posts || activeProfile.linkedin_posts.length === 0) ? (
-          <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="View LinkedIn profile in new tab" aria-label="Open LinkedIn profile">
-            <article class="card fx-slide-in linkedin-post">
-              <p>Follow my latest posts and cloud-native updates on LinkedIn.</p>
-              <small>Open profile</small>
-            </article>
+        ))}
+      </div>
+    ) : (
+      /* Profile card — shown until Proxycurl syncs posts */
+      <div class="panel fx-slide-in li-profile-card">
+        <div class="li-profile-left">
+          <img
+            class="li-avatar"
+            src={activeProfile.avatar_url}
+            alt={`${activeProfile.name} profile picture`}
+            width="72"
+            height="72"
+          />
+          <div>
+            <p class="li-name">{activeProfile.name}</p>
+            <p class="li-title">{activeProfile.title}</p>
+          </div>
+        </div>
+        <p class="li-summary">{activeProfile.summary}</p>
+        <div class="cta-row">
+          <a
+            class="btn neon"
+            href={activeProfile.contact.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            title="Open LinkedIn profile in new tab"
+            aria-label="Connect on LinkedIn"
+          >
+            Connect on LinkedIn
           </a>
-        ) : null
-      }
-    </div>
+          <a
+            class="btn"
+            href={activeProfile.contact.github}
+            target="_blank"
+            rel="noreferrer"
+            title="Open GitHub profile in new tab"
+            aria-label="View GitHub"
+          >
+            View GitHub
+          </a>
+        </div>
+      </div>
+    )}
   </section>
 </BaseLayout>
 
