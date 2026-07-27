@@ -68,8 +68,8 @@ function transformLinkedInData(linkedinData) {
 
   const profile = {
     name: linkedinData.full_name || 'Awar Abdulkarim',
-    title: linkedinData.headline || 'Senior Cloud Engineer & Cloud Native Competency Lead',
-    headline: linkedinData.headline || 'Senior Cloud Engineer & Cloud Native Competency Lead',
+    title: linkedinData.headline || 'Manager & Cloud Native Competency Lead',
+    headline: linkedinData.headline || 'Manager & Cloud Native Competency Lead',
     summary: linkedinData.summary || '',
     bio: linkedinData.summary ? linkedinData.summary.substring(0, 200) + '...' : '',
     avatar_url: linkedinData.profile_pic_url || linkedinData.profile_picture_url || '',

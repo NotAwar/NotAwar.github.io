@@ -3,12 +3,12 @@
 
 # Basic Information
 name: "Awar Abdulkarim"
-title: "Senior Cloud Engineer & Cloud Native Competency Lead"
-headline: "Senior Cloud Engineer & Cloud Native Competency Lead"
+title: "Manager & Cloud Native Competency Lead"
+headline: "Manager & Cloud Native Competency Lead"
 
 # Professional Summary
 summary: |
-  Senior Cloud Engineer with expertise in designing and implementing scalable cloud-native solutions. 
+  Cloud Native Architect with expertise in designing and implementing scalable cloud-native solutions. 
   Currently serving as Competency Lead for Cloud Native at Sopra Steria, focusing on innovative 
   solutions in the cloud space and mentoring teams on modern DevOps practices.
 
@@ -19,7 +19,7 @@ bio: |
 
 # Work Experience
 experience:
-- position: "Senior Cloud Engineer & Cloud Native Competency Lead"
+- position: "Manager & Cloud Native Competency Lead"
   company: "Sopra Steria"
   period: "July 2024 - Present"
   description: "Leading cloud-native initiatives and overseeing projects on Microsoft Azure. Focus on developing cloud infrastructure, enhancing DevOps practices, and mentoring junior engineers."
