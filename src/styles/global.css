@@ -54,13 +54,15 @@
 
 [data-theme="light"] .site-shell {
   background: rgba(240, 234, 220, 0.97);
+  box-shadow: 0 6px 0 rgba(122, 101, 16, 0.14), 0 8px 18px rgba(28, 24, 15, 0.1);
 }
 
 [data-theme="light"] .hero-title {
-  background: linear-gradient(90deg, var(--text), var(--neon), var(--neon-alt));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: var(--text);
+  color: var(--text);
 }
 
 [data-theme="light"] .cg-skeleton,
@@ -82,12 +84,12 @@
 [data-theme="light"] .btn:hover {
   transform: translate(-3px, -3px);
   border-color: var(--neon);
-  box-shadow: 7px 7px 0 var(--neon-alt);
+  box-shadow: 7px 7px 0 rgba(107, 90, 12, 0.45);
   background: rgba(122, 101, 16, 0.08);
 }
 
 [data-theme="light"] .card:hover {
-  box-shadow: 9px 9px 0 var(--neon-alt);
+  box-shadow: 9px 9px 0 rgba(107, 90, 12, 0.4);
 }
 
 [data-theme="light"] .panel {
@@ -172,6 +174,11 @@ body::before {
 .sprite-4 { top: 78%; left: 88%; animation-duration: 13s; animation-delay: -5s; color: var(--accent-cool); }
 .sprite-5 { top: 6%; left: 48%; animation-duration: 11s; animation-delay: -2.2s; }
 .sprite-6 { top: 86%; left: 46%; animation-duration: 9.5s; animation-delay: -6.5s; color: var(--neon-alt); }
+
+[data-theme="light"] .sprite {
+  opacity: 0.1;
+  filter: drop-shadow(0 0 6px rgba(122, 101, 16, 0.2));
+}
 
 @keyframes sprite-float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -309,6 +316,10 @@ nav a.active {
   pointer-events: none;
 }
 
+[data-theme="light"] .hero-animated::after {
+  background: radial-gradient(circle, rgba(122, 101, 16, 0.08), transparent 65%);
+}
+
 @keyframes pulse-orb {
   0%,
   100% {
@@ -336,9 +347,7 @@ nav a.active {
 
 [data-theme="light"] .hero-title,
 [data-theme="light"] .page-intro h1 {
-  text-shadow:
-    1px 1px 0 rgba(255, 255, 255, 0.6),
-    2px 2px 0 rgba(122, 101, 16, 0.18);
+  text-shadow: 1px 1px 0 rgba(122, 101, 16, 0.2);
 }
 
 .hero-subtitle {
