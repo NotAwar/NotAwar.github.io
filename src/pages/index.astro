@@ -52,78 +52,95 @@ import { activeProfile } from "../data/site";
     </div>
   </section>
 
-  <section class="section-title">
-    <p class="eyebrow">Social // Connect</p>
-    <h2>Let's Connect</h2>
+  <section class="section-title connect-section">
+    <div class="connect-header">
+      <div>
+        <p class="eyebrow">Social // Connect</p>
+        <h2>Let's Connect</h2>
+        <p class="connect-lede">Recent updates straight from LinkedIn, plus the fastest ways to reach me.</p>
+      </div>
+      <a
+        class="btn neon li-connect-btn"
+        href={activeProfile.contact.linkedin}
+        target="_blank"
+        rel="noreferrer"
+        title="Open LinkedIn profile in new tab"
+        aria-label="Connect on LinkedIn"
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.27 2.38 4.27 5.47v6.27ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
+        </svg>
+        Connect on LinkedIn
+      </a>
+    </div>
 
-    {(activeProfile.buffer_posts?.length ?? 0) > 0 ? (
-      /* Real posts synced from Buffer (https://developers.buffer.com/) */
-      <div class="cards">
-        {(activeProfile.buffer_posts ?? []).slice(0, 3).map((post) => (
-          <a href={post.url} target="_blank" rel="noreferrer" title="Read post in new tab" aria-label="Read social post">
-            <article class="card fx-slide-in linkedin-post">
-              <p>{post.text}</p>
-              <small>
-                {post.service ? `${post.service.charAt(0).toUpperCase()}${post.service.slice(1)} · ` : ""}
-                {post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}
-              </small>
-            </article>
-          </a>
-        ))}
-      </div>
-    ) : (activeProfile.linkedin_posts?.length ?? 0) > 0 ? (
-      /* Fallback: real posts when Proxycurl is configured */
-      <div class="cards">
-        {(activeProfile.linkedin_posts ?? []).slice(0, 3).map((post) => (
-          <a href={post.url} target="_blank" rel="noreferrer" title="Read post on LinkedIn in new tab" aria-label="Read LinkedIn post">
-            <article class="card fx-slide-in linkedin-post">
-              <p>{post.text}</p>
-              <small>{post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}</small>
-            </article>
-          </a>
-        ))}
-      </div>
-    ) : (
-      /* Profile card — shown until Proxycurl syncs posts */
-      <div class="panel fx-slide-in li-profile-card">
-        <div class="li-profile-left">
-          <img
-            class="li-avatar"
-            src={activeProfile.avatar_url}
-            alt={`${activeProfile.name} profile picture`}
-            width="72"
-            height="72"
-          />
-          <div>
-            <p class="li-name">{activeProfile.name}</p>
-            <p class="li-title">{activeProfile.title}</p>
+    {(() => {
+      const bufferPosts = activeProfile.buffer_posts ?? [];
+      const linkedinPosts = activeProfile.linkedin_posts ?? [];
+      const posts = bufferPosts.length > 0 ? bufferPosts : linkedinPosts;
+      return posts.length > 0 ? (
+        <div class="li-posts-grid">
+          {posts.slice(0, 3).map((post) => {
+            const service = (post as { service?: string }).service ?? "";
+            const label = service ? `${service.charAt(0).toUpperCase()}${service.slice(1)} post` : "LinkedIn post";
+            return (
+              <a
+                class="li-post-card fx-slide-in"
+                href={post.url}
+                target="_blank"
+                rel="noreferrer"
+                title="Read post on LinkedIn in new tab"
+                aria-label="Read LinkedIn post"
+              >
+                <span class="li-post-badge">
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.27 2.38 4.27 5.47v6.27ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
+                  </svg>
+                  {label}
+                </span>
+                <p class="li-post-text">{post.text}</p>
+                <div class="li-post-footer">
+                  <span class="li-post-date">
+                    {post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}
+                  </span>
+                  <span class="li-post-cta">Read post →</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        /* Profile card — shown until Buffer/Proxycurl syncs posts */
+        <div class="panel fx-slide-in li-profile-card">
+          <div class="li-profile-left">
+            <img
+              class="li-avatar"
+              src={activeProfile.avatar_url}
+              alt={`${activeProfile.name} profile picture`}
+              width="72"
+              height="72"
+            />
+            <div>
+              <p class="li-name">{activeProfile.name}</p>
+              <p class="li-title">{activeProfile.title}</p>
+            </div>
+          </div>
+          <p class="li-summary">{activeProfile.summary}</p>
+          <div class="cta-row">
+            <a
+              class="btn"
+              href={activeProfile.contact.github}
+              target="_blank"
+              rel="noreferrer"
+              title="Open GitHub profile in new tab"
+              aria-label="View GitHub"
+            >
+              View GitHub
+            </a>
           </div>
         </div>
-        <p class="li-summary">{activeProfile.summary}</p>
-        <div class="cta-row">
-          <a
-            class="btn neon"
-            href={activeProfile.contact.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            title="Open LinkedIn profile in new tab"
-            aria-label="Connect on LinkedIn"
-          >
-            Connect on LinkedIn
-          </a>
-          <a
-            class="btn"
-            href={activeProfile.contact.github}
-            target="_blank"
-            rel="noreferrer"
-            title="Open GitHub profile in new tab"
-            aria-label="View GitHub"
-          >
-            View GitHub
-          </a>
-        </div>
-      </div>
-    )}
+      );
+    })()}
   </section>
 </BaseLayout>
 
