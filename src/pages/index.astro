@@ -20,25 +20,32 @@ import { activeProfile } from "../data/site";
     metrics={activeProfile.metrics}
     avatarUrl={activeProfile.avatar_url}
   />
-  <section class="cards section-title">
-    <a href="/cv/">
-      <article class="card fx-slide-in">
-        <h3>Professional CV</h3>
-        <p>Career history, achievements, and technical strengths.</p>
-      </article>
-    </a>
-    <a href="/speaking/">
-      <article class="card fx-slide-in">
-        <h3>Speaking</h3>
-        <p>Conference sessions, topics, and event updates from Sessionize.</p>
-      </article>
-    </a>
-    <a href="/socials/">
-      <article class="card fx-slide-in">
-        <h3>Socials</h3>
-        <p>Direct links for collaboration, networking, and OSS discussions.</p>
-      </article>
-    </a>
+  <section class="section-title">
+    <p class="eyebrow">Explore // Site</p>
+    <h2>Where to Next</h2>
+    <div class="cards">
+      <a href="/cv/">
+        <article class="card fx-slide-in">
+          <span class="card-tag">01</span>
+          <h3>Professional CV</h3>
+          <p>Career history, achievements, and technical strengths.</p>
+        </article>
+      </a>
+      <a href="/speaking/">
+        <article class="card fx-slide-in">
+          <span class="card-tag">02</span>
+          <h3>Speaking</h3>
+          <p>Conference sessions, topics, and event updates from Sessionize.</p>
+        </article>
+      </a>
+      <a href="/socials/">
+        <article class="card fx-slide-in">
+          <span class="card-tag">03</span>
+          <h3>Socials</h3>
+          <p>Direct links for collaboration, networking, and OSS discussions.</p>
+        </article>
+      </a>
+    </div>
   </section>
 
   <section class="section-title">
@@ -81,8 +88,17 @@ import { activeProfile } from "../data/site";
       return posts.length > 0 ? (
         <div class="li-posts-grid">
           {posts.slice(0, 3).map((post) => {
-            const service = (post as { service?: string }).service ?? "";
-            const label = service ? `${service.charAt(0).toUpperCase()}${service.slice(1)} post` : "LinkedIn post";
+            const service = ((post as { service?: string }).service ?? "").toLowerCase();
+            const serviceLabels: { [key: string]: string } = {
+              linkedin: "LinkedIn",
+              twitter: "X",
+              x: "X",
+              mastodon: "Mastodon",
+              instagram: "Instagram",
+              facebook: "Facebook",
+            };
+            const fallbackLabel = service ? service.charAt(0).toUpperCase() + service.slice(1) : "LinkedIn";
+            const label = (serviceLabels[service] ?? fallbackLabel) + " post";
             return (
               <a
                 class="li-post-card fx-slide-in"
