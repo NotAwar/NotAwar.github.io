@@ -8,8 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "sync-linkedin": "node scripts/sync-linkedin.js",
-    "dev:sync": "npm run sync-linkedin && astro dev",
-    "build:sync": "npm run sync-linkedin && astro build"
+    "sync-buffer": "node scripts/sync-buffer.js",
+    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && astro dev",
+    "build:sync": "npm run sync-linkedin && npm run sync-buffer && astro build"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

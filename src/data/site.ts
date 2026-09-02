@@ -43,10 +43,18 @@ export type Profile = {
     url: string;
     published_at?: string;
   }>;
+  buffer_posts?: Array<{
+    id: string;
+    text: string;
+    url: string;
+    service?: string;
+    published_at?: string;
+  }>;
   metrics?: {
     years_experience?: number;
     github_repos?: number;
     linkedin_posts?: number;
+    buffer_posts?: number;
     github_contributions?: number;
   };
   avatar_url?: string;
@@ -71,10 +79,12 @@ const emergencyProfile: Profile = {
     sessionize: "https://sessionize.com/awar",
   },
   linkedin_posts: [],
+  buffer_posts: [],
   metrics: {
     years_experience: 0,
     github_repos: 0,
     linkedin_posts: 0,
+    buffer_posts: 0,
     github_contributions: 0,
   },
   avatar_url: "https://avatars.githubusercontent.com/u/48431495?s=400&u=725a6511898ed4b014f4100dac2dfce25b701055&v=4",
@@ -104,10 +114,12 @@ function validateProfile(profile: any): Profile {
       email: profile.contact?.email ? String(profile.contact.email) : undefined,
     },
     linkedin_posts: Array.isArray(profile.linkedin_posts) ? profile.linkedin_posts : emergencyProfile.linkedin_posts,
+    buffer_posts: Array.isArray(profile.buffer_posts) ? profile.buffer_posts : emergencyProfile.buffer_posts,
     metrics: {
       years_experience: typeof profile.metrics?.years_experience === 'number' ? profile.metrics.years_experience : emergencyProfile.metrics?.years_experience,
       github_repos: typeof profile.metrics?.github_repos === 'number' ? profile.metrics.github_repos : emergencyProfile.metrics?.github_repos,
       linkedin_posts: typeof profile.metrics?.linkedin_posts === 'number' ? profile.metrics.linkedin_posts : emergencyProfile.metrics?.linkedin_posts,
+      buffer_posts: typeof profile.metrics?.buffer_posts === 'number' ? profile.metrics.buffer_posts : emergencyProfile.metrics?.buffer_posts,
       github_contributions: typeof profile.metrics?.github_contributions === 'number' ? profile.metrics.github_contributions : emergencyProfile.metrics?.github_contributions,
     },
     avatar_url: profile.avatar_url ? String(profile.avatar_url) : emergencyProfile.avatar_url,

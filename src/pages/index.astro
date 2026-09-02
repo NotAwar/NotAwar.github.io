@@ -53,11 +53,26 @@ import { activeProfile } from "../data/site";
   </section>
 
   <section class="section-title">
-    <p class="eyebrow">LinkedIn // Connect</p>
+    <p class="eyebrow">Social // Connect</p>
     <h2>Let's Connect</h2>
 
-    {(activeProfile.linkedin_posts?.length ?? 0) > 0 ? (
-      /* Real posts when Proxycurl is configured */
+    {(activeProfile.buffer_posts?.length ?? 0) > 0 ? (
+      /* Real posts synced from Buffer (https://developers.buffer.com/) */
+      <div class="cards">
+        {(activeProfile.buffer_posts ?? []).slice(0, 3).map((post) => (
+          <a href={post.url} target="_blank" rel="noreferrer" title="Read post in new tab" aria-label="Read social post">
+            <article class="card fx-slide-in linkedin-post">
+              <p>{post.text}</p>
+              <small>
+                {post.service ? `${post.service.charAt(0).toUpperCase()}${post.service.slice(1)} · ` : ""}
+                {post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}
+              </small>
+            </article>
+          </a>
+        ))}
+      </div>
+    ) : (activeProfile.linkedin_posts?.length ?? 0) > 0 ? (
+      /* Fallback: real posts when Proxycurl is configured */
       <div class="cards">
         {(activeProfile.linkedin_posts ?? []).slice(0, 3).map((post) => (
           <a href={post.url} target="_blank" rel="noreferrer" title="Read post on LinkedIn in new tab" aria-label="Read LinkedIn post">

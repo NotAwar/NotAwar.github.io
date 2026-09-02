@@ -88,10 +88,12 @@
     "sessionize": "https://sessionize.com/awar"
   },
   "linkedin_posts": [],
+  "buffer_posts": [],
   "metrics": {
     "years_experience": 4,
     "github_repos": 0,
     "linkedin_posts": 0,
+    "buffer_posts": 0,
     "github_contributions": 0
   }
 }
