@@ -76,7 +76,7 @@ async function fetchChannels(organizationId) {
   console.log('🔄 Fetching connected Buffer channels...');
   const data = await bufferGraphQL(
     `
-    query ($organizationId: String!) {
+    query ($organizationId: OrganizationId!) {
       channels(input: { organizationId: $organizationId }) {
         id
         name
@@ -98,7 +98,7 @@ async function fetchSentPosts(organizationId, channelIds) {
   console.log('🔄 Fetching recently published posts...');
   const data = await bufferGraphQL(
     `
-    query ($organizationId: String!, $channelIds: [String!], $first: Int!) {
+    query ($organizationId: OrganizationId!, $channelIds: [ChannelId!], $first: Int!) {
       posts(
         first: $first
         input: {
