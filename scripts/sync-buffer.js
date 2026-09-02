@@ -76,15 +76,15 @@ async function fetchChannels(organizationId) {
   console.log('🔄 Fetching connected Buffer channels...');
   const data = await bufferGraphQL(
     `
-    query ($input: ChannelsQueryInput!) {
-      channels(input: $input) {
+    query ($organizationId: String!) {
+      channels(input: { organizationId: $organizationId }) {
         id
         name
         service
       }
     }
   `,
-    { input: { organizationId } }
+    { organizationId }
   );
 
   const channels = Array.isArray(data?.channels) ? data.channels : [];
@@ -98,8 +98,15 @@ async function fetchSentPosts(organizationId, channelIds) {
   console.log('🔄 Fetching recently published posts...');
   const data = await bufferGraphQL(
     `
-    query ($input: PostsQueryInput!, $first: Int!) {
-      posts(first: $first, input: $input) {
+    query ($organizationId: String!, $channelIds: [String!], $first: Int!) {
+      posts(
+        first: $first
+        input: {
+          organizationId: $organizationId
+          filter: { status: [sent], channelIds: $channelIds }
+          sort: [{ field: createdAt, direction: desc }]
+        }
+      ) {
         edges {
           node {
             id
@@ -112,17 +119,7 @@ async function fetchSentPosts(organizationId, channelIds) {
       }
     }
   `,
-    {
-      first: POSTS_PER_QUERY,
-      input: {
-        organizationId,
-        filter: {
-          status: ['sent'],
-          channelIds
-        },
-        sort: [{ field: 'createdAt', direction: 'desc' }]
-      }
-    }
+    { organizationId, channelIds, first: POSTS_PER_QUERY }
   );
 
   const edges = Array.isArray(data?.posts?.edges) ? data.posts.edges : [];
