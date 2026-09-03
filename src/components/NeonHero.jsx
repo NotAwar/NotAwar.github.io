@@ -165,7 +165,7 @@ export default function NeonHero({
           <strong>{stats.contributions}</strong>
         </div>
         <div className="stat-card">
-          <span>Repos</span>
+          <span>Public Repos</span>
           <strong>{stats.repos}</strong>
         </div>
       </div>
