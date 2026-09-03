@@ -288,13 +288,31 @@ nav a.active {
 .hero-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 1.2rem;
-  align-items: center;
+  grid-template-areas:
+    "title avatar"
+    "cta stats";
+  align-items: start;
+  column-gap: 1.2rem;
+  row-gap: 1rem;
   margin: 1rem 0 1.5rem;
   animation: hero-tilt-in 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.hero-title-block {
+  grid-area: title;
+}
+
+.hero-grid > .avatar-shell {
+  grid-area: avatar;
+}
+
+.hero-grid > .cta-row {
+  grid-area: cta;
+  margin-top: 0;
+}
+
 .stats-panel {
+  grid-area: stats;
   display: grid;
   gap: 0.7rem;
 }
@@ -412,7 +430,6 @@ nav a.active {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 0.3rem;
 }
 
 .avatar-image {
@@ -1179,6 +1196,11 @@ h2.section-title::before {
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "avatar"
+      "cta"
+      "stats";
   }
 }
 

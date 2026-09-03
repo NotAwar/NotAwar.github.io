@@ -131,33 +131,35 @@ export default function NeonHero({
   // ── Render ────────────────────────────────────────────────────────────
   return (
     <section className="hero-grid fx-slide-in hero-animated">
-      <div>
+      <div className="hero-title-block">
         <h1 className="hero-title">{name}</h1>
         <h2 className="hero-subtitle">
           {displayedTitle}
           <span className="tw-cursor" aria-hidden="true">|</span>
         </h2>
-        <div className="cta-row">
-          <a className="btn neon" href={githubUrl} target="_blank" rel="noreferrer"
-            title="Open GitHub profile in new tab" aria-label="GitHub profile">GitHub</a>
-          <a className="btn" href={linkedinUrl} target="_blank" rel="noreferrer"
-            title="Open LinkedIn profile in new tab" aria-label="LinkedIn profile">LinkedIn</a>
-          <a className="btn" href={sessionizeUrl} target="_blank" rel="noreferrer"
-            title="Open Sessionize profile in new tab" aria-label="Sessionize speaking profile">Sessionize</a>
-        </div>
+      </div>
+
+      <div className="avatar-shell">
+        <RadarRing size={200} />
+        <img
+          className="avatar-image"
+          src={avatarUrl}
+          alt={`${name} profile picture`}
+          width="132"
+          height="132"
+        />
+      </div>
+
+      <div className="cta-row">
+        <a className="btn neon" href={githubUrl} target="_blank" rel="noreferrer"
+          title="Open GitHub profile in new tab" aria-label="GitHub profile">GitHub</a>
+        <a className="btn" href={linkedinUrl} target="_blank" rel="noreferrer"
+          title="Open LinkedIn profile in new tab" aria-label="LinkedIn profile">LinkedIn</a>
+        <a className="btn" href={sessionizeUrl} target="_blank" rel="noreferrer"
+          title="Open Sessionize profile in new tab" aria-label="Sessionize speaking profile">Sessionize</a>
       </div>
 
       <div className="stats-panel">
-        <div className="avatar-shell">
-          <RadarRing size={200} />
-          <img
-            className="avatar-image"
-            src={avatarUrl}
-            alt={`${name} profile picture`}
-            width="132"
-            height="132"
-          />
-        </div>
         <div className="stat-card">
           <span>Contributions</span>
           <strong>{stats.contributions}</strong>
