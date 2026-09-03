@@ -293,7 +293,7 @@ nav a.active {
     "cta stats";
   align-items: start;
   column-gap: 1.2rem;
-  row-gap: 1.75rem;
+  row-gap: 2.5rem;
   margin: 1rem 0 1.5rem;
   animation: hero-tilt-in 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
