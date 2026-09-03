@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import RadarRing from "./RadarRing.jsx";
 
 const TITLES = [
   "Cloud Native Architect",
@@ -148,6 +149,7 @@ export default function NeonHero({
 
       <div className="stats-panel">
         <div className="avatar-shell">
+          <RadarRing size={200} />
           <img
             className="avatar-image"
             src={avatarUrl}

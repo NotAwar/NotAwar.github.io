@@ -408,12 +408,16 @@ nav a.active {
 }
 
 .avatar-shell {
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 0.3rem;
 }
 
 .avatar-image {
+  position: relative;
+  z-index: 1;
   width: 132px;
   height: 132px;
   border-radius: 50%;
@@ -421,6 +425,69 @@ nav a.active {
   border: 2px solid rgba(247, 239, 184, 0.3);
   box-shadow: 0 0 0 5px rgba(247, 239, 184, 0.07), 0 0 28px rgba(247, 239, 184, 0.12);
   display: block;
+}
+
+.radar-ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.radar-tick {
+  stroke: var(--muted);
+  stroke-width: 2;
+  opacity: 0.35;
+}
+
+.radar-arc circle:first-child {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.radar-arc-1 {
+  transform-origin: 110px 110px;
+  filter: drop-shadow(0 0 5px rgba(247, 239, 184, 0.45));
+}
+
+.radar-arc-1 circle:first-child {
+  stroke: var(--neon);
+}
+
+.radar-arc-2 {
+  transform-origin: 110px 110px;
+  filter: drop-shadow(0 0 5px rgba(231, 219, 168, 0.35));
+}
+
+.radar-arc-2 circle:first-child {
+  stroke: var(--accent-cool);
+}
+
+.radar-node {
+  fill: var(--neon);
+}
+
+.radar-node-alt {
+  fill: var(--accent-cool);
+}
+
+.radar-core {
+  fill: var(--neon);
+  filter: drop-shadow(0 0 8px rgba(247, 239, 184, 0.6));
+}
+
+[data-theme="light"] .radar-arc-1 {
+  filter: drop-shadow(0 0 4px rgba(122, 101, 16, 0.3));
+}
+
+[data-theme="light"] .radar-arc-2 {
+  filter: drop-shadow(0 0 4px rgba(107, 82, 9, 0.25));
+}
+
+[data-theme="light"] .radar-core {
+  filter: drop-shadow(0 0 6px rgba(122, 101, 16, 0.4));
 }
 
 .stat-card {
