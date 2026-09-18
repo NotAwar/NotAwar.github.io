@@ -19,7 +19,7 @@
     "@astrojs/react": "^6.0.5",
     "@astrojs/sitemap": "^3.7.4",
     "animejs": "^4.5.0",
-    "astro": "^7.3.1",
+    "astro": "^7.3.2",
     "axios": "^1.20.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
