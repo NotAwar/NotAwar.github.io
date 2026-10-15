@@ -205,6 +205,11 @@ body::before {
   overflow: hidden;
 }
 
+.sprite-layer {
+  position: absolute;
+  inset: 0;
+}
+
 .sprite {
   position: absolute;
   width: 34px;
@@ -247,7 +252,7 @@ body::before {
 
 .site-shell {
   position: sticky;
-  top: 0;
+  top: 0.6rem;
   z-index: 10;
   margin-top: 1rem;
   padding: 0.75rem 1.4rem;
@@ -1635,7 +1640,126 @@ ul.chip-list {
   }
 }
 
+/*
+ * Scroll-driven effects (compositor-driven, no JS). Browsers without
+ * scroll timelines simply get the static layout.
+ */
+:root {
+  --header-border-scrolled: rgba(247, 239, 184, 0.3);
+  --header-shadow-scrolled: 0 6px 0 rgba(0, 0, 0, 0.35), 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="light"] {
+  --header-border-scrolled: rgba(122, 101, 16, 0.45);
+  --header-shadow-scrolled: 0 6px 0 rgba(122, 101, 16, 0.16), 0 16px 32px rgba(28, 24, 15, 0.16);
+}
+
+.scroll-progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  /*
+   * Longhands only: the CSS minifier folds animation-timeline into the
+   * animation shorthand, which Chromium rejects as invalid.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress,
+    .site-shell,
+    .sprite-layer,
+    .hero-grid {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+    }
+
+    .scroll-progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 60;
+      height: 3px;
+      pointer-events: none;
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      background: linear-gradient(90deg, var(--neon-alt), var(--neon));
+      box-shadow: 0 0 12px rgba(247, 239, 184, 0.5);
+      animation-name: progress-grow;
+      animation-timeline: scroll(root block);
+    }
+
+    .site-shell {
+      animation-name: header-settle;
+      animation-timeline: scroll(root block);
+      animation-range: 0 160px;
+    }
+
+    .sprite-layer {
+      animation-name: sprite-depth;
+      animation-timeline: scroll(root block);
+    }
+
+    .layer-far { --depth: -40px; }
+    .layer-mid { --depth: -110px; }
+    .layer-near { --depth: -240px; }
+
+    .hero-grid {
+      view-timeline: --hero block;
+      animation-name: hero-exit;
+      animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+      animation-timeline: --hero;
+      animation-range: exit 20% exit 100%;
+    }
+
+    .hero-grid > .avatar-shell {
+      animation-name: avatar-in, avatar-drift;
+      animation-duration: 1300ms, auto;
+      animation-delay: 160ms, 0s;
+      animation-timing-function: var(--ease-out-expo), linear;
+      animation-fill-mode: both;
+      animation-timeline: auto, --hero;
+      animation-range: normal, exit 0% exit 100%;
+    }
+  }
+}
+
+@keyframes progress-grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes header-settle {
+  to {
+    border-color: var(--header-border-scrolled);
+    box-shadow: var(--header-shadow-scrolled);
+  }
+}
+
+@keyframes sprite-depth {
+  to {
+    translate: 0 var(--depth, 0);
+  }
+}
+
+@keyframes hero-exit {
+  to {
+    opacity: 0;
+    translate: 0 -40px;
+    scale: 0.97;
+  }
+}
+
+@keyframes avatar-drift {
+  to {
+    translate: 0 -72px;
+  }
+}
+
 @media print {
+  .scroll-progress {
+    display: none !important;
+  }
+
   .js-motion :is(.fx-slide-in, [data-reveal], .section-title > h2, h2.section-title, .section-title > .eyebrow) {
     opacity: 1 !important;
     animation: none !important;
