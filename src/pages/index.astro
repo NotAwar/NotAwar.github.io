@@ -5,7 +5,7 @@ import GitHubActivity from "../components/GitHubActivity.jsx";
 import ContributionGraph from "../components/ContributionGraph.jsx";
 import { activeProfile } from "../data/site";
 import { SITE_LOCATION, currentRole } from "../data/seo";
-import { eventCountries, eventShortName, pastEvents, speaking, upcomingEvents } from "../data/speaking";
+import { eventCountries, eventShortName, formatEventDates, pastEvents, speaking, upcomingEvents } from "../data/speaking";
 import { activeCertifications, certificationCode } from "../data/credly";
 
 const certNames = activeCertifications
@@ -21,6 +21,17 @@ const pageDescription = `${activeProfile.name} – ${activeProfile.title}${curre
 
 const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event) => eventShortName(event.name));
 const expertise = activeProfile.skills.primary.slice(0, 8);
+
+const heroEvent = upcomingEvents[0] ?? pastEvents[0];
+const heroTalk = heroEvent
+  ? {
+      name: eventShortName(heroEvent.name),
+      dates: formatEventDates(heroEvent),
+      endDate: heroEvent.end_date || heroEvent.start_date,
+      upcoming: heroEvent === upcomingEvents[0],
+      href: "/speaking/",
+    }
+  : null;
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} pageType="ProfilePage">
@@ -28,6 +39,8 @@ const expertise = activeProfile.skills.primary.slice(0, 8);
     client:idle
     name={activeProfile.name}
     headline={activeProfile.headline}
+    bio={activeProfile.bio}
+    talk={heroTalk}
     linkedinUrl={activeProfile.contact.linkedin}
     githubUrl={activeProfile.contact.github}
     sessionizeUrl={activeProfile.contact.sessionize}

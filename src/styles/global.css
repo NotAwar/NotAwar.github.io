@@ -417,7 +417,69 @@ nav.has-pill a.is-target {
 .stats-panel {
   grid-area: stats;
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.7rem;
+}
+
+.hero-lede {
+  max-width: 36rem;
+  margin: 0.2rem 0 1.1rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.talk-chip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.55rem;
+  padding: 0.45rem 0.95rem 0.5rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.talk-chip:hover,
+.talk-chip:focus-visible {
+  border-color: var(--neon);
+}
+
+.talk-chip-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+
+.talk-chip.is-upcoming .talk-chip-dot {
+  background: var(--neon);
+}
+
+.talk-chip-label {
+  color: var(--accent-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.talk-chip-date {
+  color: var(--muted);
+}
+
+.talk-chip-arrow {
+  transition: translate 300ms var(--ease-out-expo);
+}
+
+.talk-chip:hover .talk-chip-arrow {
+  translate: 4px 0;
 }
 
 .hero-animated {
@@ -618,7 +680,7 @@ nav.has-pill a.is-target {
   box-shadow: 4px 4px 0 var(--line);
 }
 
-.stat-card span {
+.stat-card > span {
   display: block;
   color: var(--muted);
   font-size: 0.85rem;
@@ -1560,6 +1622,23 @@ ul.chip-list {
   .page-intro {
     text-align: left;
   }
+
+  .hero-lede {
+    font-size: 0.95rem;
+  }
+
+  .speaking-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .speaking-stats .stat-card {
+    padding: 0.65rem 0.6rem 0.85rem;
+  }
+
+  .speaking-stats .stat-card > span {
+    font-size: 0.72rem;
+  }
 }
 
 /* ── Theme toggle ────────────────────────────────────── */
@@ -1640,7 +1719,20 @@ ul.chip-list {
   }
 
   .hero-lede {
-    animation: rise-in 900ms var(--ease-out-expo) 420ms both;
+    animation: rise-in 900ms var(--ease-out-expo) 400ms both;
+  }
+
+  .talk-chip {
+    animation: rise-in 900ms var(--ease-out-expo) 470ms both;
+  }
+
+  .talk-chip.is-upcoming .talk-chip-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: dot-ping 2.2s var(--ease-out) 1.4s infinite;
   }
 
   .hero-grid > .avatar-shell {
@@ -1652,11 +1744,23 @@ ul.chip-list {
     animation: rise-in 850ms var(--ease-out-expo) both;
   }
 
-  .hero-grid > .cta-row > :nth-child(1) { animation-delay: 480ms; }
-  .hero-grid > .cta-row > :nth-child(2) { animation-delay: 550ms; }
-  .hero-grid > .cta-row > :nth-child(3) { animation-delay: 620ms; }
-  .stats-panel > :nth-child(1) { animation-delay: 560ms; }
-  .stats-panel > :nth-child(2) { animation-delay: 640ms; }
+  .hero-grid > .cta-row > :nth-child(1) { animation-delay: 540ms; }
+  .hero-grid > .cta-row > :nth-child(2) { animation-delay: 610ms; }
+  .hero-grid > .cta-row > :nth-child(3) { animation-delay: 680ms; }
+  .stats-panel > :nth-child(1) { animation-delay: 600ms; }
+  .stats-panel > :nth-child(2) { animation-delay: 680ms; }
+}
+
+@keyframes dot-ping {
+  0% {
+    opacity: 0.75;
+    scale: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+    scale: 3.2;
+  }
 }
 
 @keyframes reveal-up {

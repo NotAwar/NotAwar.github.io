@@ -34,6 +34,8 @@ function StatValue({ value, suffix = "" }) {
 export default function NeonHero({
   name,
   headline,
+  bio,
+  talk,
   linkedinUrl,
   githubUrl,
   sessionizeUrl,
@@ -42,6 +44,12 @@ export default function NeonHero({
 }) {
   const githubUsername =
     githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
+
+  // Build-time "next talk" may have passed by the time someone visits
+  const [talkUpcoming, setTalkUpcoming] = useState(Boolean(talk?.upcoming));
+  useEffect(() => {
+    if (talk?.upcoming && talk.endDate < new Date().toISOString().slice(0, 10)) setTalkUpcoming(false);
+  }, [talk]);
 
   // ── GitHub stats ──────────────────────────────────────────────────────
   // Snapshot/fallback values show a "+" until live numbers arrive
@@ -145,6 +153,16 @@ export default function NeonHero({
             {animate && <span className="tw-cursor">|</span>}
           </span>
         </p>
+        {bio && <p className="hero-lede">{bio}</p>}
+        {talk && (
+          <a className={`talk-chip${talkUpcoming ? " is-upcoming" : ""}`} href={talk.href}>
+            <span className="talk-chip-dot" aria-hidden="true" />
+            <span className="talk-chip-label">{talkUpcoming ? "Next talk" : "Latest talk"}</span>
+            <span className="talk-chip-name">{talk.name}</span>
+            <span className="talk-chip-date">{talk.dates}</span>
+            <span className="talk-chip-arrow" aria-hidden="true">→</span>
+          </a>
+        )}
       </div>
 
       <div className="avatar-shell">
