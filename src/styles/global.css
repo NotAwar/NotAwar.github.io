@@ -1121,10 +1121,36 @@ h2.section-title::before {
   border-radius: 2px;
   flex-shrink: 0;
   transition: opacity 0.15s ease, box-shadow 0.15s ease;
+  background: var(--cg-l0);
 }
 
+.cg-wrap {
+  --cg-l0: rgba(71, 66, 51, 0.35);
+  --cg-l1: rgba(247, 239, 184, 0.18);
+  --cg-l2: rgba(247, 239, 184, 0.42);
+  --cg-l3: rgba(247, 239, 184, 0.7);
+  --cg-l4: #f7efb8;
+  --cg-glow: 0 0 5px rgba(247, 239, 184, 0.55);
+}
+
+[data-theme="light"] .cg-wrap {
+  --cg-l0: rgba(122, 101, 16, 0.1);
+  --cg-l1: rgba(122, 101, 16, 0.28);
+  --cg-l2: rgba(122, 101, 16, 0.5);
+  --cg-l3: rgba(122, 101, 16, 0.75);
+  --cg-l4: #5c4b08;
+  --cg-glow: none;
+}
+
+.cg-cell.cg-empty { visibility: hidden; }
+.cg-cell.cg-l1 { background: var(--cg-l1); }
+.cg-cell.cg-l2 { background: var(--cg-l2); }
+.cg-cell.cg-l3 { background: var(--cg-l3); }
+.cg-cell.cg-l4 { background: var(--cg-l4); box-shadow: var(--cg-glow); }
+.cg-legend .cg-cell.cg-l4 { box-shadow: none; }
+
 .cg-cell:hover {
-  outline: 1px solid rgba(247, 239, 184, 0.5);
+  outline: 1px solid var(--neon);
   outline-offset: 1px;
 }
 

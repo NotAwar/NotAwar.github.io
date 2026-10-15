@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
+import { fetchContributions, contributionTotal } from "../lib/github-contributions.js";
 
 const CELL = 11;
 const GAP = 3;
 const STRIDE = CELL + GAP;
 const DAY_LABEL_W = 26;
 const MONTH_H = 18;
-
-const LEVELS = [
-  "rgba(71, 66, 51, 0.35)",    // 0 – empty
-  "rgba(247, 239, 184, 0.18)", // 1 – low
-  "rgba(247, 239, 184, 0.42)", // 2 – medium
-  "rgba(247, 239, 184, 0.70)", // 3 – high
-  "#f7efb8",                   // 4 – max (= var(--neon))
-];
+const LEVEL_COUNT = 5;
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAY_LABELS = ["", "Mon", "", "Wed", "", "Fri", ""];
@@ -29,19 +23,11 @@ export default function ContributionGraph({ githubUrl }) {
 
     async function load() {
       try {
-        const ctrl = new AbortController();
-        const tid  = setTimeout(() => ctrl.abort(), 8000);
-        const res  = await fetch(
-          `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,
-          { signal: ctrl.signal }
-        );
-        clearTimeout(tid);
-        if (!res.ok) throw new Error();
-        const json = await res.json();
+        const json = await fetchContributions(username);
         if (!alive) return;
 
         const days = json.contributions ?? [];
-        const yearTotal = Object.values(json.total ?? {}).reduce((a, b) => a + b, 0);
+        const yearTotal = contributionTotal(json);
 
         // Build week columns
         const built = [];
@@ -97,8 +83,8 @@ export default function ContributionGraph({ githubUrl }) {
       </p>
 
       {/* scrollable area */}
-      <div className="cg-scroll">
-        <div className="cg-inner" style={{ width: totalW }}>
+      <div className="cg-scroll" role="img" aria-label={`GitHub contribution calendar: ${total.toLocaleString()} contributions in the last year`}>
+        <div className="cg-inner" style={{ width: totalW }} aria-hidden="true">
 
           {/* Month labels row */}
           <div className="cg-months" style={{ marginLeft: DAY_LABEL_W, height: MONTH_H }}>
@@ -127,15 +113,7 @@ export default function ContributionGraph({ githubUrl }) {
                   {week.map((day, di) => (
                     <div
                       key={di}
-                      className="cg-cell"
-                      style={{
-                        background: day ? LEVELS[day.level] : "transparent",
-                        opacity: day === null ? 0 : 1,
-                        boxShadow:
-                          day?.level === 4
-                            ? "0 0 5px rgba(247,239,184,0.55)"
-                            : "none",
-                      }}
+                      className={day ? `cg-cell cg-l${Math.min(Math.max(day.level ?? 0, 0), LEVEL_COUNT - 1)}` : "cg-cell cg-empty"}
                       title={day ? `${day.count} contribution${day.count !== 1 ? "s" : ""} on ${day.date}` : undefined}
                     />
                   ))}
@@ -148,10 +126,10 @@ export default function ContributionGraph({ githubUrl }) {
       </div>
 
       {/* Legend */}
-      <div className="cg-legend">
+      <div className="cg-legend" aria-hidden="true">
         <span>Less</span>
-        {LEVELS.map((color, i) => (
-          <div key={i} className="cg-cell" style={{ background: color, opacity: 1 }} />
+        {Array.from({ length: LEVEL_COUNT }, (_, i) => (
+          <div key={i} className={`cg-cell cg-l${i}`} />
         ))}
         <span>More</span>
       </div>

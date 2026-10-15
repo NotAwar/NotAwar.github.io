@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import RadarRing from "./RadarRing.jsx";
+import { fetchContributions, contributionTotal } from "../lib/github-contributions.js";
 
 const TITLES = [
   "Cloud Native Architect",
@@ -75,31 +76,14 @@ export default function NeonHero({
     if (hasPositiveNumber(metrics?.github_contributions)) return;
     let alive = true;
 
-    (async () => {
-      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-        try {
-          const ctrl = new AbortController();
-          const tid  = setTimeout(() => ctrl.abort(), 8000);
-          const res  = await fetch(
-            `https://github-contributions-api.jogruber.de/v4/${githubUsername}?y=last`,
-            { signal: ctrl.signal }
-          );
-          clearTimeout(tid);
-          if (!res.ok) throw new Error(`${res.status}`);
-          const data = await res.json();
-          const yearTotal = Object.values(data.total ?? {}).reduce(
-            (sum, value) => sum + (typeof value === "number" ? value : 0),
-            0
-          );
-          if (!Number.isFinite(yearTotal) || yearTotal <= 0) throw new Error("bad format");
-          if (alive) setStats((s) => ({ ...s, contributions: yearTotal.toLocaleString() }));
-          return;
-        } catch {
-          if (attempt < MAX_RETRIES - 1)
-            await new Promise((r) => setTimeout(r, RETRY_DELAY * 2 ** attempt));
+    fetchContributions(githubUsername)
+      .then((data) => {
+        const yearTotal = contributionTotal(data);
+        if (alive && Number.isFinite(yearTotal) && yearTotal > 0) {
+          setStats((s) => ({ ...s, contributions: yearTotal.toLocaleString() }));
         }
-      }
-    })();
+      })
+      .catch(() => {});
 
     return () => { alive = false; };
   }, [githubUsername, metrics]);
