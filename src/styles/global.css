@@ -1709,6 +1709,60 @@ ul.chip-list {
 }
 
 /*
+ * Count-up numbers: --num is a registered integer, so it can animate and
+ * counter() prints it. The real value lives in a sibling .sr-only span for
+ * screen readers and crawlers; without @property support it just shows --to.
+ */
+@property --num {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+.count-up {
+  --num: var(--to, 0);
+  counter-reset: num var(--num);
+  font-variant-numeric: tabular-nums;
+}
+
+.count-up::after {
+  content: counter(num) var(--suffix, "");
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Later value changes (e.g. live GitHub stats) roll smoothly */
+  .count-up {
+    transition: --num 900ms var(--ease-out);
+  }
+
+  .stats-panel .count-up {
+    animation: count-from-zero 1700ms cubic-bezier(0.25, 1, 0.5, 1) 620ms backwards;
+  }
+
+  .js-motion .is-visible .count-up {
+    animation: count-from-zero 1700ms cubic-bezier(0.25, 1, 0.5, 1) calc(var(--reveal-delay, 0ms) + 180ms) backwards;
+  }
+
+  /* Contribution graph: cells pop in as a diagonal wave once revealed */
+  .js-motion .cg-panel.is-visible .cg-weeks .cg-cell {
+    animation: cg-pop 560ms var(--ease-out-expo) calc(var(--wi, 0) * 11ms + var(--di, 0) * 24ms + 200ms) backwards;
+  }
+}
+
+@keyframes count-from-zero {
+  from {
+    --num: 0;
+  }
+}
+
+@keyframes cg-pop {
+  from {
+    opacity: 0;
+    scale: 0.2;
+  }
+}
+
+/*
  * Scroll-driven effects (compositor-driven, no JS). Browsers without
  * scroll timelines simply get the static layout.
  */

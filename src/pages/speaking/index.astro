@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CountUp from "../../components/CountUp.astro";
 import { activeProfile } from "../../data/site";
 import { PERSON_ID, absoluteUrl } from "../../data/seo";
 import {
@@ -67,9 +68,9 @@ const schema = speaking.events.map(eventSchema);
     </div>
     {hasData && (
       <div class="speaking-stats">
-        <div class="stat-card"><span>Conferences</span><strong>{speaking.events.length}</strong></div>
-        <div class="stat-card"><span>Countries</span><strong>{eventCountries.length}</strong></div>
-        <div class="stat-card"><span>Talks</span><strong>{speaking.sessions.length}</strong></div>
+        <div class="stat-card"><span>Conferences</span><CountUp value={speaking.events.length} /></div>
+        <div class="stat-card"><span>Countries</span><CountUp value={eventCountries.length} /></div>
+        <div class="stat-card"><span>Talks</span><CountUp value={speaking.sessions.length} /></div>
       </div>
     )}
     <div class="cta-row">

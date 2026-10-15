@@ -21,6 +21,16 @@ function hasPositiveNumber(v) {
   return typeof v === "number" && v > 0;
 }
 
+// Visual number counts up via CSS (@property --num); real text stays for AT/crawlers
+function StatValue({ value, suffix = "" }) {
+  return (
+    <strong>
+      <span className="count-up" aria-hidden="true" style={{ "--to": value, "--suffix": `"${suffix}"` }} />
+      <span className="sr-only">{`${value.toLocaleString("en-GB")}${suffix}`}</span>
+    </strong>
+  );
+}
+
 export default function NeonHero({
   name,
   headline,
@@ -34,13 +44,12 @@ export default function NeonHero({
     githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 
   // ── GitHub stats ──────────────────────────────────────────────────────
+  // Snapshot/fallback values show a "+" until live numbers arrive
   const [stats, setStats] = useState(() => ({
-    contributions: hasPositiveNumber(metrics?.github_contributions)
-      ? `${metrics.github_contributions}+`
-      : "620+",
-    repos: hasPositiveNumber(metrics?.github_repos)
-      ? `${metrics.github_repos}`
-      : "45+",
+    contributions: hasPositiveNumber(metrics?.github_contributions) ? metrics.github_contributions : 620,
+    contributionsExact: false,
+    repos: hasPositiveNumber(metrics?.github_repos) ? metrics.github_repos : 20,
+    reposExact: hasPositiveNumber(metrics?.github_repos),
   }));
 
   useEffect(() => {
@@ -60,7 +69,7 @@ export default function NeonHero({
           if (!res.ok) throw new Error(`${res.status}`);
           const data = await res.json();
           if (typeof data.public_repos !== "number") throw new Error("bad format");
-          if (alive) setStats((s) => ({ ...s, repos: `${data.public_repos}` }));
+          if (alive) setStats((s) => ({ ...s, repos: data.public_repos, reposExact: true }));
           return;
         } catch {
           if (attempt < MAX_RETRIES - 1)
@@ -80,7 +89,7 @@ export default function NeonHero({
       .then((data) => {
         const yearTotal = contributionTotal(data);
         if (alive && Number.isFinite(yearTotal) && yearTotal > 0) {
-          setStats((s) => ({ ...s, contributions: yearTotal.toLocaleString() }));
+          setStats((s) => ({ ...s, contributions: yearTotal, contributionsExact: true }));
         }
       })
       .catch(() => {});
@@ -163,11 +172,11 @@ export default function NeonHero({
       <div className="stats-panel">
         <div className="stat-card">
           <span>Contributions</span>
-          <strong>{stats.contributions}</strong>
+          <StatValue value={stats.contributions} suffix={stats.contributionsExact ? "" : "+"} />
         </div>
         <div className="stat-card">
           <span>Public Repos</span>
-          <strong>{stats.repos}</strong>
+          <StatValue value={stats.repos} suffix={stats.reposExact ? "" : "+"} />
         </div>
       </div>
     </section>

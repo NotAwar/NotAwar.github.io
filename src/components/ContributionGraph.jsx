@@ -79,7 +79,10 @@ export default function ContributionGraph({ githubUrl }) {
   return (
     <div className="cg-wrap">
       <p className="cg-total">
-        <strong>{total.toLocaleString()}</strong> contributions in the last year
+        <strong>
+          <span className="count-up" aria-hidden="true" style={{ "--to": total }} />
+          <span className="sr-only">{total.toLocaleString("en-GB")}</span>
+        </strong>{" "}contributions in the last year
       </p>
 
       {/* scrollable area */}
@@ -109,10 +112,11 @@ export default function ContributionGraph({ githubUrl }) {
 
             <div className="cg-weeks">
               {grid.map((week, wi) => (
-                <div key={wi} className="cg-week">
+                <div key={wi} className="cg-week" style={{ "--wi": wi }}>
                   {week.map((day, di) => (
                     <div
                       key={di}
+                      style={{ "--di": di }}
                       className={day ? `cg-cell cg-l${Math.min(Math.max(day.level ?? 0, 0), LEVEL_COUNT - 1)}` : "cg-cell cg-empty"}
                       title={day ? `${day.count} contribution${day.count !== 1 ? "s" : ""} on ${day.date}` : undefined}
                     />
