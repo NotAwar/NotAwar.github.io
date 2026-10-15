@@ -142,9 +142,7 @@ const jsonLd = noindex
           }
         </ul>
       </nav>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
-        <!-- icon and label injected by script below -->
-      </button>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle light/dark theme"></button>
     </header>
     <script is:inline>
       (function () {
@@ -158,7 +156,8 @@ const jsonLd = noindex
           return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
         }
 
-        function applyTheme(theme) {
+        function applyTheme(theme, persist) {
+          var next = theme === "light" ? "dark" : "light";
           if (theme === "light") {
             document.documentElement.setAttribute("data-theme", "light");
             btn.innerHTML = moonIcon + "<span>Dark</span>";
@@ -166,15 +165,28 @@ const jsonLd = noindex
             document.documentElement.removeAttribute("data-theme");
             btn.innerHTML = sunIcon + "<span>Light</span>";
           }
-          try { localStorage.setItem("theme", theme); } catch (_) {}
+          btn.setAttribute("aria-label", "Switch to " + next + " theme");
+          btn.setAttribute("title", "Switch to " + next + " theme");
+          if (persist) {
+            try { localStorage.setItem("theme", theme); } catch (_) {}
+          }
         }
 
-        // Set initial button state
-        applyTheme(getTheme());
+        // Set initial button state without pinning the system preference
+        applyTheme(getTheme(), false);
 
         btn.addEventListener("click", function () {
-          applyTheme(getTheme() === "light" ? "dark" : "light");
+          applyTheme(getTheme() === "light" ? "dark" : "light", true);
         });
+
+        // Follow OS theme changes until the visitor picks a theme explicitly
+        var media = window.matchMedia("(prefers-color-scheme: light)");
+        var onSystemChange = function (event) {
+          var stored = null;
+          try { stored = localStorage.getItem("theme"); } catch (_) {}
+          if (!stored) applyTheme(event.matches ? "light" : "dark", false);
+        };
+        if (media.addEventListener) media.addEventListener("change", onSystemChange);
       })();
     </script>
     <main class="container">
