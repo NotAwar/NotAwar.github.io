@@ -126,7 +126,7 @@ export default function NeonHero({
 
   // ── Render ────────────────────────────────────────────────────────────
   return (
-    <section className="hero-grid fx-slide-in hero-animated">
+    <section className="hero-grid hero-animated">
       <div className="hero-title-block">
         <h1 className="hero-title">{name}</h1>
         <p className="hero-subtitle">

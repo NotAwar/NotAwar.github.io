@@ -9,7 +9,7 @@ const { badge } = Astro.props;
 const expired = isExpired(badge);
 ---
 
-<li class:list={["badge-item", { "is-expired": expired }]}>
+<li class:list={["badge-item", { "is-expired": expired }]} data-reveal>
   <a class="badge-link" href={badge.url} target="_blank" rel="noopener noreferrer">
     {badge.image && (
       <img src={badgeImage(badge.image)} width="88" height="88" alt="" loading="lazy" decoding="async" />
