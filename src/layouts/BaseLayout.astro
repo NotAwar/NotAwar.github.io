@@ -106,6 +106,8 @@ const jsonLd = noindex
     {sameAs.map((url) => <link rel="me" href={url} />)}
     {jsonLd && <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
     <Font cssVariable="--font-orbitron" preload={[{ subset: "latin" }]} />
+    <!-- Hold first render until the header is parsed so page transitions can morph it -->
+    <link rel="expect" href="#main" blocking="render" />
     <!-- Prevent flash of wrong theme; flag JS-driven motion before first paint -->
     <script is:inline>
       (function () {
@@ -140,6 +142,7 @@ const jsonLd = noindex
     <header class="site-shell">
       <a class="brand" href="/">AWAR//SYS</a>
       <nav aria-label="Main">
+        <span class="nav-pill" aria-hidden="true"></span>
         <ul>
           {
             navigation.map((item) => (
@@ -190,7 +193,25 @@ const jsonLd = noindex
         applyTheme(getTheme(), false);
 
         btn.addEventListener("click", function () {
-          applyTheme(getTheme() === "light" ? "dark" : "light", true);
+          var next = getTheme() === "light" ? "dark" : "light";
+          var root = document.documentElement;
+          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var swap = function () {
+            applyTheme(next, true);
+            btn.classList.add("is-switched");
+          };
+          if (!document.startViewTransition || reduce) {
+            swap();
+            return;
+          }
+          // Circular reveal of the new theme, expanding from the toggle
+          var rect = btn.getBoundingClientRect();
+          root.style.setProperty("--vt-x", rect.left + rect.width / 2 + "px");
+          root.style.setProperty("--vt-y", rect.top + rect.height / 2 + "px");
+          root.classList.add("theme-vt");
+          document.startViewTransition(swap).finished.finally(function () {
+            root.classList.remove("theme-vt");
+          });
         });
 
         // Follow OS theme changes until the visitor picks a theme explicitly
@@ -201,6 +222,51 @@ const jsonLd = noindex
           if (!stored) applyTheme(event.matches ? "light" : "dark", false);
         };
         if (media.addEventListener) media.addEventListener("change", onSystemChange);
+      })();
+
+      // Sliding nav pill: follows hover/focus and rests on the current page
+      (function () {
+        var nav = document.querySelector(".site-shell nav");
+        var pill = nav && nav.querySelector(".nav-pill");
+        if (!pill) return;
+        var links = Array.prototype.slice.call(nav.querySelectorAll("a"));
+        var current = nav.querySelector('a[aria-current="page"]');
+
+        function moveTo(link, instant) {
+          links.forEach(function (a) { a.classList.toggle("is-target", a === link); });
+          if (!link) {
+            pill.classList.remove("is-on");
+            return;
+          }
+          var navRect = nav.getBoundingClientRect();
+          var rect = link.getBoundingClientRect();
+          if (instant) pill.style.transition = "none";
+          pill.style.setProperty("--pill-x", rect.left - navRect.left + "px");
+          pill.style.setProperty("--pill-y", rect.top - navRect.top + "px");
+          pill.style.setProperty("--pill-w", rect.width + "px");
+          pill.style.setProperty("--pill-h", rect.height + "px");
+          pill.classList.add("is-on");
+          if (instant) {
+            void pill.offsetWidth;
+            pill.style.transition = "";
+          }
+        }
+
+        nav.classList.add("has-pill");
+        moveTo(current, true);
+
+        links.forEach(function (a) {
+          a.addEventListener("pointerenter", function () { moveTo(a); });
+          a.addEventListener("focus", function () { moveTo(a); });
+        });
+        nav.addEventListener("pointerleave", function () { moveTo(current); });
+        nav.addEventListener("focusout", function (event) {
+          if (!nav.contains(event.relatedTarget)) moveTo(current);
+        });
+
+        var resync = function () { moveTo(nav.querySelector("a.is-target") || current, true); };
+        window.addEventListener("resize", resync);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(resync);
       })();
     </script>
     <main class="container" id="main" tabindex="-1">

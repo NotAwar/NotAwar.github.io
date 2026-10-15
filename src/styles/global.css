@@ -300,6 +300,57 @@ nav a[aria-current="page"] {
   background: var(--neon);
 }
 
+/* JS-enhanced nav: one pill slides between links instead of per-link fills */
+nav {
+  position: relative;
+}
+
+nav ul {
+  position: relative;
+  z-index: 1;
+}
+
+.nav-pill {
+  display: none;
+}
+
+nav.has-pill .nav-pill {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--pill-w, 0);
+  height: var(--pill-h, 0);
+  translate: var(--pill-x, 0) var(--pill-y, 0);
+  border-radius: 999px;
+  background: var(--neon);
+  box-shadow: 0 0 18px rgba(247, 239, 184, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    translate 480ms var(--ease-out-expo),
+    width 480ms var(--ease-out-expo),
+    height 480ms var(--ease-out-expo),
+    opacity 200ms ease;
+}
+
+nav.has-pill .nav-pill.is-on {
+  opacity: 1;
+}
+
+nav.has-pill a,
+nav.has-pill a:hover,
+nav.has-pill a.active,
+nav.has-pill a[aria-current="page"] {
+  color: var(--text);
+  background: transparent;
+  transition: color 300ms var(--ease-out);
+}
+
+nav.has-pill a.is-target {
+  color: var(--bg);
+}
+
 
 .container {
   padding: 2rem 0 4rem;
@@ -1471,17 +1522,34 @@ ul.chip-list {
 
 @media (max-width: 680px) {
   :root {
-    --header-offset: 10rem;
+    --header-offset: 7.5rem;
   }
 
   .site-shell {
-    flex-direction: column;
-    gap: 0.7rem;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.7rem;
+    padding: 0.55rem 0.8rem 0.6rem;
+    border-radius: 22px;
+  }
+
+  .brand {
+    padding-left: 0.3rem;
+  }
+
+  .site-shell nav {
+    order: 3;
+    width: 100%;
   }
 
   nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 0.2rem;
+  }
+
+  nav a {
+    display: block;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.88rem;
   }
 
   .site-footer {
@@ -1755,6 +1823,96 @@ ul.chip-list {
   }
 }
 
+/*
+ * Page transitions (cross-document View Transitions, no router): the
+ * header stays put, the nav pill glides to the new page and content
+ * cross-fades while the new page's reveal animations play.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  .site-shell {
+    view-transition-name: site-header;
+  }
+
+  nav.has-pill .nav-pill {
+    view-transition-name: nav-pill;
+  }
+
+  nav.has-pill ul {
+    view-transition-name: nav-links;
+  }
+}
+
+::view-transition-old(root) {
+  animation: vt-fade-out 200ms ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: vt-fade-in 420ms var(--ease-out) 60ms both;
+}
+
+::view-transition-group(nav-pill),
+::view-transition-group(nav-links) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-out-expo);
+}
+
+/* Theme switch: new theme expands as a circle from the toggle */
+.theme-vt .site-shell,
+.theme-vt nav.has-pill .nav-pill,
+.theme-vt nav.has-pill ul {
+  view-transition-name: none;
+}
+
+.theme-vt::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-vt::view-transition-new(root) {
+  animation: theme-reveal 720ms var(--ease-in-out) both;
+  mix-blend-mode: normal;
+}
+
+.theme-toggle.is-switched svg {
+  animation: icon-swap 600ms var(--ease-out-expo) both;
+}
+
+[data-theme="light"] nav.has-pill .nav-pill {
+  box-shadow: none;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+}
+
+@keyframes icon-swap {
+  from {
+    opacity: 0;
+    rotate: -120deg;
+    scale: 0.4;
+  }
+}
 @media print {
   .scroll-progress {
     display: none !important;
