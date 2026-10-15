@@ -282,6 +282,36 @@ const jsonLd = noindex
     </footer>
     <script is:inline>
       (function () {
+        // Lazy images fade in once loaded (CSS only hides them under no-preference)
+        document.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+          if (img.complete) return;
+          img.setAttribute("data-loading", "");
+          function done() { img.removeAttribute("data-loading"); }
+          img.addEventListener("load", done, { once: true });
+          img.addEventListener("error", done, { once: true });
+        });
+
+        // Cursor spotlight position for cards (one delegated, rAF-throttled listener)
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        var SPOT = ".card, .badge-link, .event-item, .li-post-card, .stat-card";
+        var last = null;
+        var frame = 0;
+        document.addEventListener("pointermove", function (e) {
+          last = e;
+          if (frame) return;
+          frame = requestAnimationFrame(function () {
+            frame = 0;
+            var el = last.target instanceof Element && last.target.closest(SPOT);
+            if (!el) return;
+            var r = el.getBoundingClientRect();
+            el.style.setProperty("--mx", Math.round(last.clientX - r.left) + "px");
+            el.style.setProperty("--my", Math.round(last.clientY - r.top) + "px");
+          });
+        }, { passive: true });
+      })();
+    </script>
+    <script is:inline>
+      (function () {
         var root = document.documentElement;
         if (!root.classList.contains("js-motion")) return;
 

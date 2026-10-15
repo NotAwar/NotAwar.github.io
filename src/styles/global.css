@@ -1763,6 +1763,81 @@ ul.chip-list {
 }
 
 /*
+ * Micro-interactions: a soft cursor spotlight on cards (fine pointers only,
+ * position fed by BaseLayout), a shine sweep on buttons, tactile press
+ * states and lazy images that fade in once decoded.
+ */
+:root {
+  --spotlight: rgba(247, 239, 184, 0.09);
+  --shine: rgba(247, 239, 184, 0.16);
+}
+
+[data-theme="light"] {
+  --spotlight: rgba(122, 101, 16, 0.08);
+  --shine: rgba(255, 255, 255, 0.55);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge-link,
+  .event-item {
+    position: relative;
+  }
+
+  :is(.card, .badge-link, .event-item, .li-post-card, .stat-card)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--spotlight), transparent 70%);
+    opacity: 0;
+    transition: opacity 350ms var(--ease-out);
+  }
+
+  :is(.card, .badge-link, .event-item, .li-post-card, .stat-card):hover::after {
+    opacity: 1;
+  }
+}
+
+/* :root matches the specificity of the light-theme hover rules */
+:root .btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--neon-alt);
+  transition-duration: 60ms;
+}
+
+:root .card:active {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--neon-alt);
+  transition-duration: 60ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 30%, var(--shine) 50%, transparent 70%);
+    translate: -110% 0;
+  }
+
+  .btn:hover::after {
+    translate: 110% 0;
+    transition: translate 750ms var(--ease-out);
+  }
+
+  img[loading="lazy"] {
+    transition: opacity 500ms var(--ease-out), scale 700ms var(--ease-out-expo);
+  }
+
+  img[data-loading] {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+
+/*
  * Scroll-driven effects (compositor-driven, no JS). Browsers without
  * scroll timelines simply get the static layout.
  */
