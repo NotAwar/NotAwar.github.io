@@ -5,9 +5,13 @@ import GitHubActivity from "../components/GitHubActivity.jsx";
 import ContributionGraph from "../components/ContributionGraph.jsx";
 import { activeProfile } from "../data/site";
 import { SITE_LOCATION, currentRole } from "../data/seo";
+import { eventCountries, eventShortName, pastEvents, speaking, upcomingEvents } from "../data/speaking";
 
 const pageTitle = `${activeProfile.name} – Cloud Native Engineer & Kubernetes Speaker`;
 const pageDescription = `${activeProfile.name} – ${activeProfile.title}${currentRole ? ` at ${currentRole.company}` : ""} in ${SITE_LOCATION.locality}. Speaker on Kubernetes, Azure, GitOps & platform engineering.`;
+
+const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event) => eventShortName(event.name));
+const expertise = activeProfile.skills.primary.slice(0, 8);
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} pageType="ProfilePage">
@@ -21,6 +25,35 @@ const pageDescription = `${activeProfile.name} – ${activeProfile.title}${curre
     metrics={activeProfile.metrics}
     avatarUrl={activeProfile.avatar_url}
   />
+
+  <section class="section-title" aria-labelledby="about-heading">
+    <p class="eyebrow">About // Profile</p>
+    <h2 id="about-heading">About Me</h2>
+    <div class="panel fx-slide-in about-panel">
+      <p class="about-lede">{activeProfile.summary}</p>
+      {featuredEvents.length > 0 && (
+        <p>
+          I speak about Kubernetes, GitOps and platform engineering at conferences across Europe – including{" "}
+          {featuredEvents.slice(0, -1).join(", ")}{featuredEvents.length > 1 ? " and " : ""}{featuredEvents[featuredEvents.length - 1]}.{" "}
+          <a href="/speaking/">See all {speaking.events.length} conference talks in {eventCountries.length} countries</a>.
+        </p>
+      )}
+      {activeProfile.current_focus.length > 0 && (
+        <>
+          <h3>Current focus</h3>
+          <ul class="focus-list">
+            {activeProfile.current_focus.map((item) => <li>{item}</li>)}
+          </ul>
+        </>
+      )}
+      {expertise.length > 0 && (
+        <ul class="chip-list" aria-label="Areas of expertise">
+          {expertise.map((skill) => <li class="chip">{skill}</li>)}
+        </ul>
+      )}
+      <p class="about-more"><a href="/cv/">Read the full CV →</a></p>
+    </div>
+  </section>
   <section class="section-title">
     <p class="eyebrow">Explore // Site</p>
     <h2>Where to Next</h2>
@@ -142,7 +175,7 @@ const pageDescription = `${activeProfile.name} – ${activeProfile.title}${curre
               <p class="li-title">{activeProfile.title}</p>
             </div>
           </div>
-          <p class="li-summary">{activeProfile.summary}</p>
+          <p class="li-summary">{activeProfile.bio}</p>
           <div class="cta-row">
             <a
               class="btn"

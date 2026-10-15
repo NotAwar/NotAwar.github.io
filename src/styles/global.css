@@ -100,6 +100,18 @@
   box-sizing: border-box;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 body {
   position: relative;
   margin: 0;
@@ -1169,6 +1181,66 @@ h2.section-title::before {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: flex-start;
+}
+
+/* ── About ───────────────────────────────────────────── */
+.about-panel {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.about-panel p {
+  margin: 0 0 0.8rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 80ch;
+}
+
+.about-panel .about-lede {
+  color: var(--text);
+  font-size: 1.02rem;
+}
+
+.about-panel h3 {
+  margin: 0.4rem 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--accent-soft);
+  letter-spacing: 0.05em;
+}
+
+.about-panel a {
+  color: var(--neon);
+  text-underline-offset: 3px;
+}
+
+.focus-list {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.focus-list li::marker {
+  color: var(--neon);
+}
+
+ul.chip-list {
+  list-style: none;
+  margin: 0 0 0.8rem;
+  padding: 0;
+}
+
+.about-panel .about-more {
+  margin: 0.4rem 0 0;
+  font-weight: 700;
+}
+
+.about-more a {
+  text-decoration: none;
+}
+
+.about-more a:hover {
+  text-decoration: underline;
 }
 
 /* ── Speaking ────────────────────────────────────────── */

@@ -22,6 +22,7 @@ function hasPositiveNumber(v) {
 
 export default function NeonHero({
   name,
+  headline,
   linkedinUrl,
   githubUrl,
   sessionizeUrl,
@@ -104,9 +105,20 @@ export default function NeonHero({
   }, [githubUsername, metrics]);
 
   // ── Typewriter ────────────────────────────────────────────────────────
-  const [tw, setTw] = useState({ idx: 0, chars: 0, deleting: false });
+  // Start fully typed so the server-rendered HTML contains a real title.
+  const [tw, setTw] = useState({ idx: 0, chars: TITLES[0].length, deleting: false });
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setAnimate(!query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!animate) return;
     const target = TITLES[tw.idx];
     const ms =
       !tw.deleting && tw.chars === target.length ? PAUSE_END :
@@ -124,7 +136,7 @@ export default function NeonHero({
     }, ms);
 
     return () => clearTimeout(tid);
-  }, [tw]);
+  }, [tw, animate]);
 
   const displayedTitle = TITLES[tw.idx].slice(0, tw.chars);
 
@@ -133,10 +145,13 @@ export default function NeonHero({
     <section className="hero-grid fx-slide-in hero-animated">
       <div className="hero-title-block">
         <h1 className="hero-title">{name}</h1>
-        <h2 className="hero-subtitle">
-          {displayedTitle}
-          <span className="tw-cursor" aria-hidden="true">|</span>
-        </h2>
+        <p className="hero-subtitle">
+          <span className="sr-only">{headline || TITLES[0]}</span>
+          <span aria-hidden="true">
+            {displayedTitle}
+            {animate && <span className="tw-cursor">|</span>}
+          </span>
+        </p>
       </div>
 
       <div className="avatar-shell">
@@ -147,6 +162,8 @@ export default function NeonHero({
           alt={`${name} profile picture`}
           width="132"
           height="132"
+          fetchPriority="high"
+          decoding="async"
         />
       </div>
 
