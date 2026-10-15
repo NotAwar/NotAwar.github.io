@@ -3,7 +3,11 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { activeProfile } from "../../data/site";
 ---
 
-<BaseLayout title={`Socials | ${activeProfile.name}`} description="Connect with Awar Abdulkarim on GitHub, LinkedIn, and Sessionize.">
+<BaseLayout
+  title={`Contact & Social Links | ${activeProfile.name}`}
+  description={`Connect with ${activeProfile.name} on GitHub, LinkedIn and Sessionize – cloud native engineering, open source collaboration and conference speaking.`}
+  breadcrumbs={[{ name: "Socials", path: "/socials/" }]}
+>
   <section class="panel fx-slide-in">
     <div class="page-intro">
       <p class="eyebrow">Socials // Connect</p>

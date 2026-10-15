@@ -1,14 +1,18 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { activeProfile } from "../../data/site";
+import { currentRole } from "../../data/seo";
 
 const hasExperience = (activeProfile.experience?.length ?? 0) > 0;
 const hasEducation = (activeProfile.education?.length ?? 0) > 0;
 const hasPrimarySkills = (activeProfile.skills?.primary?.length ?? 0) > 0;
 const hasTechnicalSkills = (activeProfile.skills?.technical?.length ?? 0) > 0;
+
+const pageTitle = `CV & Experience | ${activeProfile.name} – Senior Cloud Engineer`;
+const pageDescription = `CV of ${activeProfile.name}: ${activeProfile.title}${currentRole ? ` at ${currentRole.company}` : ""}. Experience, education, certifications and skills in Kubernetes, Azure and DevOps.`;
 ---
 
-<BaseLayout title={`CV | ${activeProfile.name}`} description={activeProfile.summary}>
+<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={[{ name: "CV", path: "/cv/" }]}>
   <section class="panel fx-slide-in">
     <div class="page-intro">
       <p class="eyebrow">CV // Profile</p>

@@ -3,7 +3,11 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { activeProfile } from "../../data/site";
 ---
 
-<BaseLayout title={`Speaking | ${activeProfile.name}`} description="Conferences, meetups, and sessions by Awar Abdulkarim.">
+<BaseLayout
+  title={`Conference Talks & Speaking | ${activeProfile.name}`}
+  description={`Conference talks by ${activeProfile.name} on Kubernetes, GitOps, Azure and platform engineering – upcoming events, past sessions and how to book him as a speaker.`}
+  breadcrumbs={[{ name: "Speaking", path: "/speaking/" }]}
+>
   <section class="panel fx-slide-in">
     <div class="page-intro">
       <p class="eyebrow">Speaking // Sessions</p>

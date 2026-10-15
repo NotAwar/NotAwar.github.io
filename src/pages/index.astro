@@ -4,12 +4,13 @@ import NeonHero from "../components/NeonHero.jsx";
 import GitHubActivity from "../components/GitHubActivity.jsx";
 import ContributionGraph from "../components/ContributionGraph.jsx";
 import { activeProfile } from "../data/site";
+import { SITE_LOCATION, currentRole } from "../data/seo";
+
+const pageTitle = `${activeProfile.name} – Cloud Native Engineer & Kubernetes Speaker`;
+const pageDescription = `${activeProfile.name} – ${activeProfile.title}${currentRole ? ` at ${currentRole.company}` : ""} in ${SITE_LOCATION.locality}. Speaker on Kubernetes, Azure, GitOps & platform engineering.`;
 ---
 
-<BaseLayout
-  title={`${activeProfile.name} - Cloud Engineer & Tech Speaker`}
-  description="Cloud engineer passionate about Kubernetes, Azure, and building innovative tech solutions."
->
+<BaseLayout title={pageTitle} description={pageDescription} pageType="ProfilePage">
   <NeonHero
     client:idle
     name={activeProfile.name}
