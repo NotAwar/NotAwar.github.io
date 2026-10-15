@@ -1,5 +1,5 @@
 :root {
-  --font-base: "Orbitron", system-ui, sans-serif;
+  --font-base: var(--font-orbitron, "Orbitron"), system-ui, sans-serif;
   --bg: #0f1117;
   --bg-soft: #181b24;
   --text: #f7f4e7;

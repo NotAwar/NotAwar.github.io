@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 
@@ -13,6 +13,18 @@ export default defineConfig({
   output: "static",
   trailingSlash: "always",
   redirects,
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: "Orbitron",
+      cssVariable: "--font-orbitron",
+      weights: ["400 900"],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["system-ui", "sans-serif"],
+      display: "swap",
+    },
+  ],
   integrations: [
     react(),
     sitemap({

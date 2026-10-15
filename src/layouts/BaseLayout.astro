@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { Font } from "astro:assets";
 import { navigation, activeProfile } from "../data/site";
 import {
   DEFAULT_OG_IMAGE,
@@ -104,12 +105,7 @@ const jsonLd = noindex
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
     {sameAs.map((url) => <link rel="me" href={url} />)}
     {jsonLd && <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
-      rel="stylesheet"
-    />
+    <Font cssVariable="--font-orbitron" preload={[{ subset: "latin" }]} />
     <!-- Prevent flash of wrong theme -->
     <script is:inline>
       (function () {
