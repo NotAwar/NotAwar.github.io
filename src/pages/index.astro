@@ -154,8 +154,7 @@ const expertise = activeProfile.skills.primary.slice(0, 8);
                 href={post.url}
                 target="_blank"
                 rel="noreferrer"
-                title="Read post on LinkedIn in new tab"
-                aria-label="Read LinkedIn post"
+                title={`Read ${label} in new tab`}
               >
                 <span class="li-post-badge">
                   <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
@@ -166,7 +165,7 @@ const expertise = activeProfile.skills.primary.slice(0, 8);
                 <p class="li-post-text">{post.text}</p>
                 <div class="li-post-footer">
                   <span class="li-post-date">
-                    {post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}
+                    {post.published_at ? new Date(post.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "Recent"}
                   </span>
                   <span class="li-post-cta">Read post →</span>
                 </div>

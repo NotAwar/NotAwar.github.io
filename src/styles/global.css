@@ -112,6 +112,33 @@
   border: 0;
 }
 
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: var(--neon);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 3px;
+}
+
+main:focus {
+  outline: none;
+}
+
 body {
   position: relative;
   margin: 0;
@@ -254,7 +281,8 @@ nav a {
 
 
 nav a:hover,
-nav a.active {
+nav a.active,
+nav a[aria-current="page"] {
   color: var(--bg);
   background: var(--neon);
 }

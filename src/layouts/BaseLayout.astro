@@ -118,6 +118,7 @@ const jsonLd = noindex
     </script>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="bg-manga"></div>
     <div class="sprite-field" aria-hidden="true">
       <svg class="sprite sprite-1" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.9A4.5 4.5 0 0 1 17.5 19H6Z"/></svg>
@@ -129,12 +130,16 @@ const jsonLd = noindex
     </div>
     <header class="site-shell">
       <a class="brand" href="/">AWAR//SYS</a>
-      <nav>
+      <nav aria-label="Main">
         <ul>
           {
             navigation.map((item) => (
               <li>
-                <a href={item.link} class={pagePath === item.link ? "active" : ""}>
+                <a
+                  href={item.link}
+                  class={pagePath === item.link ? "active" : undefined}
+                  aria-current={pagePath === item.link ? "page" : undefined}
+                >
                   {item.name}
                 </a>
               </li>
@@ -189,7 +194,7 @@ const jsonLd = noindex
         if (media.addEventListener) media.addEventListener("change", onSystemChange);
       })();
     </script>
-    <main class="container">
+    <main class="container" id="main" tabindex="-1">
       <slot />
     </main>
     <footer class="site-footer">
