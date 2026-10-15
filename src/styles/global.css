@@ -729,6 +729,52 @@ nav.has-pill a.is-target {
   letter-spacing: 0.05em;
 }
 
+/* CV experience timeline (the fill line is scroll-driven where supported) */
+.timeline {
+  --tl-x: 0.6rem;
+  --tl-pad: 2.2rem;
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0 0 0 var(--tl-pad);
+  list-style: none;
+}
+
+.timeline::before,
+.timeline::after {
+  content: "";
+  position: absolute;
+  top: 3.1rem;
+  bottom: 0.5rem;
+  left: calc(var(--tl-x) - 1.5px);
+  width: 3px;
+  border-radius: 3px;
+  background: var(--line);
+}
+
+.timeline::after {
+  display: none;
+  background: linear-gradient(180deg, var(--neon), var(--neon-alt));
+  transform-origin: 50% 0;
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: calc(3.1rem - 8px);
+  left: calc(var(--tl-x) - var(--tl-pad) - 8px);
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--neon);
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 0 4px var(--bg);
+}
+
 .section-title {
   margin: 2rem 0 0.9rem;
 }
@@ -1627,6 +1673,11 @@ ul.chip-list {
     font-size: 0.95rem;
   }
 
+  .timeline {
+    --tl-x: 0.45rem;
+    --tl-pad: 1.6rem;
+  }
+
   .speaking-stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.5rem;
@@ -2020,6 +2071,49 @@ ul.chip-list {
       animation-timeline: auto, --hero;
       animation-range: normal, exit 0% exit 100%;
     }
+
+    /* Timeline fill tracks a reading line 40% down the viewport */
+    .timeline {
+      view-timeline-name: --timeline;
+      view-timeline-axis: block;
+      view-timeline-inset: 40% 59%;
+    }
+
+    .timeline::after {
+      display: block;
+      animation-name: line-draw;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --timeline;
+      animation-range: cover 0% cover 100%;
+    }
+
+    .timeline-item {
+      view-timeline-name: --tl-item;
+      view-timeline-axis: block;
+      view-timeline-inset: 40% 59%;
+    }
+
+    .timeline-dot {
+      animation-name: dot-on;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --tl-item;
+      animation-range: cover 2.5rem cover 3.6rem;
+    }
+  }
+}
+
+@keyframes line-draw {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes dot-on {
+  from {
+    background: var(--bg);
+    scale: 0.7;
   }
 }
 

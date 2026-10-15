@@ -35,31 +35,36 @@ const pageDescription = `CV of ${activeProfile.name}, ${activeProfile.title}${cu
   </section>
 
   <h2 class="section-title">Experience</h2>
-  <section class="cards">
+  <section>
     {hasExperience ? (
-      activeProfile.experience.map((job) => (
-        <article class="card fx-slide-in">
-          <h3>{job.position}</h3>
-          <p>
-            <strong>{job.company}</strong> · {job.period}
-          </p>
-          <p>{job.description}</p>
-          {job.achievements?.length ? (
-            <ul>
-              {job.achievements.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          ) : null}
-          {job.technologies?.length ? (
-            <div class="chip-list">
-              {job.technologies.map((tech) => (
-                <span class="chip">{tech}</span>
-              ))}
-            </div>
-          ) : null}
-        </article>
-      ))
+      <ol class="timeline">
+          {activeProfile.experience.map((job) => (
+              <li class="timeline-item" data-reveal>
+                <span class="timeline-dot" aria-hidden="true"></span>
+                <article class="card">
+                  <h3>{job.position}</h3>
+                  <p>
+                    <strong>{job.company}</strong> · {job.period}
+                  </p>
+                  <p>{job.description}</p>
+                  {job.achievements?.length ? (
+                    <ul>
+                      {job.achievements.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {job.technologies?.length ? (
+                    <div class="chip-list">
+                      {job.technologies.map((tech) => (
+                        <span class="chip">{tech}</span>
+                      ))}
+                    </div>
+                  ) : null}
+                </article>
+              </li>
+          ))}
+      </ol>
     ) : (
       <article class="card fx-slide-in">
         <h3>Experience is being updated</h3>
