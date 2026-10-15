@@ -1,5 +1,5 @@
 import { activeProfile } from "./site";
-import { activeCertifications } from "./credly";
+import { activeCertifications, credlyProfileUrl } from "./credly";
 
 export const SITE_URL = (import.meta.env.SITE ?? "https://awar.no").replace(/\/+$/, "");
 export const SITE_NAME = activeProfile.name;
@@ -32,7 +32,7 @@ export const githubUsername =
 
 export const sameAs = Array.from(
   new Set(
-    [activeProfile.contact.github, activeProfile.contact.linkedin, activeProfile.contact.sessionize]
+    [activeProfile.contact.github, activeProfile.contact.linkedin, activeProfile.contact.sessionize, credlyProfileUrl]
       .filter(Boolean)
       .map((url) => url.replace(/\/+$/, "")),
   ),
