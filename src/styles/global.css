@@ -1171,6 +1171,102 @@ h2.section-title::before {
   align-items: flex-start;
 }
 
+/* ── Speaking ────────────────────────────────────────── */
+.speaking-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+.event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.event-item {
+  display: grid;
+  grid-template-columns: minmax(9.5rem, auto) 1fr;
+  gap: 0.4rem 1.2rem;
+  align-items: baseline;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 0.85rem 1rem 1rem;
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--line);
+}
+
+.event-item.upcoming {
+  border-color: var(--neon);
+  box-shadow: 4px 4px 0 var(--neon-alt);
+}
+
+.event-date {
+  color: var(--accent-soft);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.event-name {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.event-name a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.event-name a:hover {
+  color: var(--neon);
+  text-decoration: underline;
+}
+
+.event-location {
+  margin: 0.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.session-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.session-card h3 {
+  margin-top: 0;
+  padding-right: 0.5rem;
+}
+
+.session-card p {
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 75ch;
+}
+
+.session-link {
+  display: inline-block;
+  margin-top: 0.3rem;
+  color: var(--neon);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.session-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+  .event-item {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 480px) {
   .credly-badges {
     justify-content: center;

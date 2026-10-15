@@ -9,9 +9,10 @@
     "preview": "astro preview",
     "sync-linkedin": "node scripts/sync-linkedin.js",
     "sync-buffer": "node scripts/sync-buffer.js",
+    "sync-sessionize": "node scripts/sync-sessionize.js",
     "generate-images": "node scripts/generate-images.mjs",
-    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && astro dev",
-    "build:sync": "npm run sync-linkedin && npm run sync-buffer && astro build"
+    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && astro dev",
+    "build:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && astro build"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

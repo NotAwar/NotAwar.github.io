@@ -41,12 +41,15 @@ jobs:
           BUFFER_CHANNEL_IDS: ${{ secrets.BUFFER_CHANNEL_IDS }}
         run: npm run sync-buffer
 
+      - name: Fetch talks and events from Sessionize
+        run: npm run sync-sessionize
+
       - name: Commit updated profile data
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/data/generated-profile.json
-          git diff --staged --quiet || git commit -m "Auto-sync: Update profile from LinkedIn and Buffer [skip ci]"
+          git add src/data/generated-profile.json src/data/sessionize.json
+          git diff --staged --quiet || git commit -m "Auto-sync: Update profile from LinkedIn, Buffer and Sessionize [skip ci]"
           if ! git push; then
             echo "⚠️ Warning: Failed to push updates"
             exit 0

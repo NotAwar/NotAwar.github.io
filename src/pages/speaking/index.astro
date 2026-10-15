@@ -1,48 +1,167 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { activeProfile } from "../../data/site";
+import { PERSON_ID, absoluteUrl } from "../../data/seo";
+import {
+  eventCountries,
+  eventShortName,
+  formatEventDates,
+  pastEvents,
+  speaking,
+  splitParagraphs,
+  upcomingEvents,
+  type SpeakingEvent,
+} from "../../data/speaking";
+
+const pageUrl = absoluteUrl("/speaking/");
+const hasData = speaking.sessions.length > 0 || speaking.events.length > 0;
+
+const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event) => eventShortName(event.name));
+const pageDescription = featuredEvents.length
+  ? `Talks by ${activeProfile.name} on Kubernetes, GitOps, Azure and platform engineering at ${featuredEvents.join(", ")} and more.`
+  : `Conference talks by ${activeProfile.name} on Kubernetes, GitOps, Azure and platform engineering – upcoming events, past sessions and how to book him as a speaker.`;
+
+function eventSchema(event: SpeakingEvent) {
+  const parts = event.location.split(",").map((part) => part.trim()).filter(Boolean);
+  return {
+    "@type": "Event",
+    "@id": `${pageUrl}#event-${event.id}`,
+    name: event.name,
+    startDate: event.start_date,
+    endDate: event.end_date || event.start_date,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    url: event.website || undefined,
+    location: parts.length
+      ? {
+          "@type": "Place",
+          name: event.location,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: parts[0],
+            addressCountry: parts[parts.length - 1],
+          },
+        }
+      : undefined,
+    performer: { "@id": PERSON_ID },
+  };
+}
+
+const schema = speaking.events.map(eventSchema);
 ---
 
 <BaseLayout
   title={`Conference Talks & Speaking | ${activeProfile.name}`}
-  description={`Conference talks by ${activeProfile.name} on Kubernetes, GitOps, Azure and platform engineering – upcoming events, past sessions and how to book him as a speaker.`}
+  description={pageDescription}
   breadcrumbs={[{ name: "Speaking", path: "/speaking/" }]}
+  schema={schema}
 >
   <section class="panel fx-slide-in">
     <div class="page-intro">
       <p class="eyebrow">Speaking // Sessions</p>
-      <h1>Speaking Engagements</h1>
+      <h1>Conference Talks &amp; Speaking</h1>
       <p>
-        Sharing practical cloud-native lessons around Kubernetes, Azure, automation, and platform engineering.
+        Sharing practical cloud-native lessons on Kubernetes, GitOps, Azure, automation and platform engineering
+        {speaking.events.length > 0 && ` at ${speaking.events.length} conferences across ${eventCountries.length} countries`}.
       </p>
     </div>
+    {hasData && (
+      <div class="speaking-stats">
+        <div class="stat-card"><span>Conferences</span><strong>{speaking.events.length}</strong></div>
+        <div class="stat-card"><span>Countries</span><strong>{eventCountries.length}</strong></div>
+        <div class="stat-card"><span>Talks</span><strong>{speaking.sessions.length}</strong></div>
+      </div>
+    )}
     <div class="cta-row">
-      <a class="btn neon" href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize profile in new tab" aria-label="View Sessionize speaking profile">
+      <a class="btn neon" href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize profile in new tab">
         View Sessionize Profile
       </a>
+      <a class="btn" href="#invite">Invite me to speak</a>
     </div>
   </section>
 
-  <h2 class="section-title">Places I'm Speaking At</h2>
-  <section class="panel fx-slide-in sessionize-panel" id="sessionize-events">
-    <script type="text/javascript" src="https://sessionize.com/api/speaker/events/8zkgq232gg/1x1x3fb393x"></script>
-  </section>
+  {hasData ? (
+    <>
+      {upcomingEvents.length > 0 && (
+        <section class="section-title" aria-labelledby="upcoming-heading">
+          <h2 id="upcoming-heading">Upcoming Talks</h2>
+          <ol class="event-list">
+            {upcomingEvents.map((event) => (
+              <li class="event-item fx-slide-in upcoming">
+                <time class="event-date" datetime={event.start_date}>{formatEventDates(event)}</time>
+                <div>
+                  <h3 class="event-name">
+                    {event.website ? <a href={event.website} target="_blank" rel="noreferrer">{event.name}</a> : event.name}
+                  </h3>
+                  {event.location && <p class="event-location">{event.location}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
-  <h2 class="section-title">What I'm Speaking About</h2>
-  <section class="panel fx-slide-in sessionize-panel" id="sessionize-sessions">
-    <script type="text/javascript" src="https://sessionize.com/api/speaker/sessions/8zkgq232gg/1x1x3fb393x"></script>
-  </section>
+      {speaking.sessions.length > 0 && (
+        <section class="section-title" aria-labelledby="sessions-heading">
+          <h2 id="sessions-heading">Talks &amp; Sessions</h2>
+          <div class="session-list">
+            {speaking.sessions.map((session) => (
+              <article class="card session-card fx-slide-in">
+                <h3>{session.title}</h3>
+                {splitParagraphs(session.description).map((paragraph) => <p>{paragraph}</p>)}
+                {session.url && (
+                  <a class="session-link" href={session.url} target="_blank" rel="noreferrer">
+                    Session details on Sessionize →
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
-  <section class="panel fx-slide-in">
+      {pastEvents.length > 0 && (
+        <section class="section-title" aria-labelledby="past-heading">
+          <h2 id="past-heading">Past Events</h2>
+          <ol class="event-list">
+            {pastEvents.map((event) => (
+              <li class="event-item fx-slide-in">
+                <time class="event-date" datetime={event.start_date}>{formatEventDates(event)}</time>
+                <div>
+                  <h3 class="event-name">
+                    {event.website ? <a href={event.website} target="_blank" rel="noreferrer">{event.name}</a> : event.name}
+                  </h3>
+                  {event.location && <p class="event-location">{event.location}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+    </>
+  ) : (
+    <>
+      <h2 class="section-title">Places I'm Speaking At</h2>
+      <section class="panel fx-slide-in sessionize-panel" id="sessionize-events">
+        <script type="text/javascript" src="https://sessionize.com/api/speaker/events/8zkgq232gg/1x1x3fb393x"></script>
+      </section>
+
+      <h2 class="section-title">What I'm Speaking About</h2>
+      <section class="panel fx-slide-in sessionize-panel" id="sessionize-sessions">
+        <script type="text/javascript" src="https://sessionize.com/api/speaker/sessions/8zkgq232gg/1x1x3fb393x"></script>
+      </section>
+    </>
+  )}
+
+  <section class="panel fx-slide-in section-title" id="invite">
     <h2>Invite me to speak</h2>
     <p>
-      Interested in having me at your event? Reach out on LinkedIn or review technical talks on GitHub and Sessionize.
+      Organising a conference, meetup or internal tech day? I speak about Kubernetes, GitOps, platform engineering and
+      building cloud-native organisations. Reach out on LinkedIn or browse my sessions on Sessionize.
     </p>
     <div class="cta-row">
-      <a class="btn neon" href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Connect on LinkedIn">Connect on LinkedIn</a>
-      <a class="btn" href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="View GitHub work">View GitHub Work</a>
+      <a class="btn neon" href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab">Connect on LinkedIn</a>
+      <a class="btn" href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab">Sessionize Profile</a>
     </div>
   </section>
-
 </BaseLayout>
-
