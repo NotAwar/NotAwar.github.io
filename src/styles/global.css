@@ -1584,6 +1584,186 @@ ul.chip-list {
   text-decoration: underline;
 }
 
+.session-more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: -0.2rem 0 0.8rem;
+  color: var(--neon);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.session-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.session-more summary:hover {
+  text-decoration: underline;
+}
+
+.session-more summary svg {
+  transition: transform 300ms var(--ease-out);
+}
+
+.session-more[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.session-more .when-open,
+.session-more[open] .when-closed {
+  display: none;
+}
+
+.session-more[open] .when-open {
+  display: inline;
+}
+
+.event-item {
+  transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.event-item:hover {
+  transform: translate(-3px, -3px);
+  border-color: var(--neon-alt);
+  box-shadow: 7px 7px 0 var(--neon-alt);
+}
+
+.event-list-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+}
+
+.event-list-grid .event-item {
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 0.35rem;
+}
+
+/* ── Socials ─────────────────────────────────────────── */
+.social-grid {
+  display: grid;
+  margin: 2rem 0 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 0.9rem;
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  padding: 1.2rem 1.2rem 1.3rem;
+}
+
+.social-icon {
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  margin-bottom: 0.9rem;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  color: var(--neon);
+  background: var(--surface-soft);
+  box-shadow: 3px 3px 0 var(--line);
+  transition: transform 350ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.social-card:hover .social-icon {
+  transform: rotate(-6deg) scale(1.08);
+  border-color: var(--neon-alt);
+  box-shadow: 4px 4px 0 var(--neon-alt);
+}
+
+.social-card h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.social-handle {
+  margin-top: 0.25rem;
+  color: var(--accent-soft);
+  font-size: 0.8rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.social-card p {
+  flex: 1;
+  margin: 0.75rem 0 1rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.social-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--neon);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.social-cta svg {
+  transition: transform 300ms var(--ease-out);
+}
+
+.social-card:hover .social-cta svg,
+.social-card:focus-visible .social-cta svg {
+  transform: translateX(5px);
+}
+
+.contact-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+
+.contact-panel > div:first-child {
+  flex: 1 1 26rem;
+}
+
+.contact-panel p {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.contact-panel h2 {
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 560px) {
+  .social-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 0.9rem;
+    align-items: center;
+  }
+
+  .social-icon {
+    grid-row: span 2;
+    margin-bottom: 0;
+  }
+
+  .social-card h2 {
+    align-self: end;
+  }
+
+  .social-handle {
+    align-self: start;
+  }
+
+  .social-card p,
+  .social-cta {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 560px) {
   .event-item {
     grid-template-columns: 1fr;
@@ -1990,6 +2170,23 @@ ul.chip-list {
     opacity: 0;
     scale: 0.92;
   }
+
+  /* Smooth expand/collapse where ::details-content and interpolate-size exist */
+  .session-more {
+    interpolate-size: allow-keywords;
+  }
+
+  .session-more::details-content {
+    block-size: 0;
+    opacity: 0;
+    overflow-y: clip;
+    transition: block-size 450ms var(--ease-out), opacity 350ms ease, content-visibility 450ms allow-discrete;
+  }
+
+  .session-more[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
 }
 
 /*
@@ -2323,6 +2520,17 @@ ul.chip-list {
   .stat-card::after,
   .event-item::after {
     display: none;
+  }
+
+  .session-more summary,
+  .social-cta {
+    display: none;
+  }
+
+  .session-more::details-content {
+    content-visibility: visible;
+    block-size: auto;
+    opacity: 1;
   }
 
   .hero-title,

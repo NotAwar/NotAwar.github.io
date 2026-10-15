@@ -109,7 +109,24 @@ const schema = speaking.events.map(eventSchema);
             {speaking.sessions.map((session) => (
               <article class="card session-card fx-slide-in">
                 <h3>{session.title}</h3>
-                {splitParagraphs(session.description).map((paragraph) => <p>{paragraph}</p>)}
+                {(() => {
+                  const [lead, ...rest] = splitParagraphs(session.description);
+                  return (
+                    <>
+                      {lead && <p>{lead}</p>}
+                      {rest.length > 0 && (
+                        <details class="session-more">
+                          <summary>
+                            <span class="when-closed">Read more</span>
+                            <span class="when-open">Show less</span>
+                            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="m12 15.4-6-6L7.4 8l4.6 4.6L16.6 8 18 9.4l-6 6Z" /></svg>
+                          </summary>
+                          {rest.map((paragraph) => <p>{paragraph}</p>)}
+                        </details>
+                      )}
+                    </>
+                  );
+                })()}
                 {session.url && (
                   <a class="session-link" href={session.url} target="_blank" rel="noreferrer">
                     Session details on Sessionize →
@@ -124,7 +141,7 @@ const schema = speaking.events.map(eventSchema);
       {pastEvents.length > 0 && (
         <section class="section-title" aria-labelledby="past-heading">
           <h2 id="past-heading">Past Events</h2>
-          <ol class="event-list">
+          <ol class="event-list event-list-grid">
             {pastEvents.map((event) => (
               <li class="event-item fx-slide-in">
                 <time class="event-date" datetime={event.start_date}>{formatEventDates(event)}</time>
