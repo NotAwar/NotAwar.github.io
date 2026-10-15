@@ -54,10 +54,6 @@ jobs:
 
       - name: Build Astro site
         run: npm run build
-        continue-on-error: false
-
-      - name: Add CNAME
-        run: cp CNAME dist/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
