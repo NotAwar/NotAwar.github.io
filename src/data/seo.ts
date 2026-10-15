@@ -1,4 +1,5 @@
 import { activeProfile } from "./site";
+import { activeCertifications } from "./credly";
 
 export const SITE_URL = (import.meta.env.SITE ?? "https://awar.no").replace(/\/+$/, "");
 export const SITE_NAME = activeProfile.name;
@@ -75,6 +76,17 @@ export function personSchema(): SchemaNode {
     },
     knowsAbout,
     knowsLanguage: ["en", "no"],
+    hasCredential: activeCertifications.length
+      ? activeCertifications.map((badge) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: badge.name,
+          credentialCategory: "certification",
+          url: badge.url,
+          dateCreated: badge.issued_on || undefined,
+          expires: badge.expires_on || undefined,
+          recognizedBy: badge.issuer ? { "@type": "Organization", name: badge.issuer } : undefined,
+        }))
+      : undefined,
     sameAs,
   };
 }

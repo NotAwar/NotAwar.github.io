@@ -10,9 +10,10 @@
     "sync-linkedin": "node scripts/sync-linkedin.js",
     "sync-buffer": "node scripts/sync-buffer.js",
     "sync-sessionize": "node scripts/sync-sessionize.js",
+    "sync-credly": "node scripts/sync-credly.js",
     "generate-images": "node scripts/generate-images.mjs",
-    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && astro dev",
-    "build:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && astro build"
+    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && npm run sync-credly && astro dev",
+    "build:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && npm run sync-credly && astro build"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

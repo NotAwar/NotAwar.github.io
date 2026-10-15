@@ -1,0 +1,31 @@
+---
+import { badgeImage, formatMonth, isExpired, type CredlyBadge } from "../data/credly";
+
+interface Props {
+  badge: CredlyBadge;
+}
+
+const { badge } = Astro.props;
+const expired = isExpired(badge);
+---
+
+<li class:list={["badge-item", { "is-expired": expired }]}>
+  <a class="badge-link" href={badge.url} target="_blank" rel="noopener noreferrer">
+    {badge.image && (
+      <img src={badgeImage(badge.image)} width="88" height="88" alt="" loading="lazy" decoding="async" />
+    )}
+    <span class="badge-body">
+      <span class="badge-name">{badge.name}</span>
+      <span class="badge-meta">
+        {badge.issuer}
+        {badge.issued_on && <> · <time datetime={badge.issued_on}>{formatMonth(badge.issued_on)}</time></>}
+      </span>
+      {badge.expires_on && (
+        <span class="badge-status">
+          {expired ? "Expired" : "Valid until"} <time datetime={badge.expires_on}>{formatMonth(badge.expires_on)}</time>
+        </span>
+      )}
+    </span>
+    <span class="sr-only"> (opens Credly verification in a new tab)</span>
+  </a>
+</li>

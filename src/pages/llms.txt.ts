@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { activeProfile } from "../data/site";
 import { SITE_URL, SITE_LOCATION, absoluteUrl, sameAs } from "../data/seo";
 import { speaking, eventCountries, formatEventDates } from "../data/speaking";
+import { activeCertifications, formatMonth } from "../data/credly";
 
 const oneLine = (text: string) => text.replace(/\s+/g, " ").trim();
 
@@ -19,7 +20,7 @@ export const GET: APIRoute = () => {
     "## Pages",
     "",
     `- [Home](${SITE_URL}/): Profile overview, current focus and GitHub activity`,
-    `- [CV](${absoluteUrl("/cv/")}): Experience, education and technical skills`,
+    `- [CV](${absoluteUrl("/cv/")}): Experience, education, certifications and technical skills`,
     `- [Speaking](${absoluteUrl("/speaking/")}): Conference talks, abstracts and events (${events.length} events in ${eventCountries.length} countries)`,
     `- [Socials](${absoluteUrl("/socials/")}): Recent posts and where to connect`,
     "",
@@ -32,6 +33,15 @@ export const GET: APIRoute = () => {
     ...p.skills.primary.map((skill) => `- ${skill}`),
     "",
   ];
+
+  if (activeCertifications.length) {
+    lines.push(
+      "## Certifications",
+      "",
+      ...activeCertifications.map((b) => `- ${b.name} (${b.issuer}, ${formatMonth(b.issued_on)})`),
+      "",
+    );
+  }
 
   if (speaking.sessions.length) {
     lines.push("## Talks", "", ...speaking.sessions.map((s) => `- ${oneLine(s.title)}`), "");

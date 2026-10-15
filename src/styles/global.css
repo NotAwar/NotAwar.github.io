@@ -1176,11 +1176,66 @@ h2.section-title::before {
   100% { background-position: -200% 0; }
 }
 
-.credly-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: flex-start;
+.badge-grid {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 0.9rem;
+}
+
+.badge-link {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 0.9rem;
+  align-items: center;
+  height: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--line);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.badge-link:hover,
+.badge-link:focus-visible {
+  transform: translate(-2px, -2px);
+  border-color: var(--neon);
+}
+
+.badge-link img {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+}
+
+.badge-body {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.badge-name {
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.badge-meta,
+.badge-status {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.badge-item:not(.is-expired) .badge-status {
+  color: var(--accent-soft);
+}
+
+.badge-item.is-expired img {
+  filter: grayscale(1);
+  opacity: 0.6;
 }
 
 /* ── About ───────────────────────────────────────────── */
@@ -1230,12 +1285,14 @@ ul.chip-list {
   padding: 0;
 }
 
-.about-panel .about-more {
+.about-panel .about-more,
+.panel .about-more {
   margin: 0.4rem 0 0;
   font-weight: 700;
 }
 
 .about-more a {
+  color: var(--neon);
   text-decoration: none;
 }
 
@@ -1340,8 +1397,13 @@ ul.chip-list {
 }
 
 @media (max-width: 480px) {
-  .credly-badges {
-    justify-content: center;
+  .badge-link {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .badge-link img {
+    width: 64px;
+    height: 64px;
   }
 }
 
