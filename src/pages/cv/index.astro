@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BadgeCard from "../../components/BadgeCard.astro";
 import { activeProfile } from "../../data/site";
-import { currentRole } from "../../data/seo";
+import { SITE_URL, currentRole } from "../../data/seo";
 import { certifications, otherBadges, isExpired, credlyProfileUrl, activeCertifications, certificationCode } from "../../data/credly";
 
 const sortedCertifications = [...certifications].sort((a, b) => Number(isExpired(a)) - Number(isExpired(b)));
@@ -27,6 +27,12 @@ const pageDescription = `CV of ${activeProfile.name}, ${activeProfile.title}${cu
       <h1>{activeProfile.name}</h1>
       <p>{activeProfile.title}</p>
       <p>{activeProfile.summary}</p>
+      <p class="print-only">
+        {[SITE_URL, activeProfile.contact.linkedin, activeProfile.contact.github, activeProfile.contact.email]
+          .filter(Boolean)
+          .map((url) => String(url).replace(/^https?:\/\/(www\.)?/, ""))
+          .join(" · ")}
+      </p>
     </div>
     <div class="cta-row">
       <a class="btn neon" href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn profile in new tab" aria-label="Visit LinkedIn profile">LinkedIn Profile</a>

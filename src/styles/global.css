@@ -2249,4 +2249,116 @@ ul.chip-list {
     opacity: 1 !important;
     animation: none !important;
   }
+
+  /* Static snapshot: beforeprint reveals would otherwise restart count-ups etc. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  img[data-loading] {
+    opacity: 1 !important;
+    scale: none !important;
+  }
+
+  /* Paper-friendly palette regardless of the chosen theme */
+  :root,
+  [data-theme="light"] {
+    --bg: #fff;
+    --text: #111;
+    --muted: #444;
+    --neon: #5c4b08;
+    --neon-alt: #5c4b08;
+    --line: #bbb;
+    --panel: #fff;
+    --surface: #fff;
+    --surface-soft: #fff;
+    --accent-soft: #5c4b08;
+    --accent-cool: #333;
+  }
+
+  @page {
+    margin: 14mm 12mm;
+  }
+
+  html,
+  body,
+  [data-theme="light"] body {
+    background: #fff !important;
+    color: #111;
+  }
+
+  body::before,
+  .bg-manga,
+  .sprite-field,
+  .skip-link,
+  .site-shell,
+  .cta-row,
+  .about-more,
+  .footer-links,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  .container {
+    width: auto;
+    max-width: none;
+    padding: 0;
+  }
+
+  .panel,
+  .card,
+  .stat-card,
+  .badge-link,
+  .event-item {
+    box-shadow: none !important;
+    transform: none !important;
+    break-inside: avoid;
+  }
+
+  .card::after,
+  .badge-link::after,
+  .stat-card::after,
+  .event-item::after {
+    display: none;
+  }
+
+  .hero-title,
+  .page-intro h1 {
+    background: none;
+    color: #111;
+    -webkit-text-fill-color: currentColor;
+    text-shadow: none;
+  }
+
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  .timeline::after {
+    display: none;
+  }
+
+  .timeline-dot {
+    background: var(--neon) !important;
+    box-shadow: none;
+  }
+
+  .site-footer {
+    border: 0;
+    padding-top: 0.5rem;
+  }
+
+  .print-only {
+    display: block !important;
+    color: #111 !important;
+    font-weight: 600;
+  }
+}
+
+.print-only {
+  display: none;
 }
