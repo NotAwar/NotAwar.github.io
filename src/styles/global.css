@@ -168,6 +168,8 @@ body {
     radial-gradient(circle at 86% 9%, #1f1b12 0, transparent 36%), var(--bg);
   font-family: var(--font-base);
   line-height: 1.5;
+  /* Full-bleed bands are 100vw, which includes the scrollbar */
+  overflow-x: clip;
 }
 
 body::before {
@@ -1616,6 +1618,52 @@ h2.section-title::before {
   opacity: 0.6;
 }
 
+/* ── Tech band ───────────────────────────────────────── */
+.tech-band {
+  --band-shift: max(30vw, 200px);
+  display: grid;
+  gap: 0.2rem;
+  width: 100vw;
+  margin: 2.2rem calc(50% - 50vw) 0;
+  padding: 0.9rem 0;
+  overflow: clip;
+  border-block: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  font-size: clamp(1.35rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+.tech-band-row {
+  display: flex;
+  width: max-content;
+}
+
+/* Static offset; the scroll animation takes over where supported */
+.tech-band-row.is-reverse {
+  translate: calc(-0.5 * var(--band-shift)) 0;
+}
+
+.tech-band-row span {
+  color: var(--neon);
+}
+
+.tech-band-row span:nth-child(even) {
+  color: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+
+.tech-band-row span::after {
+  content: "//";
+  margin-inline: 0.7em;
+  color: var(--line);
+}
+
 /* ── About ───────────────────────────────────────────── */
 .about-panel {
   display: grid;
@@ -2577,6 +2625,24 @@ ul.chip-list {
       animation-range: cover 2.5rem cover 3.6rem;
     }
 
+    /* Topic rows slide in opposite directions while the band crosses the viewport */
+    .tech-band {
+      view-timeline-name: --band;
+      view-timeline-axis: block;
+    }
+
+    .tech-band-row {
+      animation-name: band-slide;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --band;
+      animation-range: cover 0% cover 100%;
+    }
+
+    .tech-band-row.is-reverse {
+      animation-direction: reverse;
+    }
+
     /* Words brighten in reading order as the paragraph scrolls up the viewport */
     .scroll-words {
       view-timeline-name: --words;
@@ -2597,6 +2663,16 @@ ul.chip-list {
 @keyframes line-draw {
   from {
     transform: scaleY(0);
+  }
+}
+
+@keyframes band-slide {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: calc(-1 * var(--band-shift)) 0;
   }
 }
 
@@ -2744,6 +2820,7 @@ ul.chip-list {
 }
 @media print {
   .scroll-progress,
+  .tech-band,
   .to-top {
     display: none !important;
   }

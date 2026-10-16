@@ -25,6 +25,11 @@ const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event
 const expertise = activeProfile.skills.primary.slice(0, 8);
 // Split for the scroll-linked word highlight; the text itself is unchanged
 const ledeWords = activeProfile.summary.trim().split(/\s+/);
+// Decorative topic band; repeated so the rows never run out while sliding
+const bandRows = [
+  ["Kubernetes", "GitOps", "Platform Engineering", "Azure", "Cloud Native"],
+  ["DevOps", "Infrastructure as Code", "Observability", "GitHub", "Developer Experience"],
+];
 
 const githubUser = activeProfile.contact.github.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 const github = await getGitHubSnapshot(githubUser);
@@ -55,6 +60,14 @@ const heroTalk = heroEvent
     githubStats={{ contributions: github.contributions?.total, repos: github.repos }}
     avatarUrl={activeProfile.avatar_url}
   />
+
+  <div class="tech-band" aria-hidden="true">
+    {bandRows.map((row, r) => (
+      <div class:list={["tech-band-row", { "is-reverse": r % 2 === 1 }]}>
+        {[...row, ...row].map((topic) => <span>{topic}</span>)}
+      </div>
+    ))}
+  </div>
 
   <section class="section-title" aria-labelledby="about-heading">
     <p class="eyebrow">About // Profile</p>
