@@ -2393,6 +2393,8 @@ ul.chip-list {
  * Count-up numbers: --num is a registered integer, so it can animate and
  * counter() prints it. The real value lives in a sibling .sr-only span for
  * screen readers and crawlers; without @property support it just shows --to.
+ * An invisible copy of the final value reserves the width and the counting
+ * value grows into it from a fixed start edge, so nothing ever shifts.
  */
 @property --num {
   syntax: "<integer>";
@@ -2402,12 +2404,23 @@ ul.chip-list {
 
 .count-up {
   --num: var(--to, 0);
-  counter-reset: num var(--num);
+  counter-reset: num var(--num) final var(--to, 0);
   font-variant-numeric: tabular-nums;
+  position: relative;
+  display: inline-block;
+}
+
+.count-up::before {
+  content: counter(final) var(--suffix, "");
+  visibility: hidden;
 }
 
 .count-up::after {
   content: counter(num) var(--suffix, "");
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: no-preference) {
