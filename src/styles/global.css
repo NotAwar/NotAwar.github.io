@@ -7,6 +7,8 @@
   --neon: #f7efb8;
   --neon-alt: #efe2a2;
   --line: #474233;
+  /* Dimmest state of scroll-highlighted text; still 5:1 on panels */
+  --text-dim: #919087;
   --panel: rgba(22, 21, 18, 0.92);
   --surface: rgba(20, 20, 20, 0.9);
   --surface-soft: rgba(24, 24, 24, 0.92);
@@ -41,6 +43,7 @@ html {
   --neon: #7a6510;
   --neon-alt: #6b5a0c;
   --line: #c9b98a;
+  --text-dim: #635e51;
   --panel: rgba(236, 228, 208, 0.95);
   --surface: rgba(228, 218, 196, 0.9);
   --surface-soft: rgba(232, 222, 202, 0.92);
@@ -878,6 +881,9 @@ h2.section-title::before {
 .stat-card {
   position: relative;
   overflow: hidden;
+  /* Clips like hidden without becoming a scroll container, so scroll-driven
+     view timelines inside still track the page */
+  overflow: clip;
 }
 
 @keyframes slide-in {
@@ -2570,12 +2576,33 @@ ul.chip-list {
       animation-timeline: --tl-item;
       animation-range: cover 2.5rem cover 3.6rem;
     }
+
+    /* Words brighten in reading order as the paragraph scrolls up the viewport */
+    .scroll-words {
+      view-timeline-name: --words;
+      view-timeline-axis: block;
+    }
+
+    .scroll-words > span {
+      animation-name: word-light;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --words;
+      animation-range-start: cover calc(12% + var(--i) / var(--n) * 32%);
+      animation-range-end: cover calc(20% + var(--i) / var(--n) * 32%);
+    }
   }
 }
 
 @keyframes line-draw {
   from {
     transform: scaleY(0);
+  }
+}
+
+@keyframes word-light {
+  from {
+    color: var(--text-dim);
   }
 }
 

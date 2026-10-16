@@ -23,6 +23,8 @@ const pageDescription = `${activeProfile.name} – ${activeProfile.title}${curre
 
 const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event) => eventShortName(event.name));
 const expertise = activeProfile.skills.primary.slice(0, 8);
+// Split for the scroll-linked word highlight; the text itself is unchanged
+const ledeWords = activeProfile.summary.trim().split(/\s+/);
 
 const githubUser = activeProfile.contact.github.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 const github = await getGitHubSnapshot(githubUser);
@@ -58,7 +60,9 @@ const heroTalk = heroEvent
     <p class="eyebrow">About // Profile</p>
     <h2 id="about-heading">About Me</h2>
     <div class="panel fx-slide-in about-panel">
-      <p class="about-lede">{activeProfile.summary}</p>
+      <p class="about-lede scroll-words" style={`--n:${ledeWords.length}`}>
+        {ledeWords.map((word, i) => <span style={`--i:${i}`}>{`${word} `}</span>)}
+      </p>
       {featuredEvents.length > 0 && (
         <p>
           I speak about Kubernetes, GitOps and platform engineering at conferences across Europe – including{" "}
