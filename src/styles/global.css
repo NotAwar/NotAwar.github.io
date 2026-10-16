@@ -1439,9 +1439,23 @@ h2.section-title::before {
   animation: shimmer 1.4s infinite;
 }
 
+.github-activity-card .activity-icon {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  color: var(--neon-alt);
+  transition: transform 300ms var(--ease-out);
+}
+
+.github-activity-card:is(:hover, :focus-visible) .activity-icon {
+  transform: rotate(-8deg) scale(1.1);
+}
+
 .github-activity-card .activity-action {
-  margin: 0 0 0.35rem;
+  flex: none;
+  margin: 0 2rem 0.45rem 0;
   font-size: 0.95rem;
+  overflow-wrap: anywhere;
 }
 
 .github-activity-card .activity-label {
@@ -1454,21 +1468,31 @@ h2.section-title::before {
 }
 
 .github-activity-card .activity-detail {
-  margin: 0 0 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text);
+  flex: 1;
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.github-activity-card small {
+.github-activity-card .activity-detail.is-wrapped {
+  white-space: normal;
+}
+
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
 }
 
 .loading-card {
-  min-height: 100px;
+  min-height: 9.4rem;
 }
 
 .activity-skeleton {
