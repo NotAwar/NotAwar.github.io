@@ -1,6 +1,6 @@
 version: 2
 updates:
-# Keep npm dependencies (Astro, React, axios, etc.) up to date
+# Keep npm dependencies (Astro, axios, etc.) up to date
 - package-ecosystem: "npm"
   directory: "/"
   schedule:
@@ -10,11 +10,6 @@ updates:
       patterns:
       - "astro"
       - "@astrojs/*"
-    react:
-      patterns:
-      - "react"
-      - "react-dom"
-      - "@types/react*"
   commit-message:
     prefix: "chore(deps)"
   labels:

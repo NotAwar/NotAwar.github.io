@@ -1439,6 +1439,11 @@ h2.section-title::before {
   animation: shimmer 1.4s infinite;
 }
 
+.cg-fallback {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .github-activity-card .activity-icon {
   position: absolute;
   top: 0.9rem;

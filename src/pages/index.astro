@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import NeonHero from "../components/NeonHero.jsx";
-import GitHubActivity from "../components/GitHubActivity.jsx";
-import ContributionGraph from "../components/ContributionGraph.jsx";
+import NeonHero from "../components/NeonHero.astro";
+import GitHubActivity from "../components/GitHubActivity.astro";
+import ContributionGraph from "../components/ContributionGraph.astro";
 import { activeProfile } from "../data/site";
 import { SITE_LOCATION, currentRole } from "../data/seo";
 import { eventCountries, eventShortName, formatEventDates, pastEvents, speaking, upcomingEvents } from "../data/speaking";
@@ -36,7 +36,6 @@ const heroTalk = heroEvent
 
 <BaseLayout title={pageTitle} description={pageDescription} pageType="ProfilePage">
   <NeonHero
-    client:idle
     name={activeProfile.name}
     headline={activeProfile.headline}
     bio={activeProfile.bio}
@@ -107,10 +106,10 @@ const heroTalk = heroEvent
     <p class="eyebrow">GitHub // Activity</p>
     <h2>Recent GitHub Activity</h2>
     <div class="panel fx-slide-in cg-panel">
-      <ContributionGraph client:idle githubUrl={activeProfile.contact.github} />
+      <ContributionGraph githubUrl={activeProfile.contact.github} />
     </div>
     <div style="margin-top: 1rem;">
-      <GitHubActivity client:idle githubUrl={activeProfile.contact.github} />
+      <GitHubActivity githubUrl={activeProfile.contact.github} />
     </div>
   </section>
 

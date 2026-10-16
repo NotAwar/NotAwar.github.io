@@ -1,5 +1,4 @@
 import { defineConfig, fontProviders } from "astro/config";
-import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 
 const site = "https://awar.no";
@@ -26,7 +25,6 @@ export default defineConfig({
     },
   ],
   integrations: [
-    react(),
     sitemap({
       filter: (page) => !excludedFromSitemap.has(page),
     }),
