@@ -21,6 +21,8 @@
 
 html {
   scroll-padding-top: var(--header-offset);
+  /* Short pages: keep the root as tall as the viewport so the canvas gradient never tiles */
+  min-height: 100%;
 }
 
 [data-theme="light"] {
@@ -1054,6 +1056,57 @@ h2.section-title::before {
   font-size: clamp(3rem, 12vw, 7rem);
   color: var(--accent-soft);
   font-weight: 700;
+}
+
+/* 404: a one-off "signal lost" flicker before the code settles */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-code {
+    animation: signal-lost 1200ms steps(1, end) 300ms both;
+  }
+}
+
+@keyframes signal-lost {
+  0% {
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+    clip-path: inset(12% 0 52% 0);
+    translate: -8px 0;
+    text-shadow: 4px 0 rgba(255, 92, 92, 0.55), -4px 0 rgba(92, 220, 255, 0.55);
+  }
+
+  16% {
+    clip-path: inset(58% 0 6% 0);
+    translate: 6px 0;
+  }
+
+  24% {
+    clip-path: inset(30% 0 34% 0);
+    translate: -3px 0;
+    opacity: 0.7;
+  }
+
+  32% {
+    clip-path: none;
+    translate: 0 0;
+    opacity: 1;
+    text-shadow: 2px 0 rgba(255, 92, 92, 0.4), -2px 0 rgba(92, 220, 255, 0.4);
+  }
+
+  52% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+
+  58%,
+  100% {
+    opacity: 1;
+    clip-path: none;
+    translate: 0 0;
+    text-shadow: none;
+  }
 }
 
 #sessionize-events,
