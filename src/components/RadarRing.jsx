@@ -1,35 +1,12 @@
-import { useEffect, useRef } from "react";
-import { animate } from "animejs";
-
+// Spin and pulse are CSS keyframes (global.css), so no animation runtime ships
 const TICK_COUNT = 48;
 const CENTER = 110;
 
 export default function RadarRing({ size = 200 }) {
-  const rootRef = useRef(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const arc1 = root.querySelector(".radar-arc-1");
-    const arc2 = root.querySelector(".radar-arc-2");
-    const core = root.querySelector(".radar-core");
-
-    const animations = [
-      animate(arc1, { rotate: "360deg", duration: 12000, loop: true, ease: "linear" }),
-      animate(arc2, { rotate: "-360deg", duration: 18000, loop: true, ease: "linear" }),
-      animate(core, { scale: [1, 1.35], opacity: [0.9, 0.4], duration: 2200, loop: true, alternate: true, ease: "inOutSine" }),
-    ];
-
-    return () => animations.forEach((a) => a.pause());
-  }, []);
-
   const ticks = Array.from({ length: TICK_COUNT });
 
   return (
     <svg
-      ref={rootRef}
       className="radar-ring"
       viewBox="0 0 220 220"
       width={size}

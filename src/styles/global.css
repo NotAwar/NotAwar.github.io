@@ -674,6 +674,40 @@ nav.has-pill a.is-target {
   filter: drop-shadow(0 0 6px rgba(122, 101, 16, 0.4));
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .radar-arc-1 {
+    animation: radar-spin 12s linear infinite;
+  }
+
+  .radar-arc-2 {
+    animation: radar-spin 18s linear infinite reverse;
+  }
+
+  .radar-core {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: radar-pulse 2.2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes radar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes radar-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  to {
+    transform: scale(1.35);
+    opacity: 0.4;
+  }
+}
+
 .stat-card {
   border: 2px solid var(--line);
   border-radius: 12px;
