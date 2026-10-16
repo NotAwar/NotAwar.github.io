@@ -12,6 +12,10 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   sync-and-build:
     runs-on: ubuntu-latest
@@ -41,23 +45,31 @@ jobs:
           BUFFER_CHANNEL_IDS: ${{ secrets.BUFFER_CHANNEL_IDS }}
         run: npm run sync-buffer
 
+      - name: Fetch talks and events from Sessionize
+        run: npm run sync-sessionize
+
+      - name: Fetch certifications from Credly
+        run: npm run sync-credly
+
       - name: Commit updated profile data
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/data/generated-profile.json
-          git diff --staged --quiet || git commit -m "Auto-sync: Update profile from LinkedIn and Buffer [skip ci]"
+          git add src/data/generated-profile.json src/data/sessionize.json src/data/credly.json
+          git diff --staged --quiet || git commit -m "Auto-sync: Update profile from LinkedIn, Buffer, Sessionize and Credly [skip ci]"
           if ! git push; then
             echo "⚠️ Warning: Failed to push updates"
             exit 0
           fi
 
       - name: Build Astro site
+        env:
+          # Build-time GitHub stats, contribution graph and activity (avoids anonymous rate limits)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build
-        continue-on-error: false
 
-      - name: Add CNAME
-        run: cp CNAME dist/CNAME
+      - name: Check SEO essentials
+        run: npm run check:seo
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

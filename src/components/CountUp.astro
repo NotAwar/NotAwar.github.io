@@ -1,0 +1,14 @@
+---
+// Number that counts up when revealed (CSS @property counter); the real value stays as text
+interface Props {
+  value: number;
+  suffix?: string;
+}
+
+const { value, suffix = "" } = Astro.props;
+---
+
+<strong>
+  <span class="count-up" aria-hidden="true" style={`--to: ${value}; --suffix: "${suffix}"`}></span>
+  <span class="sr-only">{value}{suffix}</span>
+</strong>

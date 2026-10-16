@@ -1,70 +1,154 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import NeonHero from "../components/NeonHero.jsx";
-import GitHubActivity from "../components/GitHubActivity.jsx";
-import ContributionGraph from "../components/ContributionGraph.jsx";
+import NeonHero from "../components/NeonHero.astro";
+import GitHubActivity from "../components/GitHubActivity.astro";
+import ContributionGraph from "../components/ContributionGraph.astro";
 import { activeProfile } from "../data/site";
+import { SITE_LOCATION, currentRole } from "../data/seo";
+import { eventCountries, eventShortName, formatEventDates, pastEvents, speaking, upcomingEvents } from "../data/speaking";
+import { activeCertifications, certificationCode } from "../data/credly";
+import { getGitHubSnapshot } from "../lib/github-snapshot";
+import { optimizeRemoteImage } from "../lib/remote-image";
+
+const certNames = activeCertifications
+  .map((badge) => {
+    const code = certificationCode(badge.name);
+    const full = badge.name.replace(/^[A-Z]{3,6}:\s*/, "").replace(/\s*\([^)]*\)$/, "");
+    return code && !full.includes(code) ? `${full} (${code})` : full;
+  })
+  .slice(0, 4);
+
+const pageTitle = `${activeProfile.name} – Cloud Native Engineer & Kubernetes Speaker`;
+const pageDescription = `${activeProfile.name} – ${activeProfile.title}${currentRole ? ` at ${currentRole.company}` : ""} in ${SITE_LOCATION.locality}. Speaker on Kubernetes, Azure, GitOps & platform engineering.`;
+
+const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event) => eventShortName(event.name));
+const expertise = activeProfile.skills.primary.slice(0, 8);
+// Split for the scroll-linked word highlight; the text itself is unchanged
+const ledeWords = activeProfile.summary.trim().split(/\s+/);
+// Decorative topic band; repeated so the rows never run out while sliding
+const bandRows = [
+  ["Kubernetes", "GitOps", "Platform Engineering", "Azure", "Cloud Native"],
+  ["DevOps", "Infrastructure as Code", "Observability", "GitHub", "Developer Experience"],
+];
+
+const githubUser = activeProfile.contact.github.replace(/\/+$/, "").split("/").pop() || "NotAwar";
+const github = await getGitHubSnapshot(githubUser);
+const cardAvatar = await optimizeRemoteImage(activeProfile.avatar_url, 72);
+const bufferPosts = activeProfile.buffer_posts ?? [];
+const connectPosts = bufferPosts.length > 0 ? bufferPosts : (activeProfile.linkedin_posts ?? []);
+
+const heroEvent = upcomingEvents[0] ?? pastEvents[0];
+const heroTalk = heroEvent
+  ? {
+      name: eventShortName(heroEvent.name),
+      dates: formatEventDates(heroEvent),
+      endDate: heroEvent.end_date || heroEvent.start_date,
+      upcoming: heroEvent === upcomingEvents[0],
+      href: "/speaking/",
+    }
+  : null;
 ---
 
-<BaseLayout
-  title={`${activeProfile.name} - Cloud Engineer & Tech Speaker`}
-  description="Cloud engineer passionate about Kubernetes, Azure, and building innovative tech solutions."
->
+<BaseLayout title={pageTitle} description={pageDescription} pageType="ProfilePage">
   <NeonHero
-    client:idle
     name={activeProfile.name}
     headline={activeProfile.headline}
+    bio={activeProfile.bio}
+    talk={heroTalk}
     linkedinUrl={activeProfile.contact.linkedin}
     githubUrl={activeProfile.contact.github}
     sessionizeUrl={activeProfile.contact.sessionize}
     metrics={activeProfile.metrics}
+    githubStats={{ contributions: github.contributions?.total, repos: github.repos }}
     avatarUrl={activeProfile.avatar_url}
   />
+
+  <div class="tech-band" aria-hidden="true">
+    {bandRows.map((row, r) => (
+      <div class:list={["tech-band-row", { "is-reverse": r % 2 === 1 }]}>
+        {[...row, ...row].map((topic) => <span>{topic}</span>)}
+      </div>
+    ))}
+  </div>
+
+  <section class="section-title" aria-labelledby="about-heading">
+    <p class="eyebrow">About // Profile</p>
+    <h2 id="about-heading">About Me</h2>
+    <div class="panel fx-slide-in about-panel">
+      <p class="about-lede scroll-words" style={`--n:${ledeWords.length}`}>
+        {ledeWords.map((word, i) => <span style={`--i:${i}`}>{`${word} `}</span>)}
+      </p>
+      {featuredEvents.length > 0 && (
+        <p>
+          I speak about Kubernetes, GitOps and platform engineering at conferences across Europe – including{" "}
+          {featuredEvents.slice(0, -1).join(", ")}{featuredEvents.length > 1 ? " and " : ""}{featuredEvents[featuredEvents.length - 1]}.{" "}
+          <a href="/speaking/">See all {speaking.events.length} conference talks in {eventCountries.length} countries</a>.
+        </p>
+      )}
+      {certNames.length > 0 && (
+        <p>
+          Certifications include {certNames.slice(0, -1).join(", ")}{certNames.length > 1 ? " and " : ""}{certNames[certNames.length - 1]}.{" "}
+          <a href="/cv/#certifications">View certifications</a>.
+        </p>
+      )}
+      {activeProfile.current_focus.length > 0 && (
+        <>
+          <h3>Current focus</h3>
+          <ul class="focus-list">
+            {activeProfile.current_focus.map((item) => <li>{item}</li>)}
+          </ul>
+        </>
+      )}
+      {expertise.length > 0 && (
+        <ul class="chip-list" aria-label="Areas of expertise">
+          {expertise.map((skill) => <li class="chip">{skill}</li>)}
+        </ul>
+      )}
+      <p class="about-more"><a href="/cv/">Read the full CV →</a></p>
+    </div>
+  </section>
   <section class="section-title">
     <p class="eyebrow">Explore // Site</p>
     <h2>Where to Next</h2>
     <div class="cards">
-      <a href="/cv/">
-        <article class="card fx-slide-in">
-          <span class="card-tag">01</span>
-          <h3>Professional CV</h3>
-          <p>Career history, achievements, and technical strengths.</p>
-        </article>
-      </a>
-      <a href="/speaking/">
-        <article class="card fx-slide-in">
-          <span class="card-tag">02</span>
-          <h3>Speaking</h3>
-          <p>Conference sessions, topics, and event updates from Sessionize.</p>
-        </article>
-      </a>
-      <a href="/socials/">
-        <article class="card fx-slide-in">
-          <span class="card-tag">03</span>
-          <h3>Socials</h3>
-          <p>Direct links for collaboration, networking, and OSS discussions.</p>
-        </article>
-      </a>
-    </div>
+      {[
+        { href: "/cv/", tag: "01", title: "Professional CV", text: "Career history, achievements, and technical strengths.", cta: "Read the CV" },
+        { href: "/speaking/", tag: "02", title: "Speaking", text: "Conference sessions, topics, and event updates from Sessionize.", cta: "See talks" },
+        { href: "/socials/", tag: "03", title: "Socials", text: "Direct links for collaboration, networking, and OSS discussions.", cta: "Get in touch" },
+      ].map((item) => (
+        <a class="card nav-card fx-slide-in" href={item.href}>
+          <span class="card-tag" aria-hidden="true">{item.tag}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <span class="card-cta" aria-hidden="true">
+            {item.cta}
+            <svg viewBox="0 0 24 24" width="16" height="16" focusable="false"><path fill="currentColor" d="M5 11h11.2l-4.6-4.6L13 5l7 7-7 7-1.4-1.4 4.6-4.6H5v-2Z" /></svg>
+          </span>
+        </a>
+      ))}    </div>
   </section>
 
   <section class="section-title">
     <p class="eyebrow">GitHub // Activity</p>
     <h2>Recent GitHub Activity</h2>
     <div class="panel fx-slide-in cg-panel">
-      <ContributionGraph client:idle githubUrl={activeProfile.contact.github} />
+      <ContributionGraph githubUrl={activeProfile.contact.github} data={github.contributions} />
     </div>
     <div style="margin-top: 1rem;">
-      <GitHubActivity client:idle githubUrl={activeProfile.contact.github} />
+      <GitHubActivity githubUrl={activeProfile.contact.github} events={github.events} />
     </div>
   </section>
 
   <section class="section-title connect-section">
-    <div class="connect-header">
+    <div class="connect-header" data-reveal>
       <div>
         <p class="eyebrow">Social // Connect</p>
         <h2>Let's Connect</h2>
-        <p class="connect-lede">Recent updates straight from LinkedIn, plus the fastest ways to reach me.</p>
+        <p class="connect-lede">
+          {connectPosts.length > 0
+            ? "Recent updates straight from LinkedIn, plus the fastest ways to reach me."
+            : "Questions about Kubernetes or platform engineering, or organising an event? Here's how to reach me."}
+        </p>
       </div>
       <a
         class="btn neon li-connect-btn"
@@ -82,9 +166,7 @@ import { activeProfile } from "../data/site";
     </div>
 
     {(() => {
-      const bufferPosts = activeProfile.buffer_posts ?? [];
-      const linkedinPosts = activeProfile.linkedin_posts ?? [];
-      const posts = bufferPosts.length > 0 ? bufferPosts : linkedinPosts;
+      const posts = connectPosts;
       return posts.length > 0 ? (
         <div class="li-posts-grid">
           {posts.slice(0, 3).map((post) => {
@@ -105,8 +187,7 @@ import { activeProfile } from "../data/site";
                 href={post.url}
                 target="_blank"
                 rel="noreferrer"
-                title="Read post on LinkedIn in new tab"
-                aria-label="Read LinkedIn post"
+                title={`Read ${label} in new tab`}
               >
                 <span class="li-post-badge">
                   <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
@@ -117,7 +198,7 @@ import { activeProfile } from "../data/site";
                 <p class="li-post-text">{post.text}</p>
                 <div class="li-post-footer">
                   <span class="li-post-date">
-                    {post.published_at ? new Date(post.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Recent"}
+                    {post.published_at ? new Date(post.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }) : "Recent"}
                   </span>
                   <span class="li-post-cta">Read post →</span>
                 </div>
@@ -131,7 +212,8 @@ import { activeProfile } from "../data/site";
           <div class="li-profile-left">
             <img
               class="li-avatar"
-              src={activeProfile.avatar_url}
+              src={cardAvatar.src}
+              srcset={cardAvatar.srcset}
               alt={`${activeProfile.name} profile picture`}
               width="72"
               height="72"
@@ -141,8 +223,12 @@ import { activeProfile } from "../data/site";
               <p class="li-title">{activeProfile.title}</p>
             </div>
           </div>
-          <p class="li-summary">{activeProfile.summary}</p>
+          <p class="li-summary">
+            Send me a message on LinkedIn for collaboration, questions about Kubernetes and platform engineering, or
+            just to say hi. Code and demos live on GitHub, and speaking invitations are very welcome.
+          </p>
           <div class="cta-row">
+            <a class="btn" href="/speaking/#invite">Speaking invitations</a>
             <a
               class="btn"
               href={activeProfile.contact.github}

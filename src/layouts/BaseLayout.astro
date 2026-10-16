@@ -1,9 +1,64 @@
 ---
 import "../styles/global.css";
+import { Font } from "astro:assets";
 import { navigation, activeProfile } from "../data/site";
+import {
+  DEFAULT_OG_IMAGE,
+  SITE_LOCALE,
+  SITE_NAME,
+  absoluteUrl,
+  breadcrumbSchema,
+  githubUsername,
+  personSchema,
+  sameAs,
+  serializeJsonLd,
+  webPageSchema,
+  websiteSchema,
+  type Breadcrumb,
+  type OgImage,
+  type SchemaNode,
+} from "../data/seo";
 
-const { title = "Awar Abdulkarim", description = activeProfile.bio } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  image?: OgImage;
+  noindex?: boolean;
+  pageType?: "WebPage" | "ProfilePage" | "CollectionPage" | "AboutPage";
+  breadcrumbs?: Breadcrumb[];
+  schema?: SchemaNode[];
+}
+
+const {
+  title = activeProfile.name,
+  description = activeProfile.bio,
+  image = DEFAULT_OG_IMAGE,
+  noindex = false,
+  pageType = "WebPage",
+  breadcrumbs = [],
+  schema = [],
+} = Astro.props;
+
 const pagePath = Astro.url.pathname;
+const canonicalUrl = absoluteUrl(pagePath);
+const imageUrl = absoluteUrl(image.path);
+const isProfilePage = pageType === "ProfilePage";
+const robots = noindex
+  ? "noindex, follow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+const jsonLd = noindex
+  ? null
+  : {
+      "@context": "https://schema.org",
+      "@graph": [
+        websiteSchema(),
+        personSchema(),
+        webPageSchema({ url: canonicalUrl, title, description, type: pageType, image: imageUrl, breadcrumbs }),
+        ...(breadcrumbs.length ? [breadcrumbSchema(canonicalUrl, breadcrumbs)] : []),
+        ...schema,
+      ],
+    };
 ---
 
 <!doctype html>
@@ -14,53 +69,103 @@ const pagePath = Astro.url.pathname;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={activeProfile.name} />
-    <meta name="theme-color" content="#0b0b0b" />
-    <meta property="og:type" content="website" />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content={SITE_LOCALE} />
+    <meta property="og:type" content={isProfilePage ? "profile" : "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/assets/images/og-image.svg" />
-    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:type" content={image.type} />
+    <meta property="og:image:width" content={String(image.width)} />
+    <meta property="og:image:height" content={String(image.height)} />
+    <meta property="og:image:alt" content={image.alt} />
+    {isProfilePage && <meta property="profile:first_name" content={activeProfile.name.split(" ")[0]} />}
+    {isProfilePage && <meta property="profile:last_name" content={activeProfile.name.split(" ").slice(1).join(" ")} />}
+    {isProfilePage && <meta property="profile:username" content={githubUsername} />}
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/assets/images/og-image.svg" />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={image.alt} />
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Prevent flash of wrong theme -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    {sameAs.map((url) => <link rel="me" href={url} />)}
+    {jsonLd && <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
+    <Font cssVariable="--font-orbitron" preload={[{ subset: "latin" }]} />
+    <!-- Hold first render until the header is parsed so page transitions can morph it -->
+    <link rel="expect" href="#main" blocking="render" />
+    <!-- Prevent flash of wrong theme; flag JS-driven motion before first paint -->
     <script is:inline>
       (function () {
+        var root = document.documentElement;
+        if ("IntersectionObserver" in window) root.classList.add("js-motion");
         try {
           var stored = localStorage.getItem("theme");
           var preferred = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-          if (preferred === "light") document.documentElement.setAttribute("data-theme", "light");
+          if (preferred === "light") root.setAttribute("data-theme", "light");
         } catch (_) {}
       })();
     </script>
+    <!-- Page transitions slide the way the nav reads: forward to the right, back to the left -->
+    <script is:inline define:vars={{ navOrder: navigation.map((item) => item.link) }}>
+      window.addEventListener("pagereveal", function (event) {
+        try {
+          var activation = window.navigation && navigation.activation;
+          if (!event.viewTransition || !activation || !activation.from || !activation.entry) return;
+          var indexOf = function (url) {
+            return navOrder.indexOf(new URL(url).pathname.replace(/\/?$/, "/"));
+          };
+          var from = indexOf(activation.from.url);
+          var to = indexOf(activation.entry.url);
+          if (from < 0 || to < 0 || from === to) return;
+          event.viewTransition.types.add(to > from ? "slide-forward" : "slide-back");
+        } catch (_) {}
+      });
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <div class="bg-manga"></div>
     <div class="sprite-field" aria-hidden="true">
-      <svg class="sprite sprite-1" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.9A4.5 4.5 0 0 1 17.5 19H6Z"/></svg>
-      <svg class="sprite sprite-2" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4Zm-1.2 13.4L7.5 12l1.4-1.4 1.9 1.9 4.3-4.3 1.4 1.4-5.7 5.8Z"/></svg>
-      <svg class="sprite sprite-3" viewBox="0 0 24 24"><path fill="currentColor" d="m9.4 16.6-4-4.6 4-4.6 1.5 1.3L8 12l2.9 3.3-1.5 1.3Zm5.2 0-1.5-1.3L16 12l-2.9-3.3 1.5-1.3 4 4.6-4 4.6Z"/></svg>
-      <svg class="sprite sprite-4" viewBox="0 0 24 24"><path fill="currentColor" d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.6 7.6 0 0 0-1.7-1L14.9 3h-4l-.4 2.9a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.4L6.4 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 3h4l.4-3a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.4L19.4 13ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
-      <svg class="sprite sprite-5" viewBox="0 0 24 24"><path fill="currentColor" d="M11 2 2 13h6l-1 9 10-13h-6l1-7Z"/></svg>
-      <svg class="sprite sprite-6" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v3H4V4Zm0 6.5h16v3H4v-3ZM4 17h10v3H4v-3Z"/></svg>
+      <div class="sprite-layer layer-far">
+        <svg class="sprite sprite-1" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19a4 4 0 0 1-.6-7.95 5.5 5.5 0 0 1 10.7-1.9A4.5 4.5 0 0 1 17.5 19H6Z"/></svg>
+        <svg class="sprite sprite-5" viewBox="0 0 24 24"><path fill="currentColor" d="M11 2 2 13h6l-1 9 10-13h-6l1-7Z"/></svg>
+      </div>
+      <div class="sprite-layer layer-mid">
+        <svg class="sprite sprite-2" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4Zm-1.2 13.4L7.5 12l1.4-1.4 1.9 1.9 4.3-4.3 1.4 1.4-5.7 5.8Z"/></svg>
+        <svg class="sprite sprite-3" viewBox="0 0 24 24"><path fill="currentColor" d="m9.4 16.6-4-4.6 4-4.6 1.5 1.3L8 12l2.9 3.3-1.5 1.3Zm5.2 0-1.5-1.3L16 12l-2.9-3.3 1.5-1.3 4 4.6-4 4.6Z"/></svg>
+      </div>
+      <div class="sprite-layer layer-near">
+        <svg class="sprite sprite-4" viewBox="0 0 24 24"><path fill="currentColor" d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.6 7.6 0 0 0-1.7-1L14.9 3h-4l-.4 2.9a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.4L6.4 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.6 7.6 0 0 0 1.7 1l.4 3h4l.4-3a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.4L19.4 13ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
+        <svg class="sprite sprite-6" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v3H4V4Zm0 6.5h16v3H4v-3ZM4 17h10v3H4v-3Z"/></svg>
+      </div>
     </div>
     <header class="site-shell">
       <a class="brand" href="/">AWAR//SYS</a>
-      <nav>
+      <nav aria-label="Main">
+        <span class="nav-pill" aria-hidden="true"></span>
         <ul>
           {
             navigation.map((item) => (
               <li>
-                <a href={item.link} class={pagePath === item.link ? "active" : ""}>
+                <a
+                  href={item.link}
+                  class={pagePath === item.link ? "active" : undefined}
+                  aria-current={pagePath === item.link ? "page" : undefined}
+                >
                   {item.name}
                 </a>
               </li>
@@ -68,9 +173,7 @@ const pagePath = Astro.url.pathname;
           }
         </ul>
       </nav>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
-        <!-- icon and label injected by script below -->
-      </button>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle light/dark theme"></button>
     </header>
     <script is:inline>
       (function () {
@@ -84,7 +187,14 @@ const pagePath = Astro.url.pathname;
           return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
         }
 
-        function applyTheme(theme) {
+        var THEME_COLORS = { dark: "#0f1117", light: "#f4efe3" };
+
+        function applyTheme(theme, persist) {
+          var next = theme === "light" ? "dark" : "light";
+          // Browser chrome follows the site theme, not just the OS preference
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+            meta.setAttribute("content", THEME_COLORS[theme === "light" ? "light" : "dark"]);
+          });
           if (theme === "light") {
             document.documentElement.setAttribute("data-theme", "light");
             btn.innerHTML = moonIcon + "<span>Dark</span>";
@@ -92,28 +202,350 @@ const pagePath = Astro.url.pathname;
             document.documentElement.removeAttribute("data-theme");
             btn.innerHTML = sunIcon + "<span>Light</span>";
           }
-          try { localStorage.setItem("theme", theme); } catch (_) {}
+          btn.setAttribute("aria-label", "Switch to " + next + " theme");
+          btn.setAttribute("title", "Switch to " + next + " theme");
+          if (persist) {
+            try { localStorage.setItem("theme", theme); } catch (_) {}
+          }
         }
 
-        // Set initial button state
-        applyTheme(getTheme());
+        // Set initial button state without pinning the system preference
+        applyTheme(getTheme(), false);
 
         btn.addEventListener("click", function () {
-          applyTheme(getTheme() === "light" ? "dark" : "light");
+          var next = getTheme() === "light" ? "dark" : "light";
+          var root = document.documentElement;
+          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var swap = function () {
+            applyTheme(next, true);
+            btn.classList.add("is-switched");
+          };
+          if (!document.startViewTransition || reduce) {
+            swap();
+            return;
+          }
+          // Circular reveal of the new theme, expanding from the toggle
+          var rect = btn.getBoundingClientRect();
+          root.style.setProperty("--vt-x", rect.left + rect.width / 2 + "px");
+          root.style.setProperty("--vt-y", rect.top + rect.height / 2 + "px");
+          root.classList.add("theme-vt");
+          document.startViewTransition(swap).finished.finally(function () {
+            root.classList.remove("theme-vt");
+          });
         });
+
+        // Follow OS theme changes until the visitor picks a theme explicitly
+        var media = window.matchMedia("(prefers-color-scheme: light)");
+        var onSystemChange = function (event) {
+          var stored = null;
+          try { stored = localStorage.getItem("theme"); } catch (_) {}
+          if (!stored) applyTheme(event.matches ? "light" : "dark", false);
+        };
+        if (media.addEventListener) media.addEventListener("change", onSystemChange);
+      })();
+
+      // Sliding nav pill: follows hover/focus and rests on the current page
+      (function () {
+        var nav = document.querySelector(".site-shell nav");
+        var pill = nav && nav.querySelector(".nav-pill");
+        if (!pill) return;
+        var links = Array.prototype.slice.call(nav.querySelectorAll("a"));
+        var current = nav.querySelector('a[aria-current="page"]');
+
+        function moveTo(link, instant) {
+          links.forEach(function (a) { a.classList.toggle("is-target", a === link); });
+          if (!link) {
+            pill.classList.remove("is-on");
+            return;
+          }
+          var navRect = nav.getBoundingClientRect();
+          var rect = link.getBoundingClientRect();
+          if (instant) pill.style.transition = "none";
+          pill.style.setProperty("--pill-x", rect.left - navRect.left + "px");
+          pill.style.setProperty("--pill-y", rect.top - navRect.top + "px");
+          pill.style.setProperty("--pill-w", rect.width + "px");
+          pill.style.setProperty("--pill-h", rect.height + "px");
+          pill.classList.add("is-on");
+          if (instant) {
+            void pill.offsetWidth;
+            pill.style.transition = "";
+          }
+        }
+
+        nav.classList.add("has-pill");
+        moveTo(current, true);
+
+        links.forEach(function (a) {
+          a.addEventListener("pointerenter", function () { moveTo(a); });
+          a.addEventListener("focus", function () { moveTo(a); });
+        });
+        nav.addEventListener("pointerleave", function () { moveTo(current); });
+        nav.addEventListener("focusout", function (event) {
+          if (!nav.contains(event.relatedTarget)) moveTo(current);
+        });
+
+        var resync = function () { moveTo(nav.querySelector("a.is-target") || current, true); };
+        window.addEventListener("resize", resync);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(resync);
       })();
     </script>
-    <main class="container">
+    <main class="container" id="main" tabindex="-1">
       <slot />
     </main>
     <footer class="site-footer">
-      <p>&copy; {new Date().getFullYear()} {activeProfile.name}</p>
-      <div class="footer-links">
-        <a href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="Visit GitHub">GitHub</a>
-        <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Visit LinkedIn">LinkedIn</a>
-        <a href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab" aria-label="Visit Sessionize">Sessionize</a>
+      <div class="footer-row">
+        <p>&copy; {new Date().getFullYear()} {activeProfile.name}</p>
+        <div class="footer-links">
+          <a href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="Visit GitHub">GitHub</a>
+          <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Visit LinkedIn">LinkedIn</a>
+          <a href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab" aria-label="Visit Sessionize">Sessionize</a>
+        </div>
       </div>
+      <p class="footer-mark" aria-hidden="true">{[..."AWAR//SYS"].map((char, i) => <span style={`--i:${i}`}>{char}</span>)}</p>
     </footer>
+    <a class="to-top" href="#top" aria-label="Back to top">
+      <svg class="to-top-ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="23" pathLength="100" /></svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 20V7.8l-5.6 5.6L4 12l8-8 8 8-1.4 1.4L13 7.8V20h-2Z" /></svg>
+    </a>
+    <script is:inline>
+      (function () {
+        // Back-to-top appears once the reader is well into the page
+        var toTop = document.querySelector(".to-top");
+        if (toTop) {
+          var queued = false;
+          function syncToTop() {
+            queued = false;
+            toTop.classList.toggle("is-shown", window.scrollY > Math.max(600, window.innerHeight * 0.8));
+          }
+          window.addEventListener("scroll", function () {
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(syncToTop);
+          }, { passive: true });
+          syncToTop();
+          toTop.addEventListener("click", function (e) {
+            e.preventDefault();
+            // CSS scroll-behavior decides between smooth and instant (reduced motion)
+            window.scrollTo({ top: 0 });
+            var brand = document.querySelector(".brand");
+            if (brand) brand.focus({ preventScroll: true });
+          });
+        }
+      })();
+    </script>
+    <script is:inline>
+      (function () {
+        // Lazy images fade in once loaded (CSS only hides them under no-preference)
+        document.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+          if (img.complete) return;
+          img.setAttribute("data-loading", "");
+          function done() { img.removeAttribute("data-loading"); }
+          img.addEventListener("load", done, { once: true });
+          img.addEventListener("error", done, { once: true });
+        });
+
+        // Cursor spotlight position for cards (one delegated, rAF-throttled listener)
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        var SPOT = ".card, .badge-link, .event-item, .li-post-card, .stat-card";
+        var last = null;
+        var frame = 0;
+        document.addEventListener("pointermove", function (e) {
+          last = e;
+          if (frame) return;
+          frame = requestAnimationFrame(function () {
+            frame = 0;
+            var el = last.target instanceof Element && last.target.closest(SPOT);
+            if (!el) return;
+            var r = el.getBoundingClientRect();
+            el.style.setProperty("--mx", Math.round(last.clientX - r.left) + "px");
+            el.style.setProperty("--my", Math.round(last.clientY - r.top) + "px");
+          });
+        }, { passive: true });
+      })();
+    </script>
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        if (!root.classList.contains("js-motion")) return;
+
+        // Keep in sync with the reveal selectors in global.css
+        var SELECTOR = ".fx-slide-in, [data-reveal], .section-title > h2, h2.section-title, .section-title > .eyebrow";
+        var STAGGER_MS = 70;
+        var MAX_STAGGER = 8;
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+<>:|";
+        var decoding = [];
+
+        // Eyebrow labels decode from random glyphs into their text, left to right
+        function decode(el, delay) {
+          var text = el.textContent;
+          if (reduceMotion.matches || el.hasAttribute("data-decoded") || !text.trim()) return;
+          el.setAttribute("data-decoded", "");
+
+          var label = document.createElement("span");
+          label.className = "sr-only";
+          label.textContent = text;
+          var shown = document.createElement("span");
+          shown.setAttribute("aria-hidden", "true");
+          var cells = [];
+          var word = null;
+          Array.from(text).forEach(function (ch) {
+            if (/\s/.test(ch)) {
+              word = null;
+              shown.appendChild(document.createTextNode(ch));
+              return;
+            }
+            // Words stay unbreakable so lines still only wrap at spaces
+            if (!word) {
+              word = document.createElement("span");
+              word.className = "decode-word";
+              shown.appendChild(word);
+            }
+            if (ch === "/") {
+              word.appendChild(document.createTextNode(ch));
+              return;
+            }
+            var cell = document.createElement("span");
+            cell.className = "decode-char";
+            cell.textContent = ch;
+            word.appendChild(cell);
+            cells.push({ el: cell, ch: ch });
+          });
+          el.textContent = "";
+          el.append(label, shown);
+
+          var start = performance.now() + delay;
+          var lastSwap = -Infinity;
+          var finished = false;
+          function finish() {
+            if (finished) return;
+            finished = true;
+            el.textContent = text;
+          }
+          decoding.push(finish);
+
+          // Lock each character's width so swapping glyphs never moves the line,
+          // and only scramble through glyphs that fit the cell so none overlap.
+          // Computed widths ignore the reveal's scale transform.
+          function lock() {
+            var current = cells.map(function (c) {
+              var shownGlyph = c.el.textContent;
+              c.el.style.width = "";
+              c.el.textContent = c.ch;
+              return shownGlyph;
+            });
+            var probe = document.createElement("span");
+            probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap";
+            Array.from(GLYPHS).forEach(function (g) {
+              var cell = document.createElement("span");
+              cell.className = "decode-char";
+              cell.textContent = g;
+              probe.appendChild(cell);
+            });
+            shown.appendChild(probe);
+            var widths = cells.map(function (c) { return parseFloat(getComputedStyle(c.el).width); });
+            var glyphs = Array.from(probe.children).map(function (g) {
+              return { ch: g.textContent, w: parseFloat(getComputedStyle(g).width) };
+            });
+            probe.remove();
+            cells.forEach(function (c, i) {
+              c.el.style.width = widths[i] + "px";
+              c.el.textContent = current[i];
+              c.pool = glyphs
+                .filter(function (g) { return g.w <= widths[i] + 0.5; })
+                .map(function (g) { return g.ch; })
+                .join("") || c.ch;
+            });
+          }
+          lock();
+          if (document.fonts && document.fonts.status !== "loaded") {
+            document.fonts.ready.then(function () { if (!finished) lock(); });
+          }
+
+          function frame(now) {
+            if (finished) return;
+            var t = now - start;
+            var swap = now - lastSwap >= 45;
+            if (swap) lastSwap = now;
+            var pending = 0;
+            cells.forEach(function (c, i) {
+              if (c.done) return;
+              if (t >= 200 + i * 30) {
+                c.done = true;
+                c.el.textContent = c.ch;
+                c.el.classList.remove("is-scrambled");
+                return;
+              }
+              pending += 1;
+              if (swap) {
+                c.el.textContent = c.pool.charAt((Math.random() * c.pool.length) | 0);
+                c.el.classList.add("is-scrambled");
+              }
+            });
+            if (!pending) return finish();
+            requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        }
+
+        function reveal(el, delay, instant) {
+          el.style.setProperty("--reveal-delay", delay + "ms");
+          el.classList.add("is-visible");
+          if (instant) return;
+          if (el.matches(".eyebrow")) decode(el, delay);
+          else el.querySelectorAll(".eyebrow").forEach(function (eyebrow) { decode(eyebrow, delay + 120); });
+        }
+
+        var io = new IntersectionObserver(function (entries) {
+          var batch = [];
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            io.unobserve(entry.target);
+            batch.push(entry);
+          });
+          // Stagger whatever enters together in reading order
+          batch.sort(function (a, b) {
+            var dy = a.boundingClientRect.top - b.boundingClientRect.top;
+            return Math.abs(dy) > 4 ? dy : a.boundingClientRect.left - b.boundingClientRect.left;
+          });
+          batch.forEach(function (entry, i) {
+            reveal(entry.target, Math.min(i, MAX_STAGGER) * STAGGER_MS);
+          });
+        }, { rootMargin: "0px 0px -6% 0px" });
+
+        function watch(node) {
+          if (node.nodeType !== 1) return;
+          if (node.matches(SELECTOR) && !node.classList.contains("is-visible")) io.observe(node);
+          node.querySelectorAll(SELECTOR).forEach(function (el) {
+            if (!el.classList.contains("is-visible")) io.observe(el);
+          });
+        }
+
+        watch(document.body);
+
+        // The footer mark sits at the very end of the page, often inside the
+        // bottom margin excluded above, so it gets its own observer
+        var mark = document.querySelector(".footer-mark");
+        if (mark) {
+          var markIo = new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting) return;
+            mark.classList.add("is-risen");
+            markIo.disconnect();
+          }, { threshold: 0.5 });
+          markIo.observe(mark);
+        }
+
+        // Client scripts render cards after fetching data
+        new MutationObserver(function (mutations) {
+          mutations.forEach(function (m) { m.addedNodes.forEach(watch); });
+        }).observe(document.body, { childList: true, subtree: true });
+
+        window.addEventListener("beforeprint", function () {
+          decoding.forEach(function (finish) { finish(); });
+          document.querySelectorAll(SELECTOR).forEach(function (el) { reveal(el, 0, true); });
+        });
+      })();
+    </script>
   </body>
 </html>
 

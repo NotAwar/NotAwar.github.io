@@ -1,0 +1,125 @@
+{
+  "profile_url": "https://www.credly.com/users/awar",
+  "badges": [
+    {
+      "id": "b329f57a-c106-4b8e-805a-00771d99cbda",
+      "name": "Platform Engineering Day EU 2026 Speaker Badge",
+      "issuer": "The Linux Foundation",
+      "issuer_url": "https://www.credly.com/org/the-linux-foundation",
+      "category": "Experience",
+      "level": "Intermediate",
+      "issued_on": "2026-03-31",
+      "expires_on": "",
+      "image": "https://images.credly.com/images/651d9034-46d9-4872-b1fa-2cf5fb9d706b/blob",
+      "url": "https://www.credly.com/badges/b329f57a-c106-4b8e-805a-00771d99cbda/public_url"
+    },
+    {
+      "id": "2d909445-8309-40a6-8d9b-bfe2d0404dda",
+      "name": "Migrate to agentgateway with the ingress2gateway tool",
+      "issuer": "Solo.io",
+      "issuer_url": "https://www.credly.com/org/solo-io",
+      "category": "Badge",
+      "level": "",
+      "issued_on": "2026-03-25",
+      "expires_on": "",
+      "image": "https://images.credly.com/images/0339df0c-1580-4769-99b2-a695873b703f/blob",
+      "url": "https://www.credly.com/badges/2d909445-8309-40a6-8d9b-bfe2d0404dda/public_url"
+    },
+    {
+      "id": "e61a26e1-690a-41fe-b492-7873bcf50069",
+      "name": "Multicluster peering with Solo Enterprise for Istio",
+      "issuer": "Solo.io",
+      "issuer_url": "https://www.credly.com/org/solo-io",
+      "category": "Badge",
+      "level": "",
+      "issued_on": "2026-03-25",
+      "expires_on": "",
+      "image": "https://images.credly.com/images/de440600-8563-413b-ac6c-da91b898293f/blob",
+      "url": "https://www.credly.com/badges/e61a26e1-690a-41fe-b492-7873bcf50069/public_url"
+    },
+    {
+      "id": "7747ed32-17d0-4d3d-82e6-0e28ed30489c",
+      "name": "CNPA: Certified Cloud Native Platform Engineering Associate",
+      "issuer": "The Linux Foundation",
+      "issuer_url": "https://www.credly.com/org/the-linux-foundation",
+      "category": "Certification",
+      "level": "Intermediate",
+      "issued_on": "2026-01-08",
+      "expires_on": "2028-01-09",
+      "image": "https://images.credly.com/images/bf3fc97e-a12c-4567-86ea-01639b9b15fb/blob",
+      "url": "https://www.credly.com/badges/7747ed32-17d0-4d3d-82e6-0e28ed30489c/public_url"
+    },
+    {
+      "id": "74e22579-0ab1-44f1-b478-cf8e543c9c06",
+      "name": "KCSA: Kubernetes and Cloud Native Security Associate",
+      "issuer": "The Linux Foundation",
+      "issuer_url": "https://www.credly.com/org/the-linux-foundation",
+      "category": "Certification",
+      "level": "Intermediate",
+      "issued_on": "2025-08-01",
+      "expires_on": "2027-08-02",
+      "image": "https://images.credly.com/images/67dd8a95-8876-4051-9cb9-3d97c204f85a/image.png",
+      "url": "https://www.credly.com/badges/74e22579-0ab1-44f1-b478-cf8e543c9c06/public_url"
+    },
+    {
+      "id": "f2c599e3-e110-4084-b0ca-3ed8c192080f",
+      "name": "CGOA: Certified GitOps Associate",
+      "issuer": "The Linux Foundation",
+      "issuer_url": "https://www.credly.com/org/the-linux-foundation",
+      "category": "Certification",
+      "level": "Intermediate",
+      "issued_on": "2025-07-24",
+      "expires_on": "2027-07-25",
+      "image": "https://images.credly.com/images/7219d055-4e97-439c-b244-8fbe885fa06b/image.png",
+      "url": "https://www.credly.com/badges/f2c599e3-e110-4084-b0ca-3ed8c192080f/public_url"
+    },
+    {
+      "id": "e516429c-55a5-4229-afe3-51e0c1407194",
+      "name": "GitHub Foundations",
+      "issuer": "GitHub",
+      "issuer_url": "https://www.credly.com/org/github",
+      "category": "Certification",
+      "level": "Foundational",
+      "issued_on": "2025-02-17",
+      "expires_on": "2028-02-17",
+      "image": "https://images.credly.com/images/024d0122-724d-4c5a-bd83-cfe3c4b7a073/image.png",
+      "url": "https://www.credly.com/badges/e516429c-55a5-4229-afe3-51e0c1407194/public_url"
+    },
+    {
+      "id": "e047fb12-dea1-46af-aad7-0e23189594a3",
+      "name": "Professional Scrum Master™ I (PSM I)",
+      "issuer": "Scrum.org",
+      "issuer_url": "https://www.credly.com/org/scrum-org",
+      "category": "Certification",
+      "level": "Foundational",
+      "issued_on": "2023-11-23",
+      "expires_on": "",
+      "image": "https://images.credly.com/images/a2790314-008a-4c3d-9553-f5e84eb359ba/image.png",
+      "url": "https://www.credly.com/badges/e047fb12-dea1-46af-aad7-0e23189594a3/public_url"
+    },
+    {
+      "id": "b589993b-78fa-4008-8e41-05ef81fa2160",
+      "name": "KCNA: Kubernetes and Cloud Native Associate",
+      "issuer": "The Linux Foundation",
+      "issuer_url": "https://www.credly.com/org/the-linux-foundation",
+      "category": "Certification",
+      "level": "Foundational",
+      "issued_on": "2022-09-04",
+      "expires_on": "2025-09-04",
+      "image": "https://images.credly.com/images/f28f1d88-428a-47f6-95b5-7da1dd6c1000/KCNA_badge.png",
+      "url": "https://www.credly.com/badges/b589993b-78fa-4008-8e41-05ef81fa2160/public_url"
+    },
+    {
+      "id": "54fd1204-aabd-460e-b14d-1f7803eabc62",
+      "name": "HashiCorp Certified: Terraform Associate (002)",
+      "issuer": "IBM Professional Certification",
+      "issuer_url": "https://www.credly.com/org/ibm-professional-certification-program",
+      "category": "Certification",
+      "level": "Foundational",
+      "issued_on": "2022-08-19",
+      "expires_on": "2024-08-19",
+      "image": "https://images.credly.com/images/cd038261-9d1c-4792-bc62-3a3b5bda175c/blob",
+      "url": "https://www.credly.com/badges/54fd1204-aabd-460e-b14d-1f7803eabc62/public_url"
+    }
+  ]
+}

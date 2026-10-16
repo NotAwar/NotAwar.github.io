@@ -1,0 +1,121 @@
+---
+import { contributionGraphHTML, type ContributionDay } from "../lib/github-render";
+
+interface Props {
+  githubUrl: string;
+  data?: { days: ContributionDay[]; total: number } | null;
+}
+
+const { githubUrl, data } = Astro.props;
+const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
+---
+
+{data ? (
+  <div class="cg-root" data-contribution-graph>
+    <Fragment set:html={contributionGraphHTML(data.days, data.total)} />
+  </div>
+) : (
+  <div class="cg-root" data-contribution-graph data-pending data-github-user={githubUser} data-github-url={githubUrl}>
+    <div class="cg-skeleton"></div>
+  </div>
+)}
+
+<script>
+  import { fetchContributions, contributionTotal } from "../lib/github-contributions.js";
+  import { contributionGraphHTML } from "../lib/github-render";
+
+  const onIdle = (fn: () => void) =>
+    "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300);
+
+  // On narrow screens show the most recent weeks first, like GitHub does
+  function scrollToLatest(root: HTMLElement) {
+    const scroller = root.querySelector<HTMLElement>(".cg-scroll");
+    if (scroller && scroller.scrollWidth > scroller.clientWidth) scroller.scrollLeft = scroller.scrollWidth;
+  }
+
+  const tipDate = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  let tip: HTMLDivElement | null = null;
+  const hideTip = () => tip?.classList.remove("is-on");
+
+  // Styled tooltip that glides between cells, replacing the slow native title
+  function enableTooltip(root: HTMLElement) {
+    const weeks = root.querySelector<HTMLElement>(".cg-weeks");
+    if (!weeks) return;
+
+    weeks.addEventListener("pointerover", (event) => {
+      const cell = (event.target as HTMLElement).closest<HTMLElement>(".cg-cell:not(.cg-empty)");
+      if (!cell) return;
+      // Move the title aside before the native tooltip's delay elapses
+      if (cell.title) {
+        cell.dataset.tip = cell.title;
+        cell.removeAttribute("title");
+      }
+      const match = /^(\d+) contributions? on (\d{4})-(\d{2})-(\d{2})$/.exec(cell.dataset.tip || "");
+      if (!match) return hideTip();
+
+      if (!tip) {
+        tip = document.createElement("div");
+        tip.className = "cg-tip";
+        tip.setAttribute("aria-hidden", "true");
+        document.body.append(tip);
+      }
+      const count = Number(match[1]);
+      const date = new Date(Number(match[2]), Number(match[3]) - 1, Number(match[4]));
+      tip.innerHTML = `<strong>${count || "No"} contribution${count === 1 ? "" : "s"}</strong><span>${tipDate.format(date)}</span>`;
+
+      const rect = cell.getBoundingClientRect();
+      const half = tip.offsetWidth / 2;
+      const below = rect.top - tip.offsetHeight - 10 < 96;
+      const x = Math.min(Math.max(rect.left + rect.width / 2, half + 8), innerWidth - half - 8);
+      const place = () => {
+        tip!.classList.toggle("is-below", below);
+        tip!.style.setProperty("--x", `${x}px`);
+        tip!.style.setProperty("--y", `${below ? rect.bottom : rect.top}px`);
+      };
+      if (tip.classList.contains("is-on")) {
+        place();
+      } else {
+        // Appear in place rather than gliding in from the last position
+        tip.style.transition = "none";
+        place();
+        void tip.offsetWidth;
+        tip.style.transition = "";
+      }
+      tip.classList.add("is-on");
+    });
+    weeks.addEventListener("pointerleave", hideTip);
+    root.querySelector(".cg-scroll")?.addEventListener("scroll", hideTip, { passive: true });
+  }
+
+  addEventListener("scroll", hideTip, { passive: true });
+
+  function renderFallback(root: HTMLElement) {
+    const link = document.createElement("a");
+    link.className = "cg-fallback";
+    link.href = root.dataset.githubUrl || "https://github.com/";
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.textContent = "Contribution calendar unavailable right now – view it on GitHub";
+    root.replaceChildren(link);
+  }
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-contribution-graph]")) {
+    if (!root.hasAttribute("data-pending")) {
+      scrollToLatest(root);
+      enableTooltip(root);
+      continue;
+    }
+    onIdle(() => {
+      fetchContributions(root.dataset.githubUser || "NotAwar")
+        .then((data) => {
+          const days = data.contributions ?? [];
+          if (!days.length) throw new Error("empty");
+          root.innerHTML = contributionGraphHTML(days, contributionTotal(data));
+          root.removeAttribute("data-pending");
+          scrollToLatest(root);
+          enableTooltip(root);
+        })
+        .catch(() => renderFallback(root));
+    });
+  }
+</script>

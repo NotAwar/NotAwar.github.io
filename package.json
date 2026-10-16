@@ -1,7 +1,7 @@
 {
   "name": "notawar-github-io",
   "version": "1.0.0",
-  "description": "Astro + React personal site with LinkedIn sync",
+  "description": "Astro personal site with LinkedIn sync",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -9,19 +9,22 @@
     "preview": "astro preview",
     "sync-linkedin": "node scripts/sync-linkedin.js",
     "sync-buffer": "node scripts/sync-buffer.js",
-    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && astro dev",
-    "build:sync": "npm run sync-linkedin && npm run sync-buffer && astro build"
+    "sync-sessionize": "node scripts/sync-sessionize.js",
+    "sync-credly": "node scripts/sync-credly.js",
+    "generate-images": "node scripts/generate-images.mjs",
+    "check:seo": "node scripts/check-seo.mjs",
+    "dev:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && npm run sync-credly && astro dev",
+    "build:sync": "npm run sync-linkedin && npm run sync-buffer && npm run sync-sessionize && npm run sync-credly && astro build"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
   "dependencies": {
-    "@astrojs/react": "^7.0.0",
     "@astrojs/sitemap": "^3.7.4",
-    "animejs": "^4.5.0",
     "astro": "^7.3.5",
-    "axios": "^1.20.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "axios": "^1.20.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
   }
 }
