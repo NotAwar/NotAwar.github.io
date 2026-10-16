@@ -35,13 +35,10 @@ async function fetchLinkedInProfile() {
         fallback_to_cache: 'on-error',
         use_cache: 'if-present',
         skills: 'include',
-        inferred_salary: 'include',
-        personal_email: 'include',
-        personal_contact_number: 'include',
+        // Only request what the site renders; personal contact data, salary
+        // estimates and demographic extras are deliberately not fetched
         twitter_profile_id: 'include',
-        facebook_profile_id: 'include',
-        github_profile_id: 'include',
-        extra: 'include'
+        github_profile_id: 'include'
       },
       headers: {
         'Authorization': `Bearer ${PROXYCURL_API_KEY}`
