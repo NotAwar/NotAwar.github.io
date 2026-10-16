@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CountUp from "../../components/CountUp.astro";
 import { activeProfile } from "../../data/site";
-import { PERSON_ID, absoluteUrl } from "../../data/seo";
+import { PAGE_OG_IMAGES, PERSON_ID, absoluteUrl } from "../../data/seo";
 import {
   eventCountries,
   eventShortName,
@@ -54,6 +54,7 @@ const schema = speaking.events.map(eventSchema);
 <BaseLayout
   title={`Conference Talks & Speaking | ${activeProfile.name}`}
   description={pageDescription}
+  image={PAGE_OG_IMAGES.speaking}
   breadcrumbs={[{ name: "Speaking", path: "/speaking/" }]}
   schema={schema}
 >

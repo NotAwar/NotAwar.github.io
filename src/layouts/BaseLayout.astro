@@ -15,14 +15,14 @@ import {
   webPageSchema,
   websiteSchema,
   type Breadcrumb,
+  type OgImage,
   type SchemaNode,
 } from "../data/seo";
 
 interface Props {
   title?: string;
   description?: string;
-  image?: string;
-  imageAlt?: string;
+  image?: OgImage;
   noindex?: boolean;
   pageType?: "WebPage" | "ProfilePage" | "CollectionPage" | "AboutPage";
   breadcrumbs?: Breadcrumb[];
@@ -32,8 +32,7 @@ interface Props {
 const {
   title = activeProfile.name,
   description = activeProfile.bio,
-  image = DEFAULT_OG_IMAGE.path,
-  imageAlt = DEFAULT_OG_IMAGE.alt,
+  image = DEFAULT_OG_IMAGE,
   noindex = false,
   pageType = "WebPage",
   breadcrumbs = [],
@@ -42,8 +41,7 @@ const {
 
 const pagePath = Astro.url.pathname;
 const canonicalUrl = absoluteUrl(pagePath);
-const imageUrl = absoluteUrl(image);
-const isDefaultImage = image === DEFAULT_OG_IMAGE.path;
+const imageUrl = absoluteUrl(image.path);
 const isProfilePage = pageType === "ProfilePage";
 const robots = noindex
   ? "noindex, follow"
@@ -85,10 +83,10 @@ const jsonLd = noindex
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
-    {isDefaultImage && <meta property="og:image:type" content={DEFAULT_OG_IMAGE.type} />}
-    {isDefaultImage && <meta property="og:image:width" content={String(DEFAULT_OG_IMAGE.width)} />}
-    {isDefaultImage && <meta property="og:image:height" content={String(DEFAULT_OG_IMAGE.height)} />}
-    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:type" content={image.type} />
+    <meta property="og:image:width" content={String(image.width)} />
+    <meta property="og:image:height" content={String(image.height)} />
+    <meta property="og:image:alt" content={image.alt} />
     {isProfilePage && <meta property="profile:first_name" content={activeProfile.name.split(" ")[0]} />}
     {isProfilePage && <meta property="profile:last_name" content={activeProfile.name.split(" ").slice(1).join(" ")} />}
     {isProfilePage && <meta property="profile:username" content={githubUsername} />}
@@ -97,7 +95,7 @@ const jsonLd = noindex
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
-    <meta name="twitter:image:alt" content={imageAlt} />
+    <meta name="twitter:image:alt" content={image.alt} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

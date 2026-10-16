@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BadgeCard from "../../components/BadgeCard.astro";
 import { activeProfile } from "../../data/site";
-import { SITE_URL, currentRole } from "../../data/seo";
+import { PAGE_OG_IMAGES, SITE_URL, currentRole } from "../../data/seo";
 import { certifications, otherBadges, isExpired, credlyProfileUrl, activeCertifications, certificationCode } from "../../data/credly";
 
 const sortedCertifications = [...certifications].sort((a, b) => Number(isExpired(a)) - Number(isExpired(b)));
@@ -20,7 +20,7 @@ const pageTitle = `CV & Experience | ${activeProfile.name} – Senior Cloud Engi
 const pageDescription = `CV of ${activeProfile.name}, ${activeProfile.title}${currentRole ? ` at ${currentRole.company}` : ""}: experience, ${certCodes.length ? `${certCodes.join(", ")} certifications` : "certifications"} and Kubernetes, Azure and DevOps skills.`;
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription} breadcrumbs={[{ name: "CV", path: "/cv/" }]}>
+<BaseLayout title={pageTitle} description={pageDescription} image={PAGE_OG_IMAGES.cv} breadcrumbs={[{ name: "CV", path: "/cv/" }]}>
   <section class="panel fx-slide-in">
     <div class="page-intro">
       <p class="eyebrow">CV // Profile</p>

@@ -73,7 +73,9 @@ for (const file of walk(DIST)) {
 
   if (!noindex) {
     if (!canonical?.startsWith("https://")) fail("missing absolute canonical URL");
-    if (!metaContent(html, "property", "og:image")) fail("missing og:image");
+    const ogImage = attr(metaContent(html, "property", "og:image") ?? "", "content");
+    if (!ogImage) fail("missing og:image");
+    else if (!fs.existsSync(path.join(DIST, new URL(ogImage).pathname))) fail(`og:image ${ogImage} is not in dist/`);
     if (canonical && !sitemapUrls.has(canonical)) fail(`canonical ${canonical} is not in the sitemap`);
   } else if (canonical && sitemapUrls.has(canonical)) {
     fail("noindex page is listed in the sitemap");

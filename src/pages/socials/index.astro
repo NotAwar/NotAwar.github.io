@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { activeProfile } from "../../data/site";
+import { PAGE_OG_IMAGES } from "../../data/seo";
 
 const handleFrom = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
@@ -35,6 +36,7 @@ const socials = [
 <BaseLayout
   title={`Contact & Social Links | ${activeProfile.name}`}
   description={`Connect with ${activeProfile.name} on GitHub, LinkedIn and Sessionize – cloud native engineering, open source collaboration and conference speaking.`}
+  image={PAGE_OG_IMAGES.socials}
   breadcrumbs={[{ name: "Socials", path: "/socials/" }]}
 >
   <section class="panel fx-slide-in">

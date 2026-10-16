@@ -1,6 +1,7 @@
 /**
  * Generates static social/share images and app icons into public/.
- *   - public/og-image.jpg        1200x630 Open Graph / Twitter card image
+ *   - public/og-image.jpg        1200x630 Open Graph / Twitter card image (home)
+ *   - public/og/*.jpg            1200x630 page-specific share cards
  *   - public/apple-touch-icon.png 180x180
  *   - public/icon-192.png, public/icon-512.png (web app manifest)
  *
@@ -67,19 +68,14 @@ async function fetchAvatar(size) {
   }
 }
 
-async function generateOgImage() {
+async function renderOgCard(card, avatar) {
   const width = 1200;
   const height = 630;
   const avatarSize = 300;
   const cx = 930;
   const cy = 300;
-
-  const title = profile.title || profile.headline || "Cloud Engineer";
-  const titleLines = (title.includes(" & ")
-    ? title.split(" & ").flatMap((part, i, parts) => wrap(i < parts.length - 1 ? `${part} &` : part, 34))
-    : wrap(title, 30)
-  ).slice(0, 2);
-  const topics = ["Kubernetes", "Azure", "GitOps", "Platform Engineering"];
+  const { file, eyebrow, heading, lines, footnote, url } = card;
+  const urlBox = Math.max(190, Math.round(url.length * 15.6 + 80));
 
   const ticks = Array.from({ length: 48 }, (_, i) => {
     const angle = (360 / 48) * i;
@@ -110,18 +106,18 @@ async function generateOgImage() {
   <circle cx="${cx}" cy="${cy}" r="280" fill="url(#orb)" />
   <rect x="24" y="24" width="${width - 48}" height="${height - 48}" rx="28" fill="none" stroke="${COLORS.line}" stroke-width="3" />
 
-  <text x="80" y="128" font-family="${FONT}" font-size="26" font-weight="700" letter-spacing="6" fill="${COLORS.neonAlt}">AWAR//SYS</text>
-  <text x="80" y="232" font-family="${FONT}" font-size="78" font-weight="800" fill="url(#name)">${escapeXml(profile.name)}</text>
-  ${titleLines
+  <text x="80" y="128" font-family="${FONT}" font-size="26" font-weight="700" letter-spacing="6" fill="${COLORS.neonAlt}">${escapeXml(eyebrow)}</text>
+  <text x="80" y="232" font-family="${FONT}" font-size="78" font-weight="800" fill="url(#name)">${escapeXml(heading)}</text>
+  ${lines
     .map(
       (line, i) =>
         `<text x="80" y="${300 + i * 46}" font-family="${FONT}" font-size="36" font-weight="600" fill="${COLORS.cool}">${escapeXml(line)}</text>`,
     )
     .join("")}
-  <text x="80" y="${300 + titleLines.length * 46 + 40}" font-family="${FONT}" font-size="26" fill="${COLORS.muted}">${escapeXml(topics.join("  ·  "))}</text>
+  <text x="80" y="${300 + lines.length * 46 + 40}" font-family="${FONT}" font-size="26" fill="${COLORS.muted}">${escapeXml(footnote.join("  ·  "))}</text>
 
-  <rect x="80" y="500" width="190" height="56" rx="12" fill="none" stroke="${COLORS.neon}" stroke-width="3" />
-  <text x="175" y="537" text-anchor="middle" font-family="${FONT}" font-size="28" font-weight="700" fill="${COLORS.neon}">awar.no</text>
+  <rect x="80" y="500" width="${urlBox}" height="56" rx="12" fill="none" stroke="${COLORS.neon}" stroke-width="3" />
+  <text x="${80 + urlBox / 2}" y="537" text-anchor="middle" font-family="${FONT}" font-size="28" font-weight="700" fill="${COLORS.neon}">${escapeXml(url)}</text>
 
   <g stroke="${COLORS.muted}" stroke-opacity="0.4" stroke-width="3">${ticks}</g>
   <circle cx="${cx}" cy="${cy}" r="172" fill="none" stroke="${COLORS.neon}" stroke-width="5" stroke-linecap="round" stroke-dasharray="240 841" transform="rotate(-60 ${cx} ${cy})" />
@@ -129,17 +125,62 @@ async function generateOgImage() {
   <circle cx="${cx}" cy="${cy}" r="${avatarSize / 2 + 6}" fill="${COLORS.bg}" stroke="${COLORS.neon}" stroke-opacity="0.35" stroke-width="4" />
 </svg>`;
 
-  const layers = [];
-  const avatar = await fetchAvatar(avatarSize);
-  if (avatar) {
-    layers.push({ input: avatar, left: cx - avatarSize / 2, top: cy - avatarSize / 2 });
-  }
-
+  const layers = avatar ? [{ input: avatar, left: cx - avatarSize / 2, top: cy - avatarSize / 2 }] : [];
+  const target = path.join(publicDir, file);
+  await fs.mkdir(path.dirname(target), { recursive: true });
   await sharp(Buffer.from(svg))
     .composite(layers)
     .jpeg({ quality: 88, mozjpeg: true, chromaSubsampling: "4:4:4" })
-    .toFile(path.join(publicDir, "og-image.jpg"));
-  console.log("✅ public/og-image.jpg");
+    .toFile(target);
+  console.log(`✅ public/${file}`);
+}
+
+// Page-specific share cards. Keep them evergreen (no counts), because they are
+// generated locally rather than on every deploy. Alt texts live in src/data/seo.ts.
+async function generateOgImages() {
+  const title = profile.title || profile.headline || "Cloud Engineer";
+  const titleLines = (title.includes(" & ")
+    ? title.split(" & ").flatMap((part, i, parts) => wrap(i < parts.length - 1 ? `${part} &` : part, 34))
+    : wrap(title, 30)
+  ).slice(0, 2);
+
+  const cards = [
+    {
+      file: "og-image.jpg",
+      eyebrow: "AWAR//SYS",
+      heading: profile.name,
+      lines: titleLines,
+      footnote: ["Kubernetes", "Azure", "GitOps", "Platform Engineering"],
+      url: "awar.no",
+    },
+    {
+      file: "og/speaking.jpg",
+      eyebrow: "AWAR//SYS · SPEAKING",
+      heading: "Speaking",
+      lines: ["Conference talks on Kubernetes,", "GitOps & platform engineering"],
+      footnote: ["GitOps", "GitHub at Scale", "Platform Teams", "MCP"],
+      url: "awar.no/speaking",
+    },
+    {
+      file: "og/cv.jpg",
+      eyebrow: "AWAR//SYS · CV",
+      heading: profile.name,
+      lines: titleLines,
+      footnote: ["Experience", "Skills", "Certifications"],
+      url: "awar.no/cv",
+    },
+    {
+      file: "og/socials.jpg",
+      eyebrow: "AWAR//SYS · CONNECT",
+      heading: "Let's Connect",
+      lines: [`Find ${profile.name.split(" ")[0]} on GitHub,`, "LinkedIn & Sessionize"],
+      footnote: ["Open source", "Networking", "Speaking invites"],
+      url: "awar.no/socials",
+    },
+  ];
+
+  const avatar = await fetchAvatar(300);
+  for (const card of cards) await renderOgCard(card, avatar);
 }
 
 async function generateIcons() {
@@ -158,5 +199,5 @@ async function generateIcons() {
   }
 }
 
-await generateOgImage();
+await generateOgImages();
 await generateIcons();
