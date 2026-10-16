@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchContributions, contributionTotal } from "../lib/github-contributions.js";
 
-const CELL = 11;
-const GAP = 3;
-const STRIDE = CELL + GAP;
-const DAY_LABEL_W = 26;
+const DAY_LABEL_W = 30;
 const MONTH_H = 18;
 const LEVEL_COUNT = 5;
 
@@ -17,6 +14,7 @@ export default function ContributionGraph({ githubUrl }) {
   const [monthMap, setMonthMap] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
@@ -70,11 +68,14 @@ export default function ContributionGraph({ githubUrl }) {
     return () => { alive = false; };
   }, [username]);
 
+  // On narrow screens show the most recent weeks first, like GitHub does
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el && el.scrollWidth > el.clientWidth) el.scrollLeft = el.scrollWidth;
+  }, [grid]);
+
   if (loading) return <div className="cg-skeleton" />;
   if (!grid.length) return null;
-
-  const graphW = grid.length * STRIDE - GAP;
-  const totalW = DAY_LABEL_W + graphW;
 
   return (
     <div className="cg-wrap">
@@ -86,8 +87,8 @@ export default function ContributionGraph({ githubUrl }) {
       </p>
 
       {/* scrollable area */}
-      <div className="cg-scroll" role="img" aria-label={`GitHub contribution calendar: ${total.toLocaleString()} contributions in the last year`}>
-        <div className="cg-inner" style={{ width: totalW }} aria-hidden="true">
+      <div className="cg-scroll" ref={scrollRef} role="img" aria-label={`GitHub contribution calendar: ${total.toLocaleString()} contributions in the last year`}>
+        <div className="cg-inner" style={{ "--weeks": grid.length }} aria-hidden="true">
 
           {/* Month labels row */}
           <div className="cg-months" style={{ marginLeft: DAY_LABEL_W, height: MONTH_H }}>
@@ -95,7 +96,7 @@ export default function ContributionGraph({ githubUrl }) {
               <span
                 key={label}
                 className="cg-month"
-                style={{ left: wi * STRIDE }}
+                style={{ left: `calc(var(--stride) * ${wi})` }}
               >
                 {label}
               </span>

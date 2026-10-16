@@ -1202,10 +1202,23 @@ h2.section-title::before {
   overflow-x: auto;
   overflow-y: visible;
   padding-bottom: 0.25rem;
+  container-type: inline-size;
 }
 
 .cg-inner {
+  --stride: 14px;
+  --gap: 3px;
+  --cell: calc(var(--stride) - var(--gap));
   position: relative;
+  width: calc(30px + var(--weeks, 53) * var(--stride) - var(--gap));
+}
+
+/* Cells grow to fill the panel (whole pixels keep the gaps even) */
+@supports (width: round(down, 10.5px, 1px)) and (width: 1cqi) {
+  .cg-inner {
+    --stride: clamp(14px, round(down, (100cqi - 30px) / var(--weeks, 53), 1px), 21px);
+    --gap: round(var(--stride) * 0.2, 1px);
+  }
 }
 
 .cg-months {
@@ -1223,42 +1236,47 @@ h2.section-title::before {
 
 .cg-body {
   display: flex;
-  gap: 4px;
+  gap: 0;
   align-items: flex-start;
 }
 
 .cg-day-labels {
+  position: sticky;
+  left: 0;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--gap);
+  padding-right: 4px;
+  background: var(--panel);
   padding-top: 1px;
 }
 
 .cg-day-label {
-  width: 22px;
-  height: 11px;
+  width: 26px;
+  height: var(--cell);
   font-size: 0.68rem;
   color: var(--muted);
-  line-height: 11px;
+  line-height: var(--cell);
   text-align: right;
   flex-shrink: 0;
 }
 
 .cg-weeks {
   display: flex;
-  gap: 3px;
+  gap: var(--gap);
 }
 
 .cg-week {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: var(--gap);
 }
 
 .cg-cell {
-  width: 11px;
-  height: 11px;
-  border-radius: 2px;
+  width: var(--cell, 11px);
+  height: var(--cell, 11px);
+  border-radius: max(2px, calc(var(--cell, 11px) * 0.2));
   flex-shrink: 0;
   transition: opacity 0.15s ease, box-shadow 0.15s ease;
   background: var(--cg-l0);
@@ -1392,19 +1410,31 @@ h2.section-title::before {
   box-shadow: 4px 4px 0 var(--line);
   color: var(--text);
   text-decoration: none;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .badge-link:hover,
 .badge-link:focus-visible {
-  transform: translate(-2px, -2px);
-  border-color: var(--neon);
+  transform: translate(-3px, -3px);
+  border-color: var(--neon-alt);
+  box-shadow: 7px 7px 0 var(--neon-alt);
 }
 
 .badge-link img {
   width: 88px;
   height: 88px;
   object-fit: contain;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .badge-link img,
+  .badge-link img[loading] {
+    transition: transform 350ms var(--ease-out), opacity 500ms var(--ease-out), scale 700ms var(--ease-out-expo);
+  }
+
+  .badge-link:hover img {
+    transform: rotate(-4deg) scale(1.06);
+  }
 }
 
 .badge-body {
