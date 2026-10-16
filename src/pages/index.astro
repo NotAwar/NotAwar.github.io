@@ -34,6 +34,8 @@ const bandRows = [
 const githubUser = activeProfile.contact.github.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 const github = await getGitHubSnapshot(githubUser);
 const cardAvatar = await optimizeRemoteImage(activeProfile.avatar_url, 72);
+const bufferPosts = activeProfile.buffer_posts ?? [];
+const connectPosts = bufferPosts.length > 0 ? bufferPosts : (activeProfile.linkedin_posts ?? []);
 
 const heroEvent = upcomingEvents[0] ?? pastEvents[0];
 const heroTalk = heroEvent
@@ -142,7 +144,11 @@ const heroTalk = heroEvent
       <div>
         <p class="eyebrow">Social // Connect</p>
         <h2>Let's Connect</h2>
-        <p class="connect-lede">Recent updates straight from LinkedIn, plus the fastest ways to reach me.</p>
+        <p class="connect-lede">
+          {connectPosts.length > 0
+            ? "Recent updates straight from LinkedIn, plus the fastest ways to reach me."
+            : "Questions about Kubernetes or platform engineering, or organising an event? Here's how to reach me."}
+        </p>
       </div>
       <a
         class="btn neon li-connect-btn"
@@ -160,9 +166,7 @@ const heroTalk = heroEvent
     </div>
 
     {(() => {
-      const bufferPosts = activeProfile.buffer_posts ?? [];
-      const linkedinPosts = activeProfile.linkedin_posts ?? [];
-      const posts = bufferPosts.length > 0 ? bufferPosts : linkedinPosts;
+      const posts = connectPosts;
       return posts.length > 0 ? (
         <div class="li-posts-grid">
           {posts.slice(0, 3).map((post) => {
@@ -219,8 +223,12 @@ const heroTalk = heroEvent
               <p class="li-title">{activeProfile.title}</p>
             </div>
           </div>
-          <p class="li-summary">{activeProfile.bio}</p>
+          <p class="li-summary">
+            Send me a message on LinkedIn for collaboration, questions about Kubernetes and platform engineering, or
+            just to say hi. Code and demos live on GitHub, and speaking invitations are very welcome.
+          </p>
           <div class="cta-row">
+            <a class="btn" href="/speaking/#invite">Speaking invitations</a>
             <a
               class="btn"
               href={activeProfile.contact.github}
