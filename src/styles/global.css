@@ -404,6 +404,21 @@ nav.has-pill a.is-target {
   font-size: 0.85rem;
 }
 
+/* Scrambled glyphs while an eyebrow decodes (see the reveal script) */
+.decode-word {
+  white-space: nowrap;
+}
+
+.decode-char {
+  display: inline-block;
+  text-align: center;
+}
+
+.decode-char.is-scrambled {
+  color: var(--neon);
+  opacity: 0.55;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;

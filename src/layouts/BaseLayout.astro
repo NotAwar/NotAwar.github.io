@@ -372,10 +372,128 @@ const jsonLd = noindex
         var SELECTOR = ".fx-slide-in, [data-reveal], .section-title > h2, h2.section-title, .section-title > .eyebrow";
         var STAGGER_MS = 70;
         var MAX_STAGGER = 8;
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+<>:|";
+        var decoding = [];
 
-        function reveal(el, delay) {
+        // Eyebrow labels decode from random glyphs into their text, left to right
+        function decode(el, delay) {
+          var text = el.textContent;
+          if (reduceMotion.matches || el.hasAttribute("data-decoded") || !text.trim()) return;
+          el.setAttribute("data-decoded", "");
+
+          var label = document.createElement("span");
+          label.className = "sr-only";
+          label.textContent = text;
+          var shown = document.createElement("span");
+          shown.setAttribute("aria-hidden", "true");
+          var cells = [];
+          var word = null;
+          Array.from(text).forEach(function (ch) {
+            if (/\s/.test(ch)) {
+              word = null;
+              shown.appendChild(document.createTextNode(ch));
+              return;
+            }
+            // Words stay unbreakable so lines still only wrap at spaces
+            if (!word) {
+              word = document.createElement("span");
+              word.className = "decode-word";
+              shown.appendChild(word);
+            }
+            if (ch === "/") {
+              word.appendChild(document.createTextNode(ch));
+              return;
+            }
+            var cell = document.createElement("span");
+            cell.className = "decode-char";
+            cell.textContent = ch;
+            word.appendChild(cell);
+            cells.push({ el: cell, ch: ch });
+          });
+          el.textContent = "";
+          el.append(label, shown);
+
+          var start = performance.now() + delay;
+          var lastSwap = -Infinity;
+          var finished = false;
+          function finish() {
+            if (finished) return;
+            finished = true;
+            el.textContent = text;
+          }
+          decoding.push(finish);
+
+          // Lock each character's width so swapping glyphs never moves the line,
+          // and only scramble through glyphs that fit the cell so none overlap.
+          // Computed widths ignore the reveal's scale transform.
+          function lock() {
+            var current = cells.map(function (c) {
+              var shownGlyph = c.el.textContent;
+              c.el.style.width = "";
+              c.el.textContent = c.ch;
+              return shownGlyph;
+            });
+            var probe = document.createElement("span");
+            probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap";
+            Array.from(GLYPHS).forEach(function (g) {
+              var cell = document.createElement("span");
+              cell.className = "decode-char";
+              cell.textContent = g;
+              probe.appendChild(cell);
+            });
+            shown.appendChild(probe);
+            var widths = cells.map(function (c) { return parseFloat(getComputedStyle(c.el).width); });
+            var glyphs = Array.from(probe.children).map(function (g) {
+              return { ch: g.textContent, w: parseFloat(getComputedStyle(g).width) };
+            });
+            probe.remove();
+            cells.forEach(function (c, i) {
+              c.el.style.width = widths[i] + "px";
+              c.el.textContent = current[i];
+              c.pool = glyphs
+                .filter(function (g) { return g.w <= widths[i] + 0.5; })
+                .map(function (g) { return g.ch; })
+                .join("") || c.ch;
+            });
+          }
+          lock();
+          if (document.fonts && document.fonts.status !== "loaded") {
+            document.fonts.ready.then(function () { if (!finished) lock(); });
+          }
+
+          function frame(now) {
+            if (finished) return;
+            var t = now - start;
+            var swap = now - lastSwap >= 45;
+            if (swap) lastSwap = now;
+            var pending = 0;
+            cells.forEach(function (c, i) {
+              if (c.done) return;
+              if (t >= 200 + i * 30) {
+                c.done = true;
+                c.el.textContent = c.ch;
+                c.el.classList.remove("is-scrambled");
+                return;
+              }
+              pending += 1;
+              if (swap) {
+                c.el.textContent = c.pool.charAt((Math.random() * c.pool.length) | 0);
+                c.el.classList.add("is-scrambled");
+              }
+            });
+            if (!pending) return finish();
+            requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        }
+
+        function reveal(el, delay, instant) {
           el.style.setProperty("--reveal-delay", delay + "ms");
           el.classList.add("is-visible");
+          if (instant) return;
+          if (el.matches(".eyebrow")) decode(el, delay);
+          else el.querySelectorAll(".eyebrow").forEach(function (eyebrow) { decode(eyebrow, delay + 120); });
         }
 
         var io = new IntersectionObserver(function (entries) {
@@ -423,7 +541,8 @@ const jsonLd = noindex
         }).observe(document.body, { childList: true, subtree: true });
 
         window.addEventListener("beforeprint", function () {
-          document.querySelectorAll(SELECTOR).forEach(function (el) { reveal(el, 0); });
+          decoding.forEach(function (finish) { finish(); });
+          document.querySelectorAll(SELECTOR).forEach(function (el) { reveal(el, 0, true); });
         });
       })();
     </script>
