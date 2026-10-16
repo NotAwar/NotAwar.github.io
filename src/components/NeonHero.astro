@@ -18,10 +18,12 @@ interface Props {
   githubUrl: string;
   sessionizeUrl: string;
   metrics?: { github_contributions?: number; github_repos?: number };
+  /** Live values fetched at build time; preferred over the profile snapshot */
+  githubStats?: { contributions?: number | null; repos?: number | null };
   avatarUrl: string;
 }
 
-const { name, headline, bio, talk, linkedinUrl, githubUrl, sessionizeUrl, metrics, avatarUrl } = Astro.props;
+const { name, headline, bio, talk, linkedinUrl, githubUrl, sessionizeUrl, metrics, githubStats, avatarUrl } = Astro.props;
 
 const TITLES = [
   "Cloud Native Architect",
@@ -34,22 +36,17 @@ const TITLES = [
 const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 const isPositive = (v: unknown): v is number => typeof v === "number" && v > 0;
 
-// Snapshot/fallback values show a "+" until live numbers arrive
+// Build-time values are exact. Otherwise the profile snapshot (or a floor)
+// shows with a "+", and the client fetches live numbers if there's no snapshot.
+function stat(key: string, label: string, built: unknown, snapshot: unknown, floor: number, snapshotExact: boolean) {
+  if (isPositive(built)) return { key, label, value: built, exact: true, live: false };
+  if (isPositive(snapshot)) return { key, label, value: snapshot, exact: snapshotExact, live: false };
+  return { key, label, value: floor, exact: false, live: true };
+}
+
 const stats = [
-  {
-    key: "contributions",
-    label: "Contributions",
-    value: isPositive(metrics?.github_contributions) ? metrics.github_contributions : 620,
-    exact: false,
-    live: !isPositive(metrics?.github_contributions),
-  },
-  {
-    key: "repos",
-    label: "Public Repos",
-    value: isPositive(metrics?.github_repos) ? metrics.github_repos : 20,
-    exact: isPositive(metrics?.github_repos),
-    live: !isPositive(metrics?.github_repos),
-  },
+  stat("contributions", "Contributions", githubStats?.contributions, metrics?.github_contributions, 620, false),
+  stat("repos", "Public Repos", githubStats?.repos, metrics?.github_repos, 20, true),
 ];
 ---
 
@@ -141,6 +138,8 @@ const stats = [
           signal: ctrl.signal,
           headers: { Accept: "application/vnd.github.v3+json" },
         });
+        // Rate limited: retrying only burns more of the visitor's quota
+        if (res.status === 403 || res.status === 429) return null;
         if (!res.ok) throw new Error(`${res.status}`);
         const data = await res.json();
         if (typeof data.public_repos === "number") return data.public_repos as number;

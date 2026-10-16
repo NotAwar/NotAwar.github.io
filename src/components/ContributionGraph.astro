@@ -1,99 +1,34 @@
 ---
+import { contributionGraphHTML, type ContributionDay } from "../lib/github-render";
+
 interface Props {
   githubUrl: string;
+  data?: { days: ContributionDay[]; total: number } | null;
 }
 
-const { githubUrl } = Astro.props;
+const { githubUrl, data } = Astro.props;
 const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 ---
 
-<div class="cg-root" data-contribution-graph data-github-user={githubUser} data-github-url={githubUrl}>
-  <div class="cg-skeleton"></div>
-</div>
+{data ? (
+  <div class="cg-root" data-contribution-graph>
+    <Fragment set:html={contributionGraphHTML(data.days, data.total)} />
+  </div>
+) : (
+  <div class="cg-root" data-contribution-graph data-pending data-github-user={githubUser} data-github-url={githubUrl}>
+    <div class="cg-skeleton"></div>
+  </div>
+)}
 
 <script>
   import { fetchContributions, contributionTotal } from "../lib/github-contributions.js";
-
-  type Day = { date: string; count: number; level?: number };
-
-  const DAY_LABEL_W = 30;
-  const MONTH_H = 18;
-  const LEVEL_COUNT = 5;
-  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const DAY_LABELS = ["", "Mon", "", "Wed", "", "Fri", ""];
+  import { contributionGraphHTML } from "../lib/github-render";
 
   const onIdle = (fn: () => void) =>
     "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300);
 
-  function buildWeeks(days: Day[]) {
-    const weeks: (Day | null)[][] = [];
-    const first = new Date(`${days[0]?.date}T00:00:00`);
-    let week: (Day | null)[] = Array(first.getDay()).fill(null); // pad to Sunday
-    for (const day of days) {
-      week.push(day);
-      if (week.length === 7) {
-        weeks.push(week);
-        week = [];
-      }
-    }
-    if (week.length) {
-      while (week.length < 7) week.push(null);
-      weeks.push(week);
-    }
-    return weeks;
-  }
-
-  function monthLabels(weeks: (Day | null)[][]) {
-    const seen = new Set<number>();
-    const labels: { wi: number; label: string }[] = [];
-    weeks.forEach((week, wi) => {
-      for (const day of week) {
-        if (!day) continue;
-        const dt = new Date(`${day.date}T00:00:00`);
-        if (dt.getDate() <= 7 && !seen.has(dt.getMonth())) {
-          seen.add(dt.getMonth());
-          labels.push({ wi, label: MONTHS[dt.getMonth()] });
-        }
-      }
-    });
-    return labels;
-  }
-
-  function cell(day: Day | null, di: number) {
-    if (!day) return `<div class="cg-cell cg-empty" style="--di:${di}"></div>`;
-    const level = Math.min(Math.max(Number(day.level) || 0, 0), LEVEL_COUNT - 1);
-    const count = Number(day.count) || 0;
-    const date = String(day.date).replace(/[^\d-]/g, "");
-    return `<div class="cg-cell cg-l${level}" style="--di:${di}" title="${count} contribution${count !== 1 ? "s" : ""} on ${date}"></div>`;
-  }
-
-  function render(root: HTMLElement, days: Day[], total: number) {
-    const weeks = buildWeeks(days);
-    const months = monthLabels(weeks);
-    const formatted = total.toLocaleString("en-GB");
-
-    root.innerHTML = `
-      <div class="cg-wrap">
-        <p class="cg-total"><strong><span class="count-up" aria-hidden="true" style="--to:${total}"></span><span class="sr-only">${formatted}</span></strong> contributions in the last year</p>
-        <div class="cg-scroll" role="img" aria-label="GitHub contribution calendar: ${formatted} contributions in the last year">
-          <div class="cg-inner" style="--weeks:${weeks.length}" aria-hidden="true">
-            <div class="cg-months" style="margin-left:${DAY_LABEL_W}px;height:${MONTH_H}px">
-              ${months.map(({ wi, label }) => `<span class="cg-month" style="left:calc(var(--stride) * ${wi})">${label}</span>`).join("")}
-            </div>
-            <div class="cg-body">
-              <div class="cg-day-labels">${DAY_LABELS.map((l) => `<span class="cg-day-label">${l}</span>`).join("")}</div>
-              <div class="cg-weeks">
-                ${weeks.map((week, wi) => `<div class="cg-week" style="--wi:${wi}">${week.map(cell).join("")}</div>`).join("")}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="cg-legend" aria-hidden="true">
-          <span>Less</span>${Array.from({ length: LEVEL_COUNT }, (_, i) => `<div class="cg-cell cg-l${i}"></div>`).join("")}<span>More</span>
-        </div>
-      </div>`;
-
-    // On narrow screens show the most recent weeks first, like GitHub does
+  // On narrow screens show the most recent weeks first, like GitHub does
+  function scrollToLatest(root: HTMLElement) {
     const scroller = root.querySelector<HTMLElement>(".cg-scroll");
     if (scroller && scroller.scrollWidth > scroller.clientWidth) scroller.scrollLeft = scroller.scrollWidth;
   }
@@ -109,12 +44,18 @@ const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
   }
 
   for (const root of document.querySelectorAll<HTMLElement>("[data-contribution-graph]")) {
+    if (!root.hasAttribute("data-pending")) {
+      scrollToLatest(root);
+      continue;
+    }
     onIdle(() => {
       fetchContributions(root.dataset.githubUser || "NotAwar")
         .then((data) => {
-          const days: Day[] = data.contributions ?? [];
+          const days = data.contributions ?? [];
           if (!days.length) throw new Error("empty");
-          render(root, days, contributionTotal(data));
+          root.innerHTML = contributionGraphHTML(days, contributionTotal(data));
+          root.removeAttribute("data-pending");
+          scrollToLatest(root);
         })
         .catch(() => renderFallback(root));
     });

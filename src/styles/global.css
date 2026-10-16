@@ -1402,6 +1402,14 @@ h2.section-title::before {
 }
 
 .cg-cell.cg-empty { visibility: hidden; }
+
+/* Row index for the wave reveal delay */
+.cg-week > :nth-child(2) { --di: 1; }
+.cg-week > :nth-child(3) { --di: 2; }
+.cg-week > :nth-child(4) { --di: 3; }
+.cg-week > :nth-child(5) { --di: 4; }
+.cg-week > :nth-child(6) { --di: 5; }
+.cg-week > :nth-child(7) { --di: 6; }
 .cg-cell.cg-l1 { background: var(--cg-l1); }
 .cg-cell.cg-l2 { background: var(--cg-l2); }
 .cg-cell.cg-l3 { background: var(--cg-l3); }

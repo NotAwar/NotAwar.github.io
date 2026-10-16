@@ -7,6 +7,7 @@ import { activeProfile } from "../data/site";
 import { SITE_LOCATION, currentRole } from "../data/seo";
 import { eventCountries, eventShortName, formatEventDates, pastEvents, speaking, upcomingEvents } from "../data/speaking";
 import { activeCertifications, certificationCode } from "../data/credly";
+import { getGitHubSnapshot } from "../lib/github-snapshot";
 
 const certNames = activeCertifications
   .map((badge) => {
@@ -21,6 +22,9 @@ const pageDescription = `${activeProfile.name} – ${activeProfile.title}${curre
 
 const featuredEvents = [...upcomingEvents, ...pastEvents].slice(0, 3).map((event) => eventShortName(event.name));
 const expertise = activeProfile.skills.primary.slice(0, 8);
+
+const githubUser = activeProfile.contact.github.replace(/\/+$/, "").split("/").pop() || "NotAwar";
+const github = await getGitHubSnapshot(githubUser);
 
 const heroEvent = upcomingEvents[0] ?? pastEvents[0];
 const heroTalk = heroEvent
@@ -44,6 +48,7 @@ const heroTalk = heroEvent
     githubUrl={activeProfile.contact.github}
     sessionizeUrl={activeProfile.contact.sessionize}
     metrics={activeProfile.metrics}
+    githubStats={{ contributions: github.contributions?.total, repos: github.repos }}
     avatarUrl={activeProfile.avatar_url}
   />
 
@@ -106,10 +111,10 @@ const heroTalk = heroEvent
     <p class="eyebrow">GitHub // Activity</p>
     <h2>Recent GitHub Activity</h2>
     <div class="panel fx-slide-in cg-panel">
-      <ContributionGraph githubUrl={activeProfile.contact.github} />
+      <ContributionGraph githubUrl={activeProfile.contact.github} data={github.contributions} />
     </div>
     <div style="margin-top: 1rem;">
-      <GitHubActivity githubUrl={activeProfile.contact.github} />
+      <GitHubActivity githubUrl={activeProfile.contact.github} events={github.events} />
     </div>
   </section>
 

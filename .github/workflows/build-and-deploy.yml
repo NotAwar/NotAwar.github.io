@@ -63,6 +63,9 @@ jobs:
           fi
 
       - name: Build Astro site
+        env:
+          # Build-time GitHub stats, contribution graph and activity (avoids anonymous rate limits)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build
 
       - name: Check SEO essentials
