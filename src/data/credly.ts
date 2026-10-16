@@ -46,11 +46,6 @@ export function certificationCode(name: string): string | undefined {
   return name.match(/^([A-Z]{3,6}):/)?.[1] ?? name.match(/\(([A-Z]{2,6}\s?I{0,3})\)/)?.[1];
 }
 
-/** Credly serves resized images under /size/WxH/. */
-export function badgeImage(url: string, size = 220): string {
-  return url.replace("https://images.credly.com/images/", `https://images.credly.com/size/${size}x${size}/images/`);
-}
-
 const monthFormat = new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric", timeZone: "UTC" });
 
 export function formatMonth(date: string): string {

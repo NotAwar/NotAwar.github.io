@@ -14,7 +14,7 @@ export default defineConfig({
   redirects,
   image: {
     // Avatars are downloaded at build time and self-hosted as WebP
-    domains: ["avatars.githubusercontent.com"],
+    domains: ["avatars.githubusercontent.com", "images.credly.com"],
   },
   fonts: [
     {

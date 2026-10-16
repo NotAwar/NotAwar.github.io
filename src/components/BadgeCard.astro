@@ -1,5 +1,6 @@
 ---
-import { badgeImage, formatMonth, isExpired, type CredlyBadge } from "../data/credly";
+import { formatMonth, isExpired, type CredlyBadge } from "../data/credly";
+import { optimizeRemoteImage } from "../lib/remote-image";
 
 interface Props {
   badge: CredlyBadge;
@@ -7,12 +8,14 @@ interface Props {
 
 const { badge } = Astro.props;
 const expired = isExpired(badge);
+// Credly originals are 600–2048px PNGs (up to 1 MB); serve 88px WebP instead
+const image = badge.image ? await optimizeRemoteImage(badge.image, 88) : undefined;
 ---
 
 <li class:list={["badge-item", { "is-expired": expired }]} data-reveal>
   <a class="badge-link" href={badge.url} target="_blank" rel="noopener noreferrer">
-    {badge.image && (
-      <img src={badgeImage(badge.image)} width="88" height="88" alt="" loading="lazy" decoding="async" />
+    {image && (
+      <img src={image.src} srcset={image.srcset} width="88" height="88" alt="" loading="lazy" decoding="async" />
     )}
     <span class="badge-body">
       <span class="badge-name">{badge.name}</span>
