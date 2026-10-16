@@ -2759,6 +2759,23 @@ ul.chip-list {
   animation: vt-fade-in 420ms var(--ease-out) 60ms both;
 }
 
+/* Directional navigation (types set on pagereveal from the nav order) */
+html:active-view-transition-type(slide-forward)::view-transition-old(root) {
+  animation: vt-to-left 280ms ease-in both;
+}
+
+html:active-view-transition-type(slide-forward)::view-transition-new(root) {
+  animation: vt-from-right 520ms var(--ease-out-expo) 40ms both;
+}
+
+html:active-view-transition-type(slide-back)::view-transition-old(root) {
+  animation: vt-to-right 280ms ease-in both;
+}
+
+html:active-view-transition-type(slide-back)::view-transition-new(root) {
+  animation: vt-from-left 520ms var(--ease-out-expo) 40ms both;
+}
+
 ::view-transition-group(nav-pill),
 ::view-transition-group(nav-links) {
   animation-duration: 520ms;
@@ -2799,6 +2816,34 @@ ul.chip-list {
 @keyframes vt-fade-in {
   from {
     opacity: 0;
+  }
+}
+
+@keyframes vt-to-left {
+  to {
+    opacity: 0;
+    translate: -32px 0;
+  }
+}
+
+@keyframes vt-to-right {
+  to {
+    opacity: 0;
+    translate: 32px 0;
+  }
+}
+
+@keyframes vt-from-right {
+  from {
+    opacity: 0;
+    translate: 40px 0;
+  }
+}
+
+@keyframes vt-from-left {
+  from {
+    opacity: 0;
+    translate: -40px 0;
   }
 }
 

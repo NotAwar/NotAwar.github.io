@@ -120,6 +120,22 @@ const jsonLd = noindex
         } catch (_) {}
       })();
     </script>
+    <!-- Page transitions slide the way the nav reads: forward to the right, back to the left -->
+    <script is:inline define:vars={{ navOrder: navigation.map((item) => item.link) }}>
+      window.addEventListener("pagereveal", function (event) {
+        try {
+          var activation = window.navigation && navigation.activation;
+          if (!event.viewTransition || !activation || !activation.from || !activation.entry) return;
+          var indexOf = function (url) {
+            return navOrder.indexOf(new URL(url).pathname.replace(/\/?$/, "/"));
+          };
+          var from = indexOf(activation.from.url);
+          var to = indexOf(activation.entry.url);
+          if (from < 0 || to < 0 || from === to) return;
+          event.viewTransition.types.add(to > from ? "slide-forward" : "slide-back");
+        } catch (_) {}
+      });
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
