@@ -17,15 +17,23 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --header-offset: 6.5rem;
+  color-scheme: dark;
 }
 
 html {
   scroll-padding-top: var(--header-offset);
   /* Short pages: keep the root as tall as the viewport so the canvas gradient never tiles */
   min-height: 100%;
+  scrollbar-color: var(--line) var(--bg);
+}
+
+::selection {
+  background: var(--neon);
+  color: var(--bg);
 }
 
 [data-theme="light"] {
+  color-scheme: light;
   --bg: #f4efe3;
   --bg-soft: #ede6d6;
   --text: #1c180f;
@@ -1300,6 +1308,8 @@ h2.section-title::before {
 }
 
 .cg-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
   overflow-x: auto;
   overflow-y: visible;
   padding-bottom: 0.25rem;
@@ -1627,7 +1637,15 @@ h2.section-title::before {
 
 .about-panel a {
   color: var(--neon);
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
   text-underline-offset: 3px;
+  transition: text-decoration-color 250ms var(--ease-out), text-underline-offset 250ms var(--ease-out);
+}
+
+.about-panel a:is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
+  text-underline-offset: 5px;
 }
 
 .focus-list {
@@ -1655,11 +1673,21 @@ ul.chip-list {
 
 .about-more a {
   color: var(--neon);
-  text-decoration: none;
 }
 
-.about-more a:hover {
-  text-decoration: underline;
+/* Standalone text links: the underline sweeps in from the left */
+.about-panel .about-more a,
+.about-more a,
+.event-name a {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: background-size 400ms var(--ease-out), color 200ms ease;
+}
+
+.about-panel .about-more a:is(:hover, :focus-visible),
+.about-more a:is(:hover, :focus-visible),
+.event-name a:is(:hover, :focus-visible) {
+  background-size: 100% 1px;
 }
 
 /* ── Speaking ────────────────────────────────────────── */
@@ -1714,7 +1742,6 @@ ul.chip-list {
 
 .event-name a:hover {
   color: var(--neon);
-  text-decoration: underline;
 }
 
 .event-location {
