@@ -20,8 +20,7 @@ const image = badge.image ? await optimizeRemoteImage(badge.image, 88) : undefin
     <span class="badge-body">
       <span class="badge-name">{badge.name}</span>
       <span class="badge-meta">
-        {badge.issuer}
-        {badge.issued_on && <> · <time datetime={badge.issued_on}>{formatMonth(badge.issued_on)}</time></>}
+        {badge.issuer}{badge.issued_on && <>{"\u00a0· "}<time datetime={badge.issued_on}>{formatMonth(badge.issued_on)}</time></>}
       </span>
       {badge.expires_on && (
         <span class="badge-status">

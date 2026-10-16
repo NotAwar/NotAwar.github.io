@@ -160,6 +160,20 @@ main:focus {
   outline: none;
 }
 
+/* Even out multi-line titles and keep paragraphs from ending on a lone word */
+:is(h1, h2, h3, h4, .badge-name) {
+  text-wrap: balance;
+}
+
+:is(p, li, dd, blockquote) {
+  text-wrap: pretty;
+}
+
+/* In-page jumps land clear of the sticky header */
+:is(section, h2, h3)[id] {
+  scroll-margin-top: 7rem;
+}
+
 body {
   position: relative;
   margin: 0;
@@ -1695,6 +1709,12 @@ h2.section-title::before {
 .badge-status {
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+/* The separator sticks to the issuer and dates never split across lines */
+.badge-meta time,
+.badge-status time {
+  white-space: nowrap;
 }
 
 .badge-item:not(.is-expired) .badge-status {

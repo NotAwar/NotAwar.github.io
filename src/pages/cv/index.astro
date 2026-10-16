@@ -50,7 +50,7 @@ const pageDescription = `CV of ${activeProfile.name}, ${activeProfile.title}${cu
                 <article class="card">
                   <h3>{job.position}</h3>
                   <p>
-                    <strong>{job.company}</strong> · {job.period}
+                    <strong>{job.company}</strong>{"\u00a0· "}{job.period}
                   </p>
                   <p>{job.description}</p>
                   {job.achievements?.length ? (
@@ -86,7 +86,7 @@ const pageDescription = `CV of ${activeProfile.name}, ${activeProfile.title}${cu
         <article class="card fx-slide-in">
           <h3>{edu.degree}</h3>
           <p>
-            <strong>{edu.school}</strong> · {edu.year}
+            <strong>{edu.school}</strong>{"\u00a0· "}{edu.year}
           </p>
           <p>{edu.location}</p>
           {edu.description ? <p>{edu.description}</p> : null}
