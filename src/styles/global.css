@@ -718,6 +718,20 @@ nav.has-pill a.is-target {
   box-shadow: 9px 9px 0 var(--neon-alt);
 }
 
+.nav-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-card h3 {
+  margin: 0.35rem 0 0.7rem;
+}
+
+.nav-card p {
+  flex: 1;
+  margin: 0 0 1rem;
+}
+
 .card-tag {
   position: absolute;
   top: 0.7rem;
@@ -1727,7 +1741,7 @@ ul.chip-list {
   line-height: 1.6;
 }
 
-.social-cta {
+.card-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -1736,12 +1750,12 @@ ul.chip-list {
   font-weight: 800;
 }
 
-.social-cta svg {
+.card-cta svg {
   transition: transform 300ms var(--ease-out);
 }
 
-.social-card:hover .social-cta svg,
-.social-card:focus-visible .social-cta svg {
+.card:hover .card-cta svg,
+.card:focus-visible .card-cta svg {
   transform: translateX(5px);
 }
 
@@ -1789,7 +1803,7 @@ ul.chip-list {
   }
 
   .social-card p,
-  .social-cta {
+  .social-card .card-cta {
     grid-column: 1 / -1;
   }
 }
@@ -2553,7 +2567,7 @@ ul.chip-list {
   }
 
   .session-more summary,
-  .social-cta {
+  .card-cta {
     display: none;
   }
 

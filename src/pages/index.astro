@@ -86,28 +86,21 @@ const heroTalk = heroEvent
     <p class="eyebrow">Explore // Site</p>
     <h2>Where to Next</h2>
     <div class="cards">
-      <a href="/cv/">
-        <article class="card fx-slide-in">
-          <span class="card-tag">01</span>
-          <h3>Professional CV</h3>
-          <p>Career history, achievements, and technical strengths.</p>
-        </article>
-      </a>
-      <a href="/speaking/">
-        <article class="card fx-slide-in">
-          <span class="card-tag">02</span>
-          <h3>Speaking</h3>
-          <p>Conference sessions, topics, and event updates from Sessionize.</p>
-        </article>
-      </a>
-      <a href="/socials/">
-        <article class="card fx-slide-in">
-          <span class="card-tag">03</span>
-          <h3>Socials</h3>
-          <p>Direct links for collaboration, networking, and OSS discussions.</p>
-        </article>
-      </a>
-    </div>
+      {[
+        { href: "/cv/", tag: "01", title: "Professional CV", text: "Career history, achievements, and technical strengths.", cta: "Read the CV" },
+        { href: "/speaking/", tag: "02", title: "Speaking", text: "Conference sessions, topics, and event updates from Sessionize.", cta: "See talks" },
+        { href: "/socials/", tag: "03", title: "Socials", text: "Direct links for collaboration, networking, and OSS discussions.", cta: "Get in touch" },
+      ].map((item) => (
+        <a class="card nav-card fx-slide-in" href={item.href}>
+          <span class="card-tag" aria-hidden="true">{item.tag}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <span class="card-cta" aria-hidden="true">
+            {item.cta}
+            <svg viewBox="0 0 24 24" width="16" height="16" focusable="false"><path fill="currentColor" d="M5 11h11.2l-4.6-4.6L13 5l7 7-7 7-1.4-1.4 4.6-4.6H5v-2Z" /></svg>
+          </span>
+        </a>
+      ))}    </div>
   </section>
 
   <section class="section-title">
