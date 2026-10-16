@@ -8,6 +8,7 @@ import { SITE_LOCATION, currentRole } from "../data/seo";
 import { eventCountries, eventShortName, formatEventDates, pastEvents, speaking, upcomingEvents } from "../data/speaking";
 import { activeCertifications, certificationCode } from "../data/credly";
 import { getGitHubSnapshot } from "../lib/github-snapshot";
+import { optimizeRemoteImage } from "../lib/remote-image";
 
 const certNames = activeCertifications
   .map((badge) => {
@@ -25,6 +26,7 @@ const expertise = activeProfile.skills.primary.slice(0, 8);
 
 const githubUser = activeProfile.contact.github.replace(/\/+$/, "").split("/").pop() || "NotAwar";
 const github = await getGitHubSnapshot(githubUser);
+const cardAvatar = await optimizeRemoteImage(activeProfile.avatar_url, 72);
 
 const heroEvent = upcomingEvents[0] ?? pastEvents[0];
 const heroTalk = heroEvent
@@ -189,7 +191,8 @@ const heroTalk = heroEvent
           <div class="li-profile-left">
             <img
               class="li-avatar"
-              src={activeProfile.avatar_url}
+              src={cardAvatar.src}
+              srcset={cardAvatar.srcset}
               alt={`${activeProfile.name} profile picture`}
               width="72"
               height="72"

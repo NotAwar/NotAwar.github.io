@@ -1,5 +1,6 @@
 ---
 import RadarRing from "./RadarRing.astro";
+import { optimizeRemoteImage } from "../lib/remote-image";
 
 interface Talk {
   name: string;
@@ -44,6 +45,8 @@ function stat(key: string, label: string, built: unknown, snapshot: unknown, flo
   return { key, label, value: floor, exact: false, live: true };
 }
 
+const avatar = await optimizeRemoteImage(avatarUrl, 132);
+
 const stats = [
   stat("contributions", "Contributions", githubStats?.contributions, metrics?.github_contributions, 620, false),
   stat("repos", "Public Repos", githubStats?.repos, metrics?.github_repos, 20, true),
@@ -73,7 +76,8 @@ const stats = [
     <RadarRing size={200} />
     <img
       class="avatar-image"
-      src={avatarUrl}
+      src={avatar.src}
+      srcset={avatar.srcset}
       alt={`${name} profile picture`}
       width="132"
       height="132"

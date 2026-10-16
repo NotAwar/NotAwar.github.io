@@ -12,6 +12,10 @@ export default defineConfig({
   output: "static",
   trailingSlash: "always",
   redirects,
+  image: {
+    // Avatars are downloaded at build time and self-hosted as WebP
+    domains: ["avatars.githubusercontent.com"],
+  },
   fonts: [
     {
       provider: fontProviders.google(),
