@@ -941,13 +941,43 @@ h2.section-title::before {
 
 .site-footer {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   border-top: 1px solid var(--line);
-  padding: 1.4rem 0 2.45rem;
+  padding-top: 1.4rem;
+  container-type: inline-size;
+}
+
+.footer-row {
   display: flex;
   justify-content: space-between;
   gap: 0.8rem;
   align-items: center;
+}
+
+/* Oversized brand mark that closes every page; sized to span the footer exactly */
+.footer-mark {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.8rem 0 0;
+  overflow: clip;
+  color: color-mix(in srgb, var(--neon) 34%, transparent);
+  font-size: 13.4cqi;
+  font-weight: 800;
+  line-height: 0.8;
+  white-space: nowrap;
+  user-select: none;
+  mask-image: linear-gradient(to bottom, #000 15%, transparent 115%);
+}
+
+@media (hover: hover) {
+  .footer-mark > span {
+    transition: color 400ms ease;
+  }
+
+  .footer-mark > span:hover {
+    color: var(--neon);
+    transition-duration: 80ms;
+  }
 }
 
 .footer-links {
@@ -2132,7 +2162,7 @@ ul.chip-list {
     font-size: 0.88rem;
   }
 
-  .site-footer {
+  .footer-row {
     flex-direction: column;
     text-align: center;
   }
@@ -2230,6 +2260,15 @@ ul.chip-list {
   .js-motion :is(.section-title > h2, h2.section-title).is-visible::before {
     transform-origin: 50% 100%;
     animation: bar-grow 700ms var(--ease-out-expo) calc(var(--reveal-delay, 0ms) + 200ms) both;
+  }
+
+  /* Footer mark letters rise out of the floor, left to right, once it is in view */
+  .js-motion .footer-mark:not(.is-risen) > span {
+    translate: 0 105%;
+  }
+
+  .js-motion .footer-mark.is-risen > span {
+    animation: mark-rise 1000ms var(--ease-out-expo) calc(var(--i) * 55ms) both;
   }
 
   /* Hero entrance choreography */
@@ -2703,6 +2742,12 @@ ul.chip-list {
   }
 }
 
+@keyframes mark-rise {
+  from {
+    translate: 0 105%;
+  }
+}
+
 @keyframes line-draw {
   from {
     transform: scaleY(0);
@@ -2967,6 +3012,7 @@ html:active-view-transition-type(slide-back)::view-transition-new(root) {
   .cta-row,
   .about-more,
   .footer-links,
+  .footer-mark,
   .theme-toggle {
     display: none !important;
   }

@@ -295,12 +295,15 @@ const jsonLd = noindex
       <slot />
     </main>
     <footer class="site-footer">
-      <p>&copy; {new Date().getFullYear()} {activeProfile.name}</p>
-      <div class="footer-links">
-        <a href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="Visit GitHub">GitHub</a>
-        <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Visit LinkedIn">LinkedIn</a>
-        <a href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab" aria-label="Visit Sessionize">Sessionize</a>
+      <div class="footer-row">
+        <p>&copy; {new Date().getFullYear()} {activeProfile.name}</p>
+        <div class="footer-links">
+          <a href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="Visit GitHub">GitHub</a>
+          <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Visit LinkedIn">LinkedIn</a>
+          <a href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab" aria-label="Visit Sessionize">Sessionize</a>
+        </div>
       </div>
+      <p class="footer-mark" aria-hidden="true">{[..."AWAR//SYS"].map((char, i) => <span style={`--i:${i}`}>{char}</span>)}</p>
     </footer>
     <a class="to-top" href="#top" aria-label="Back to top">
       <svg class="to-top-ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="23" pathLength="100" /></svg>
@@ -403,6 +406,18 @@ const jsonLd = noindex
         }
 
         watch(document.body);
+
+        // The footer mark sits at the very end of the page, often inside the
+        // bottom margin excluded above, so it gets its own observer
+        var mark = document.querySelector(".footer-mark");
+        if (mark) {
+          var markIo = new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting) return;
+            mark.classList.add("is-risen");
+            markIo.disconnect();
+          }, { threshold: 0.5 });
+          markIo.observe(mark);
+        }
 
         // Client scripts render cards after fetching data
         new MutationObserver(function (mutations) {
