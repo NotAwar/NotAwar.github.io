@@ -33,6 +33,62 @@ const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
     if (scroller && scroller.scrollWidth > scroller.clientWidth) scroller.scrollLeft = scroller.scrollWidth;
   }
 
+  const tipDate = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  let tip: HTMLDivElement | null = null;
+  const hideTip = () => tip?.classList.remove("is-on");
+
+  // Styled tooltip that glides between cells, replacing the slow native title
+  function enableTooltip(root: HTMLElement) {
+    const weeks = root.querySelector<HTMLElement>(".cg-weeks");
+    if (!weeks) return;
+
+    weeks.addEventListener("pointerover", (event) => {
+      const cell = (event.target as HTMLElement).closest<HTMLElement>(".cg-cell:not(.cg-empty)");
+      if (!cell) return;
+      // Move the title aside before the native tooltip's delay elapses
+      if (cell.title) {
+        cell.dataset.tip = cell.title;
+        cell.removeAttribute("title");
+      }
+      const match = /^(\d+) contributions? on (\d{4})-(\d{2})-(\d{2})$/.exec(cell.dataset.tip || "");
+      if (!match) return hideTip();
+
+      if (!tip) {
+        tip = document.createElement("div");
+        tip.className = "cg-tip";
+        tip.setAttribute("aria-hidden", "true");
+        document.body.append(tip);
+      }
+      const count = Number(match[1]);
+      const date = new Date(Number(match[2]), Number(match[3]) - 1, Number(match[4]));
+      tip.innerHTML = `<strong>${count || "No"} contribution${count === 1 ? "" : "s"}</strong><span>${tipDate.format(date)}</span>`;
+
+      const rect = cell.getBoundingClientRect();
+      const half = tip.offsetWidth / 2;
+      const below = rect.top - tip.offsetHeight - 10 < 96;
+      const x = Math.min(Math.max(rect.left + rect.width / 2, half + 8), innerWidth - half - 8);
+      const place = () => {
+        tip!.classList.toggle("is-below", below);
+        tip!.style.setProperty("--x", `${x}px`);
+        tip!.style.setProperty("--y", `${below ? rect.bottom : rect.top}px`);
+      };
+      if (tip.classList.contains("is-on")) {
+        place();
+      } else {
+        // Appear in place rather than gliding in from the last position
+        tip.style.transition = "none";
+        place();
+        void tip.offsetWidth;
+        tip.style.transition = "";
+      }
+      tip.classList.add("is-on");
+    });
+    weeks.addEventListener("pointerleave", hideTip);
+    root.querySelector(".cg-scroll")?.addEventListener("scroll", hideTip, { passive: true });
+  }
+
+  addEventListener("scroll", hideTip, { passive: true });
+
   function renderFallback(root: HTMLElement) {
     const link = document.createElement("a");
     link.className = "cg-fallback";
@@ -46,6 +102,7 @@ const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
   for (const root of document.querySelectorAll<HTMLElement>("[data-contribution-graph]")) {
     if (!root.hasAttribute("data-pending")) {
       scrollToLatest(root);
+      enableTooltip(root);
       continue;
     }
     onIdle(() => {
@@ -56,6 +113,7 @@ const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
           root.innerHTML = contributionGraphHTML(days, contributionTotal(data));
           root.removeAttribute("data-pending");
           scrollToLatest(root);
+          enableTooltip(root);
         })
         .catch(() => renderFallback(root));
     });
