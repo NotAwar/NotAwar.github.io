@@ -1,0 +1,69 @@
+---
+import { activityCardsHTML, activityFallbackHTML } from "../lib/github-render";
+
+interface Props {
+  githubUrl: string;
+  events?: unknown[] | null;
+}
+
+const { githubUrl, events } = Astro.props;
+const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
+const cards = events ? activityCardsHTML(events, githubUser) || activityFallbackHTML(githubUser, githubUrl) : null;
+---
+
+{cards ? (
+  <div class="cards" data-github-activity>
+    <Fragment set:html={cards} />
+  </div>
+) : (
+  <div class="cards" data-github-activity data-pending data-github-user={githubUser} data-github-url={githubUrl} aria-busy="true">
+    {[0, 1, 2].map(() => (
+      <div class="card github-activity-card loading-card" aria-hidden="true">
+        <div class="activity-skeleton"></div>
+      </div>
+    ))}
+  </div>
+)}
+
+<script>
+  import { activityCardsHTML, activityFallbackHTML, timeAgo } from "../lib/github-render";
+
+  const onIdle = (fn: () => void) =>
+    "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300);
+
+  // Build-time cards carry dates; show them relative to now
+  function relativise(root: HTMLElement) {
+    for (const time of root.querySelectorAll<HTMLTimeElement>("time[data-relative]")) {
+      const label = timeAgo(time.dateTime);
+      if (label) time.textContent = label;
+    }
+  }
+
+  async function load(root: HTMLElement) {
+    const user = root.dataset.githubUser || "NotAwar";
+    let html = "";
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), 8000);
+    try {
+      const res = await fetch(`https://api.github.com/users/${encodeURIComponent(user)}/events/public?per_page=30`, {
+        signal: ctrl.signal,
+        headers: { Accept: "application/vnd.github+json" },
+      });
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      const data = await res.json();
+      html = activityCardsHTML(Array.isArray(data) ? data : [], user, { relative: true });
+    } catch {
+      // fall through to the profile card
+    } finally {
+      clearTimeout(tid);
+    }
+    root.innerHTML = html || activityFallbackHTML(user, root.dataset.githubUrl || `https://github.com/${user}`);
+    root.removeAttribute("aria-busy");
+    root.removeAttribute("data-pending");
+  }
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-github-activity]")) {
+    if (root.hasAttribute("data-pending")) onIdle(() => load(root));
+    else relativise(root);
+  }
+</script>

@@ -1,9 +1,44 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { activeProfile } from "../../data/site";
+import { PAGE_OG_IMAGES } from "../../data/seo";
+
+const handleFrom = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+
+const socials = [
+  {
+    name: "GitHub",
+    href: activeProfile.contact.github,
+    handle: handleFrom(activeProfile.contact.github),
+    description: "Open source repositories, implementation notes and technical demos.",
+    cta: "Browse repositories",
+    icon: "M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3",
+  },
+  {
+    name: "LinkedIn",
+    href: activeProfile.contact.linkedin,
+    handle: handleFrom(activeProfile.contact.linkedin),
+    description: "Professional profile, industry perspectives and networking. The fastest way to reach me.",
+    cta: "Connect",
+    icon: "M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.8 0 0 .77 0 1.73v20.54C0 23.23.8 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z",
+  },
+  {
+    name: "Sessionize",
+    href: activeProfile.contact.sessionize,
+    handle: handleFrom(activeProfile.contact.sessionize),
+    description: "Speaking topics, session abstracts and conference appearances.",
+    cta: "View sessions",
+    icon: "M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z",
+  },
+];
 ---
 
-<BaseLayout title={`Socials | ${activeProfile.name}`} description="Connect with Awar Abdulkarim on GitHub, LinkedIn, and Sessionize.">
+<BaseLayout
+  title={`Contact & Social Links | ${activeProfile.name}`}
+  description={`Connect with ${activeProfile.name} on GitHub, LinkedIn and Sessionize – cloud native engineering, open source collaboration and conference speaking.`}
+  image={PAGE_OG_IMAGES.socials}
+  breadcrumbs={[{ name: "Socials", path: "/socials/" }]}
+>
   <section class="panel fx-slide-in">
     <div class="page-intro">
       <p class="eyebrow">Socials // Connect</p>
@@ -14,26 +49,40 @@ import { activeProfile } from "../../data/site";
     </div>
   </section>
 
-  <section class="cards section-title">
-    <a href={activeProfile.contact.github} target="_blank" rel="noreferrer" title="Open GitHub in new tab" aria-label="Visit GitHub profile">
-      <article class="card fx-slide-in">
-        <h2>GitHub</h2>
-        <p>Open source repositories, implementation notes, and technical demos.</p>
-      </article>
-    </a>
-    <a href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab" aria-label="Visit LinkedIn profile">
-      <article class="card fx-slide-in">
-        <h2>LinkedIn</h2>
-        <p>Professional profile, industry perspectives, and networking.</p>
-      </article>
-    </a>
-    <a href={activeProfile.contact.sessionize} target="_blank" rel="noreferrer" title="Open Sessionize in new tab" aria-label="View Sessionize speaking profile">
-      <article class="card fx-slide-in">
-        <h2>Sessionize</h2>
-        <p>Speaking topics, sessions, and conference appearances.</p>
-      </article>
-    </a>
+  <section class="social-grid" aria-label="Profiles">
+    {socials.map((social) => (
+      <a
+        class="card social-card fx-slide-in"
+        href={social.href}
+        target="_blank"
+        rel="me noreferrer"
+        title={`Open ${social.name} in new tab`}
+      >
+        <span class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" focusable="false"><path fill="currentColor" d={social.icon} /></svg>
+        </span>
+        <h2>{social.name}</h2>
+        <span class="social-handle">{social.handle}</span>
+        <p>{social.description}</p>
+        <span class="card-cta">
+          {social.cta}
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M5 11h11.2l-4.6-4.6L13 5l7 7-7 7-1.4-1.4 4.6-4.6H5v-2Z" /></svg>
+        </span>
+      </a>
+    ))}
   </section>
 
+  <section class="panel fx-slide-in section-title contact-panel" aria-labelledby="reach-heading">
+    <div>
+      <h2 id="reach-heading">Best way to reach me</h2>
+      <p>
+        Send me a message on LinkedIn for collaboration, questions about Kubernetes and platform engineering, or just to
+        say hi. Organising an event? Speaking invitations are very welcome.
+      </p>
+    </div>
+    <div class="cta-row">
+      <a class="btn neon" href={activeProfile.contact.linkedin} target="_blank" rel="noreferrer" title="Open LinkedIn in new tab">Message on LinkedIn</a>
+      <a class="btn" href="/speaking/#invite">Invite me to speak</a>
+    </div>
+  </section>
 </BaseLayout>
-

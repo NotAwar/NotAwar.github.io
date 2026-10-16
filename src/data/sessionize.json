@@ -1,0 +1,136 @@
+{
+  "speaker": {
+    "name": "Awar Abdulkarim",
+    "tagline": "Manager @ Sopra Steria | Competency Lead Cloud Native",
+    "bio": "Working at Sopra Steria Norway as a Senior Engineer and Lead for Cloud Native Competency group. \n\nMy experience and expertise covers both technical and non-technical disciplines. I work with whatever is bleeding edge, helping people achieve a way of work and strategy which is DevOps centric. I love sharing my experiences, learning new things and apply what I learn.",
+    "profile_url": "https://sessionize.com/Awar",
+    "photo_url": "https://cdn.sessionize.com/image/7b00-1000o1000o1-BZqFP3wjpQXiwvRiqZo9eH.jpg"
+  },
+  "sessions": [
+    {
+      "id": "188951",
+      "title": "GitOps For All - How ephemeral environments transformed our developer flow",
+      "description": "GitOps isn’t just for platform engineers anymore. With ephemeral environments, developers can now have the experience of using Flux at scale. Instead of the typical deployment pipeline, preview environments allow for the same experience while using GitOps.\n\nWe’ll walk through how platform teams can design preview environments powered by Flux at scale for their developers. You’ll see how GitHub branches trigger environments that mirror production, how secrets and policies are safely handled, and how this approach shortens feedback loops and increases confidence in every change.\n\nGitOps for Everyone isn’t about more YAML, it’s about making infrastructure invisible, empowering developers to focus on code while the platform does the rest.",
+      "url": "https://sessionize.com/s/Awar/gitops-for-all-how-ephemeral-environments-transfor/188951",
+      "language": "English"
+    },
+    {
+      "id": "188950",
+      "title": "GitHub at Scale: From ad-hoc to operational excellence",
+      "description": "Most of us have been using GitHub for years, but the features of the platform are constantly changing and the default settings..? Well, they work when you are doing solo work or have a small team. These days, it's not only developers who write code so what about multiple teams with varied scopes all having to co-exist on GitHub?\n\nWhether you are starting out using GitHub or you have been using it for years, chances are that you are feeling a bit overwhelmed by all the options. We have all been there, some of us more times than others.\n\nIf you want to learn how to establish good development routines, ensure code and infrastructure are built safely but without having to do monthly cleanups, or want everything automated without a ton of spaghetti code? Then this is precisely why this talk exists.",
+      "url": "https://sessionize.com/s/Awar/github-at-scale-from-ad-hoc-to-operational-excelle/188950",
+      "language": "English"
+    },
+    {
+      "id": "164599",
+      "title": "How To Play Support For A Platform Team",
+      "description": "Modern platform engineering is often described in terms of development, automation, and infrastructure - ultimately creating a golden path. What then about the people paving and walking that golden path? This talk explores what it truly means to “play support” for a platform team: enabling others to build, ship, and innovate faster without becoming a bottleneck. Playing support involves having the meetings no one else wants, creating the solutions no one can be asked to create. Drawing on lessons from large-scale platform initiatives at Bane NOR, we’ll discuss how internal platforms evolve from service providers to trusted partners by utilising their support. Attendees will gain practical insights on fostering alignment across platform teams, balancing autonomy with governance, and how this is achieved on a daily basis.",
+      "url": "https://sessionize.com/s/Awar/how-to-play-support-for-a-platform-team/164599",
+      "language": "English"
+    },
+    {
+      "id": "157149",
+      "title": "MCP Security: Keep Your AI Agents from Spilling the Tea",
+      "description": "Model Context Protocol (MCP) is often referred to as \"the USB-C port for AI applications\". Just like REST is our go-to standard for application-to-application integrations, MCP is really running up as a more or less de facto standard for agent-to-application integrations. But how does one secure these endpoints? Just like your REST-endpoints?\n\nWe will take you through a mixture of practice (yes, we will do live demo) and theory of authentication in MCP Servers. We will look into the \"how\", \"why\" and \"when\".\n\nWe will also address some common pitfalls, issues and limitations, like \"consent fatigue\" (what is that? Join, and we'll tell you). Can you just re-use your existing RBAC thought, or does the nature of agents and MCP endpoint structure force you to start thinking different? \n\nMake your services and data available in a whole new way, hopefully without exposing all your company's deepest secrets. Let us give you some concrete actions and bullet points for you to bring back and get started!",
+      "url": "https://sessionize.com/s/Awar/mcp-security-keep-your-ai-agents-from-spilling-the/157149",
+      "language": "English"
+    },
+    {
+      "id": "143933",
+      "title": "Not Just Another AI Talk: MCP – A Standardized Protocol for AI",
+      "description": "Model Context Protocol (MCP) defines itself as “a USB-C port for AI applications”. It standardizes the way you can connect your devices to various peripherals and accessories. A standardized way you connect AI models to different data sources and tools.\nThis presentation will show you, in a practical demo, how you can develop clients and servers to make use of agentic AI as their user interface. Your MCP servers will make it possible for other developers to directly plug into your services. But be aware, that means it’s easier for your customers to switch to your competitors as well!\n\nWe will show you best practices for securing your data within your own infrastructure, and how to control your data flow. May the demo monster be with us.\n\nWe will also address some common pitfalls, and what you need to consider before diving head first into making your very first MCP server, exposing all your company’s deepest secrets.\n\nChallenge yourself to make your services and data available in a whole new way, to be the cool kid and follow the latest trends without going face first into a brick wall.",
+      "url": "https://sessionize.com/s/Awar/not-just-another-ai-talk-mcp-a-standardized-protoc/143933",
+      "language": "English"
+    }
+  ],
+  "events": [
+    {
+      "id": "24124",
+      "name": "Containerkonferansen 2026",
+      "start_date": "2026-10-14",
+      "end_date": "2026-10-15",
+      "location": "Trondheim, Norway",
+      "website": "https://containerkonferansen.nhn.no/"
+    },
+    {
+      "id": "21834",
+      "name": "Cloud Native Days Austria 2026",
+      "start_date": "2026-09-29",
+      "end_date": "2026-09-30",
+      "location": "Vienna, Austria",
+      "website": "https://cloudnativedays.at/"
+    },
+    {
+      "id": "21310",
+      "name": "ContainerDays Hamburg 2026",
+      "start_date": "2026-09-02",
+      "end_date": "2026-09-04",
+      "location": "Hamburg, Germany",
+      "website": "https://www.containerdays.io/"
+    },
+    {
+      "id": "21617",
+      "name": "Cloud Native Days Romania 2026",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-19",
+      "location": "Bucharest, Romania",
+      "website": "https://www.cloudnativedays.ro"
+    },
+    {
+      "id": "20478",
+      "name": "DevOpsCon & MLCon 2026",
+      "start_date": "2026-04-20",
+      "end_date": "2026-04-24",
+      "location": "Amsterdam, The Netherlands",
+      "website": "https://devopscon.io/"
+    },
+    {
+      "id": "20903",
+      "name": "CNCF-Hosted Co-located Events Europe 2026",
+      "start_date": "2026-03-23",
+      "end_date": "2026-03-23",
+      "location": "Amsterdam, The Netherlands",
+      "website": "https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/cncf-hosted-co-located-events-overview/"
+    },
+    {
+      "id": "22152",
+      "name": "Bytefest",
+      "start_date": "2026-03-19",
+      "end_date": "2026-03-19",
+      "location": "",
+      "website": "https://bytefest.soprasteria.no/"
+    },
+    {
+      "id": "21050",
+      "name": "NDC Security 2026",
+      "start_date": "2026-03-02",
+      "end_date": "2026-03-05",
+      "location": "Oslo, Norway",
+      "website": "https://ndcsecurity.com/"
+    },
+    {
+      "id": "20918",
+      "name": "Container Days London",
+      "start_date": "2026-02-11",
+      "end_date": "2026-02-12",
+      "location": "London, United Kingdom",
+      "website": "https://www.containerdays.io/containerdays-london-2026/"
+    },
+    {
+      "id": "21409",
+      "name": "Rubiks 2026",
+      "start_date": "2026-02-07",
+      "end_date": "2026-02-07",
+      "location": "Oslo, Norway",
+      "website": "https://engage.cloud.microsoft/main/org/soprasteria.com/groups/eyJfdHlwZSI6Ikdyb3VwIiwiaWQiOiIyMzg0NDQxOTk5MzYifQ"
+    },
+    {
+      "id": "1014761",
+      "name": "Nordic APIS - Platform Summit 2025",
+      "start_date": "2025-10-13",
+      "end_date": "2025-10-15",
+      "location": "Stockholm, Sweden",
+      "website": "https://nordicapis.com/events/platform-summit-2025/"
+    }
+  ]
+}

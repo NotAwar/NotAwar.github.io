@@ -1,0 +1,250 @@
+---
+import RadarRing from "./RadarRing.astro";
+import { optimizeRemoteImage } from "../lib/remote-image";
+
+interface Talk {
+  name: string;
+  dates: string;
+  endDate: string;
+  upcoming: boolean;
+  href: string;
+}
+
+interface Props {
+  name: string;
+  headline?: string;
+  bio?: string;
+  talk?: Talk | null;
+  linkedinUrl: string;
+  githubUrl: string;
+  sessionizeUrl: string;
+  metrics?: { github_contributions?: number; github_repos?: number };
+  /** Live values fetched at build time; preferred over the profile snapshot */
+  githubStats?: { contributions?: number | null; repos?: number | null };
+  avatarUrl: string;
+}
+
+const { name, headline, bio, talk, linkedinUrl, githubUrl, sessionizeUrl, metrics, githubStats, avatarUrl } = Astro.props;
+
+const TITLES = [
+  "Cloud Native Architect",
+  "Cloud Native Competency Lead",
+  "Platform Engineer",
+  "Kubernetes & Azure Specialist",
+  "Tech Speaker",
+];
+
+const githubUser = githubUrl?.replace(/\/+$/, "").split("/").pop() || "NotAwar";
+const isPositive = (v: unknown): v is number => typeof v === "number" && v > 0;
+
+// Build-time values are exact. Otherwise the profile snapshot (or a floor)
+// shows with a "+", and the client fetches live numbers if there's no snapshot.
+function stat(key: string, label: string, built: unknown, snapshot: unknown, floor: number, snapshotExact: boolean) {
+  if (isPositive(built)) return { key, label, value: built, exact: true, live: false };
+  if (isPositive(snapshot)) return { key, label, value: snapshot, exact: snapshotExact, live: false };
+  return { key, label, value: floor, exact: false, live: true };
+}
+
+const avatar = await optimizeRemoteImage(avatarUrl, 132);
+
+const stats = [
+  stat("contributions", "Contributions", githubStats?.contributions, metrics?.github_contributions, 620, false),
+  stat("repos", "Public Repos", githubStats?.repos, metrics?.github_repos, 20, true),
+];
+---
+
+<section class="hero-grid hero-animated" data-neon-hero data-github-user={githubUser}>
+  <div class="hero-title-block">
+    <h1 class="hero-title">{name}</h1>
+    <p class="hero-subtitle">
+      <span class="sr-only">{headline || TITLES[0]}</span>
+      <span aria-hidden="true" data-typewriter={JSON.stringify(TITLES)}><span class="tw-text">{TITLES[0]}</span></span>
+    </p>
+    {bio && <p class="hero-lede">{bio}</p>}
+    {talk && (
+      <a class:list={["talk-chip", { "is-upcoming": talk.upcoming }]} href={talk.href} data-end={talk.endDate}>
+        <span class="talk-chip-dot" aria-hidden="true"></span>
+        <span class="talk-chip-label">{talk.upcoming ? "Next talk" : "Latest talk"}</span>
+        <span class="talk-chip-name">{talk.name}</span>
+        <span class="talk-chip-date">{talk.dates}</span>
+        <span class="talk-chip-arrow" aria-hidden="true">→</span>
+      </a>
+    )}
+  </div>
+
+  <div class="avatar-shell">
+    <RadarRing size={200} />
+    <img
+      class="avatar-image"
+      src={avatar.src}
+      srcset={avatar.srcset}
+      alt={`${name} profile picture`}
+      width="132"
+      height="132"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <div class="cta-row">
+    <a class="btn neon" href={githubUrl} target="_blank" rel="noreferrer"
+      title="Open GitHub profile in new tab" aria-label="GitHub profile">GitHub</a>
+    <a class="btn" href={linkedinUrl} target="_blank" rel="noreferrer"
+      title="Open LinkedIn profile in new tab" aria-label="LinkedIn profile">LinkedIn</a>
+    <a class="btn" href={sessionizeUrl} target="_blank" rel="noreferrer"
+      title="Open Sessionize profile in new tab" aria-label="Sessionize speaking profile">Sessionize</a>
+  </div>
+
+  <div class="stats-panel">
+    {stats.map((stat) => {
+      const suffix = stat.exact ? "" : "+";
+      return (
+        <div class="stat-card" data-stat={stat.key} data-live={stat.live ? "" : undefined}>
+          <span>{stat.label}</span>
+          {/* Visual number counts up via CSS (@property --num); real text stays for AT/crawlers */}
+          <strong>
+            <span class="count-up" aria-hidden="true" style={`--to:${stat.value};--suffix:"${suffix}"`}></span>
+            <span class="sr-only">{`${stat.value.toLocaleString("en-GB")}${suffix}`}</span>
+          </strong>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  import { fetchContributions, contributionTotal } from "../lib/github-contributions.js";
+
+  const TYPE_MS = 75;
+  const DELETE_MS = 38;
+  const PAUSE_END = 1800;
+  const PAUSE_START = 350;
+  const MAX_RETRIES = 2;
+  const RETRY_DELAY = 500;
+
+  const onIdle = (fn: () => void) =>
+    "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 300);
+
+  function setStat(card: Element, value: number) {
+    const visual = card.querySelector<HTMLElement>(".count-up");
+    const text = card.querySelector(".sr-only");
+    visual?.style.setProperty("--to", String(value));
+    visual?.style.setProperty("--suffix", '""');
+    if (text) text.textContent = value.toLocaleString("en-GB");
+  }
+
+  async function fetchRepoCount(user: string) {
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 8000);
+      try {
+        const res = await fetch(`https://api.github.com/users/${encodeURIComponent(user)}`, {
+          signal: ctrl.signal,
+          headers: { Accept: "application/vnd.github.v3+json" },
+        });
+        // Rate limited: retrying only burns more of the visitor's quota
+        if (res.status === 403 || res.status === 429) return null;
+        if (!res.ok) throw new Error(`${res.status}`);
+        const data = await res.json();
+        if (typeof data.public_repos === "number") return data.public_repos as number;
+        throw new Error("bad format");
+      } catch {
+        if (attempt < MAX_RETRIES - 1) await new Promise((r) => setTimeout(r, RETRY_DELAY * 2 ** attempt));
+      } finally {
+        clearTimeout(tid);
+      }
+    }
+    return null;
+  }
+
+  function typewriter(el: HTMLElement) {
+    const titles: string[] = JSON.parse(el.dataset.typewriter || "[]");
+    const text = el.querySelector(".tw-text");
+    if (!text || titles.length === 0) return;
+
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let idx = 0;
+    let chars = titles[0].length;
+    let deleting = false;
+    let timer = 0;
+    let cursor: HTMLElement | null = null;
+
+    const schedule = () => {
+      const full = chars === titles[idx].length;
+      const ms =
+        !deleting && full ? PAUSE_END :
+        deleting && chars === 0 ? PAUSE_START :
+        deleting ? DELETE_MS : TYPE_MS;
+      timer = window.setTimeout(step, ms);
+    };
+
+    const step = () => {
+      if (!deleting && chars < titles[idx].length) chars++;
+      else if (!deleting) deleting = true;
+      else if (chars > 0) chars--;
+      else {
+        idx = (idx + 1) % titles.length;
+        deleting = false;
+      }
+      text.textContent = titles[idx].slice(0, chars);
+      schedule();
+    };
+
+    const update = () => {
+      clearTimeout(timer);
+      if (motion.matches) {
+        // Settle on a complete title rather than freezing mid-word
+        cursor?.remove();
+        cursor = null;
+        chars = titles[idx].length;
+        deleting = false;
+        text.textContent = titles[idx];
+        return;
+      }
+      if (!cursor) {
+        cursor = document.createElement("span");
+        cursor.className = "tw-cursor";
+        cursor.textContent = "|";
+        el.append(cursor);
+      }
+      schedule();
+    };
+
+    update();
+    motion.addEventListener("change", update);
+  }
+
+  for (const hero of document.querySelectorAll<HTMLElement>("[data-neon-hero]")) {
+    const user = hero.dataset.githubUser || "NotAwar";
+
+    // Build-time "next talk" may have passed by the time someone visits
+    const chip = hero.querySelector<HTMLElement>(".talk-chip.is-upcoming[data-end]");
+    if (chip && (chip.dataset.end ?? "") < new Date().toISOString().slice(0, 10)) {
+      chip.classList.remove("is-upcoming");
+      const label = chip.querySelector(".talk-chip-label");
+      if (label) label.textContent = "Latest talk";
+    }
+
+    const typed = hero.querySelector<HTMLElement>("[data-typewriter]");
+    if (typed) typewriter(typed);
+
+    onIdle(() => {
+      const repos = hero.querySelector('[data-stat="repos"][data-live]');
+      if (repos) {
+        fetchRepoCount(user).then((count) => {
+          if (count !== null) setStat(repos, count);
+        });
+      }
+
+      const contributions = hero.querySelector('[data-stat="contributions"][data-live]');
+      if (contributions) {
+        fetchContributions(user)
+          .then((data) => {
+            const total = contributionTotal(data);
+            if (Number.isFinite(total) && total > 0) setStat(contributions, total);
+          })
+          .catch(() => {});
+      }
+    });
+  }
+</script>
