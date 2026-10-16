@@ -2141,6 +2141,72 @@ ul.chip-list {
   }
 }
 
+/* Back-to-top: shown by BaseLayout once scrolled; the ring is scroll-driven */
+.to-top {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 55;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  color: var(--neon);
+  background: var(--panel);
+  box-shadow: 3px 3px 0 var(--line);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 14px;
+  scale: 0.85;
+  transition:
+    opacity 300ms var(--ease-out),
+    translate 450ms var(--ease-out),
+    scale 450ms var(--ease-out),
+    visibility 0s linear 450ms,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.to-top.is-shown {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  scale: 1;
+  transition-delay: 0s;
+}
+
+.to-top.is-shown:hover,
+.to-top.is-shown:focus-visible {
+  translate: 0 -3px;
+  border-color: var(--neon-alt);
+  box-shadow: 4px 6px 0 var(--neon-alt);
+}
+
+.to-top:active {
+  scale: 0.94;
+}
+
+.to-top-ring {
+  display: none;
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.to-top-ring circle {
+  fill: none;
+  stroke: var(--neon);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
 /*
  * Micro-interactions: a soft cursor spotlight on cards (fine pointers only,
  * position fed by BaseLayout), a shine sweep on buttons, tactile press
@@ -2286,6 +2352,17 @@ ul.chip-list {
       animation-range: 0 160px;
     }
 
+    .to-top-ring {
+      display: block;
+    }
+
+    .to-top-ring circle {
+      animation-name: ring-fill;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root block);
+    }
+
     .sprite-layer {
       animation-name: sprite-depth;
       animation-timeline: scroll(root block);
@@ -2361,6 +2438,12 @@ ul.chip-list {
 @keyframes progress-grow {
   to {
     transform: scaleX(1);
+  }
+}
+
+@keyframes ring-fill {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -2482,7 +2565,8 @@ ul.chip-list {
   }
 }
 @media print {
-  .scroll-progress {
+  .scroll-progress,
+  .to-top {
     display: none !important;
   }
 
